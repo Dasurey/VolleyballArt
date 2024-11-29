@@ -178,8 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones
     Promise.all(promises).then((results) => {
         console.log('Contenido HTML y JSON cargado completamente');
-        const jsonData1 = results[13]; // El primer archivo JSON - cambio a 5
-        const jsonData2 = results[14]; // El segundo archivo JSON - cambio 6
+        const jsonData1 = results[5]; // El primer archivo JSON - cambio a 5
+        const jsonData2 = results[6]; // El segundo archivo JSON - cambio 6
         applyTranslations(jsonData1, ['data-name', 'data-name-inside']);
         applyTranslations(jsonData2, ['data-product']);
         
