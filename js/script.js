@@ -90,19 +90,19 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.text())
             .then(data => {
                 if (limit !== null) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = data;
-                const items = tempDiv.querySelectorAll('.col-lg-3.col-md-6.col-sm-12.pb-1');
-                const fragment = document.createDocumentFragment();
-                for (let i = 0; i < (limit !== null ? limit : items.length); i++) {
-                    if (items[i]) {
-                        fragment.appendChild(items[i]);
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = data;
+                    const items = tempDiv.querySelectorAll('.col-lg-3.col-md-6.col-sm-12.pb-1');
+                    const fragment = document.createDocumentFragment();
+                    for (let i = 0; i < (limit !== null ? limit : items.length); i++) {
+                        if (items[i]) {
+                            fragment.appendChild(items[i]);
+                        }
                     }
+                    element.appendChild(fragment);
+                } else {
+                    element.innerHTML += data;
                 }
-                element.appendChild(fragment);
-            } else {
-                element.innerHTML += data;
-            }
             })
             .catch(error => console.error(`Error al cargar el contenido de ${url}:`, error));
     }
@@ -141,19 +141,19 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Verificar si estamos en la página de inicio
-    if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
+    if (window.location.pathname === "/" || window.location.pathname === "/index") {
         promises.push(loadHTMLContent('archivo-general/carousel-content.html', carouselElement));
         promises.push(loadHTMLContent('archivo-general/featured-content.html', featuredElement));
         promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement, 8)); // Limitar a 8 productos en index.html
-    } else if (window.location.pathname === "/shop.html") {
+    } else if (window.location.pathname === "/shop") {
         promises.push(loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement));
         promises.push(loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement));
         promises.push(loadHTMLContent('archivo-general/pageNavegation-content.html', pageNavegationElement));
         promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement)); // Cargar todos los productos en otras páginas
-    } else if (window.location.pathname === "/contact.html") {
+    } else if (window.location.pathname === "/contact") {
         promises.push(loadHTMLContent('archivo-general/contact-content.html', contactElement));
-    } else if (window.location.pathname === "/review.html") {
-        promises.push(loadHTMLContent('archivo-general/reviews-content.html', reviewsElement));
+    } else if (window.location.pathname === "/review") {
+        promises.push(loadHTMLContent('archivo-general/review-content.html', reviewsElement));
     }
 
     // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones

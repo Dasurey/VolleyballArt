@@ -4,6 +4,16 @@
 <head id="headId">
     <link rel="stylesheet" href="css/animation.css">
     <title>VolleyballArt - Tienda de Voley</title>
+    <script>
+        // Redirigir a la URL correcta
+        var path = window.location.pathname;
+        if (path.endsWith('/')) {
+            path += 'index.html';
+        } else {
+            path += '.html';
+        }
+        window.location.replace(path);
+    </script>
 </head>
 
 <body>
