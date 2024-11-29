@@ -136,37 +136,42 @@ document.addEventListener('DOMContentLoaded', () => {
         loadHTMLContent('archivo-general/navbarSecondary-content.html', navSecondaryElement),
         loadHTMLContent('archivo-general/navbarPrimary-content.html', navPrimaryElement),
         loadHTMLContent('archivo-general/footer-content.html', footerElement),
+        loadHTMLContent('archivo-general/carousel-content.html', carouselElement),
+        loadHTMLContent('archivo-general/featured-content.html', featuredElement),
+        loadHTMLContent('archivo-general/products-content.html', productsElement),
+        loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement),
+        loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement),
+        loadHTMLContent('archivo-general/pageNavegation-content.html', pageNavegationElement),
+        loadHTMLContent('archivo-general/contact-content.html', contactElement),
+        loadHTMLContent('archivo-general/review-content.html', reviewsElement),
         loadJSON('lenguage/general/es.json'),
         loadJSON('lenguage/products/es.json') // Cargar el segundo archivo JSON
     ];
 
+    // Verificar si estamos en la página de inicio
+    /* if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
+        promises.push(loadHTMLContent('archivo-general/carousel-content.html', carouselElement));
+        promises.push(loadHTMLContent('archivo-general/featured-content.html', featuredElement));
+        promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement, 8)); // Limitar a 8 productos en index
+    } else if (window.location.pathname === "/shop.html") {
+        promises.push(loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement));
+        promises.push(loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement));
+        promises.push(loadHTMLContent('archivo-general/pageNavegation-content.html', pageNavegationElement));
+        promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement)); // Cargar todos los productos en otras páginas
+    } else if (window.location.pathname === "/contact.html") {
+        promises.push(loadHTMLContent('archivo-general/contact-content.html', contactElement));
+    } else if (window.location.pathname === "/review.html") {
+        promises.push(loadHTMLContent('archivo-general/review-content.html', reviewsElement));
+    } */
+
     // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones
     Promise.all(promises).then((results) => {
         console.log('Contenido HTML y JSON cargado completamente');
-        const jsonData1 = results[5]; // El primer archivo JSON
-        const jsonData2 = results[6]; // El segundo archivo JSON
+        const jsonData1 = results[13]; // El primer archivo JSON - cambio a 5
+        const jsonData2 = results[14]; // El segundo archivo JSON - cambio 6
         applyTranslations(jsonData1, ['data-name', 'data-name-inside']);
         applyTranslations(jsonData2, ['data-product']);
-
-        // Verificar si estamos en la página de inicio
-        const additionalPromises = [];
-        if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
-            additionalPromises.push(loadHTMLContent('archivo-general/carousel-content.html', carouselElement));
-            additionalPromises.push(loadHTMLContent('archivo-general/featured-content.html', featuredElement));
-            additionalPromises.push(loadHTMLContent('archivo-general/products-content.html', productsElement, 8)); // Limitar a 8 productos en index
-        } else if (window.location.pathname === "/shop.html") {
-            additionalPromises.push(loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement));
-            additionalPromises.push(loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement));
-            additionalPromises.push(loadHTMLContent('archivo-general/pageNavegation-content.html', pageNavegationElement));
-            additionalPromises.push(loadHTMLContent('archivo-general/products-content.html', productsElement)); // Cargar todos los productos en otras páginas
-        } else if (window.location.pathname === "/contact.html") {
-            additionalPromises.push(loadHTMLContent('archivo-general/contact-content.html', contactElement));
-        } else if (window.location.pathname === "/review.html") {
-            additionalPromises.push(loadHTMLContent('archivo-general/review-content.html', reviewsElement));
-        }
-
-        return Promise.all(additionalPromises);
-    }).then(() => {
+        
         // Lógica para cambiar las clases del <nav> dependiendo de la URL actual
         const navbar = document.getElementById("navbar-vertical");
         if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
