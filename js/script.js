@@ -129,25 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const reviewsElement = document.getElementById('reviewsId');
     const footerElement = document.getElementById('footerId');
 
-    // Crear una lista de promesas para cargar el contenido HTML y JSON
-    /* const promises = [
-        loadHTMLContent('archivo-general/head-content.html', headElement),
-        loadHTMLContent('archivo-general/header-content.html', headerElement),
-        loadHTMLContent('archivo-general/navbarSecondary-content.html', navSecondaryElement),
-        loadHTMLContent('archivo-general/navbarPrimary-content.html', navPrimaryElement),
-        loadHTMLContent('archivo-general/footer-content.html', footerElement),
-        loadHTMLContent('archivo-general/carousel-content.html', carouselElement),
-        loadHTMLContent('archivo-general/featured-content.html', featuredElement),
-        loadHTMLContent('archivo-general/products-content.html', productsElement),
-        loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement),
-        loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement),
-        loadHTMLContent('archivo-general/pageNavegation-content.html', pageNavegationElement),
-        loadHTMLContent('archivo-general/contact-content.html', contactElement),
-        loadHTMLContent('archivo-general/review-content.html', reviewsElement),
-        loadJSON('lenguage/general/es.json'),
-        loadJSON('lenguage/products/es.json') // Cargar el segundo archivo JSON
-    ]; */
-
     const promises = [
         loadHTMLContent('archivo-general/head-content.html', headElement),
         loadHTMLContent('archivo-general/header-content.html', headerElement),
@@ -160,32 +141,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Verificar si estamos en la página de inicio
     const pathname = window.location.pathname;
-    if (pathname.endsWith("/index.html") || pathname === "/VolleyballArt/") {
+    if (pathname.endsWith("/index") || pathname === "/VolleyballArt/") {
         promises.push(loadHTMLContent('archivo-general/carousel-content.html', carouselElement));
         promises.push(loadHTMLContent('archivo-general/featured-content.html', featuredElement));
         promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement, 8)); // Limitar a 8 productos en index
-    } else if (pathname.endsWith("/shop.html")) {
+    } else if (pathname.endsWith("/shop")) {
         promises.push(loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement));
         promises.push(loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement));
         promises.push(loadHTMLContent('archivo-general/pageNavegation-content.html', pageNavegationElement));
         promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement)); // Cargar todos los productos en otras páginas
-    } else if (pathname.endsWith("/contact.html")) {
+    } else if (pathname.endsWith("/contact")) {
         promises.push(loadHTMLContent('archivo-general/contact-content.html', contactElement));
-    } else if (pathname.endsWith("/review.html")) {
+    } else if (pathname.endsWith("/review")) {
         promises.push(loadHTMLContent('archivo-general/review-content.html', reviewsElement));
     }
 
     // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones
     Promise.all(promises).then((results) => {
         console.log('Contenido HTML y JSON cargado completamente');
-        const jsonData1 = results[5]; // El primer archivo JSON - cambio a 5
-        const jsonData2 = results[6]; // El segundo archivo JSON - cambio 6
+        const jsonData1 = results[5]; // El primer archivo JSON
+        const jsonData2 = results[6]; // El segundo archivo JSON
         applyTranslations(jsonData1, ['data-name', 'data-name-inside']);
         applyTranslations(jsonData2, ['data-product']);
         
         // Lógica para cambiar las clases del <nav> dependiendo de la URL actual
         const navbar = document.getElementById("navbar-vertical");
-        if (pathname.endsWith("/index.html") || pathname === "/VolleyballArt/") {
+        if (pathname.endsWith("/index") || pathname === "/VolleyballArt/") {
             navbar.classList.add("show");
             navbar.classList.remove("position-absolute", "bg-light");
             navbar.style.width = "";
