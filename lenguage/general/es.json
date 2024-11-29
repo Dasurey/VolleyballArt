@@ -17,7 +17,7 @@
         "logo": {
             "link": [
                 {
-                    "href": "/"
+                    "href": "https://dasurey.github.io/VolleyballArt/"
                 }
             ],
             "img": [
@@ -30,7 +30,7 @@
         "home": [
             {
                 "text": "Home",
-                "href": "/"
+                "href": "https://dasurey.github.io/VolleyballArt/"
             }
         ],
         "shop": [
@@ -263,7 +263,7 @@
             "about-us": [
                 {
                     "text": "¿Quiénes somos?",
-                    "href": "/"
+                    "href": "https://dasurey.github.io/VolleyballArt/"
                 }
             ],
             "products": [
@@ -348,7 +348,7 @@
             "page": [
                 {
                     "text": "VolleyballArt",
-                    "href": "/"
+                    "href": "https://dasurey.github.io/VolleyballArt/"
                 }
             ],
             "text": " - 2024. Todos los derechos reservados."
