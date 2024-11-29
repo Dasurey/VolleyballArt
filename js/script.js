@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname === "/" || window.location.pathname === "/index") {
         promises.push(loadHTMLContent('archivo-general/carousel-content.html', carouselElement));
         promises.push(loadHTMLContent('archivo-general/featured-content.html', featuredElement));
-        promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement, 8)); // Limitar a 8 productos en index.html
+        promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement, 8)); // Limitar a 8 productos en index
     } else if (window.location.pathname === "/shop") {
         promises.push(loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement));
         promises.push(loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement));
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lógica para cambiar las clases del <nav> dependiendo de la URL actual
         const navbar = document.getElementById("navbar-vertical");
-        if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
+        if (window.location.pathname === "/" || window.location.pathname === "/index") {
             navbar.classList.add("show");
             navbar.classList.remove("position-absolute", "bg-light");
             navbar.style.width = "";
