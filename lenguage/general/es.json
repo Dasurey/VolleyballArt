@@ -17,7 +17,7 @@
         "logo": {
             "link": [
                 {
-                    "href": "index"
+                    "href": "index.html"
                 }
             ],
             "img": [
@@ -30,25 +30,25 @@
         "home": [
             {
                 "text": "Home",
-                "href": "index"
+                "href": "index.html"
             }
         ],
         "shop": [
             {
                 "text": "Productos",
-                "href": "shop"
+                "href": "shop.html"
             }
         ],
         "reviews": [
             {
                 "text": "Reseñas",
-                "href": "review"
+                "href": "review.html"
             }
         ],
         "contact": [
             {
                 "text": "Contacto",
-                "href": "contact"
+                "href": "contact.html"
             }
         ],
         "navbar-secondary": {
@@ -263,25 +263,25 @@
             "about-us": [
                 {
                     "text": "¿Quiénes somos?",
-                    "href": "index"
+                    "href": "index.html"
                 }
             ],
             "products": [
                 {
                     "text": "Nuestros Productos",
-                    "href": "shop"
+                    "href": "shop.html"
                 }
             ],
             "reviews": [
                 {
                     "text": "Sus Reseñas",
-                    "href": "review"
+                    "href": "review.html"
                 }
             ],
             "contact-us": [
                 {
                     "text": "Contáctenos",
-                    "href": "contact"
+                    "href": "contact.html"
                 }
             ]
         },
@@ -348,7 +348,7 @@
             "page": [
                 {
                     "text": "VolleyballArt",
-                    "href": "index"
+                    "href": "index.html"
                 }
             ],
             "text": " - 2024. Todos los derechos reservados."
