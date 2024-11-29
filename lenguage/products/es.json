@@ -1,0 +1,343 @@
+{
+    "left": {},
+    "right": {
+        "carousel": {
+            "carousel-1": {
+                "img": [
+                    {
+                        "src": "img/productos/women-mizuno-carousel-1.jpg",
+                        "alt": "Zapatilla Mizuno Unisex Wave Momentum 3"
+                    }
+                ],
+                "title": "10% de Descuento en tu Primer Pedido",
+                "text": "Zapatilla Mizuno",
+                "btn": [
+                    {
+                        "text": "Compra Ahora",
+                        "href": ""
+                    }
+                ]
+            },
+            "carousel-2": {
+                "img": [
+                    {
+                        "src": "img/productos/asics-metarise-tokyo-men-shoes-nishida-carousel-2.jpg",
+                        "alt": "Nishida - Zapatilla Asics Metarise Tokyo Men"
+                    }
+                ],
+                "title": "10% de Descuento en tu Primer Pedido",
+                "text": "Zapatilla Asics Metarise Tokyo Men",
+                "btn": [
+                    {
+                        "text": "Compra Ahora",
+                        "href": ""
+                    }
+                ]
+            }
+        },
+        "filter": {
+            "price": {
+                "title": "Filtrar Por Precios",
+                "form": {
+                    "all": {
+                        "text": "Todos los Precios",
+                        "amount": "1000"
+                    },
+                    "1": {
+                        "text": "$0 - $10.000",
+                        "amount": "150"
+                    },
+                    "2": {
+                        "text": "$10.000 - $20.000",
+                        "amount": "295"
+                    },
+                    "3": {
+                        "text": "$20.000 - $30.000",
+                        "amount": "246"
+                    },
+                    "4": {
+                        "text": "$100.000 - $200.000",
+                        "amount": "145"
+                    },
+                    "5": {
+                        "text": "$200.000 - $300.000",
+                        "amount": "168"
+                    }
+                }
+            },
+            "color": {
+                "title": "Filtrar Por Colores",
+                "form": {
+                    "all": {
+                        "text": "Todos los Colores",
+                        "amount": "1000"
+                    },
+                    "1": {
+                        "text": "Negro",
+                        "amount": "150"
+                    },
+                    "2": {
+                        "text": "Blanco",
+                        "amount": "295"
+                    },
+                    "3": {
+                        "text": "Rojo",
+                        "amount": "246"
+                    },
+                    "4": {
+                        "text": "Azul",
+                        "amount": "145"
+                    },
+                    "5": {
+                        "text": "Verde",
+                        "amount": "168"
+                    }
+                }
+            },
+            "waist": {
+                "title": "Filtrar Por Talle",
+                "form": {
+                    "all": {
+                        "text": "Todos los Talles",
+                        "amount": "1000"
+                    },
+                    "1": {
+                        "text": "XS",
+                        "amount": "150"
+                    },
+                    "2": {
+                        "text": "S",
+                        "amount": "295"
+                    },
+                    "3": {
+                        "text": "M",
+                        "amount": "246"
+                    },
+                    "4": {
+                        "text": "L",
+                        "amount": "145"
+                    },
+                    "5": {
+                        "text": "XL",
+                        "amount": "168"
+                    }
+                }
+            }
+        },
+        "pageNavegation": {
+            "previous": {
+                "text": "Anterior",
+                "link": [
+                    {
+                        "href": ""
+                    }
+                ]
+            },
+            "next": {
+                "text": "Siguiente",
+                "link": [
+                    {
+                        "href": ""
+                    }
+                ]
+            },
+            "pages": {
+                "page-1": [
+                    {
+                        "text": "1",
+                        "href": ""
+                    }
+                ],
+                "page-2": [
+                    {
+                        "text": "2",
+                        "href": ""
+                    }
+                ],
+                "page-3": [
+                    {
+                        "text": "3",
+                        "href": ""
+                    }
+                ],
+                "page-4": [
+                    {
+                        "text": "4",
+                        "href": ""
+                    }
+                ],
+                "page-5": [
+                    {
+                        "text": "5",
+                        "href": ""
+                    }
+                ]
+            }
+        },
+        "products": {
+            "title": "Productos",
+            "list": {
+                "product-1": {
+                    "title": "Zapatilla Asics Metarise Tokyo Men",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "img/productos/asics-metarise-tokyo-men-shoes.png",
+                            "alt": "Zapatilla Asics Metarise Tokyo Men"
+                        }
+                    ],
+                    "price": "$225.000",
+                    "previous-price": ""
+                },
+                "product-2": {
+                    "title": "Zapatilla Mizuno Unisex Wave Momentum 3",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "img/productos/Mizuno-Unisex-Adult-Wave-Momentum-3-Volleyball-Shoe.webp",
+                            "alt": "Zapatilla Mizuno Unisex Wave Momentum 3"
+                        }
+                    ],
+                    "price": "$180.000",
+                    "previous-price": "$200.000"
+                },
+                "product-3": {
+                    "title": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "img/productos/Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25.webp",
+                            "alt": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25"
+                        }
+                    ],
+                    "price": "$20.000",
+                    "previous-price": ""
+                },
+                "product-4": {
+                    "title": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "img/productos/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
+                            "alt": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)"
+                        }
+                    ],
+                    "price": "$66.999",
+                    "previous-price": "$72.000"
+                },
+                "product-5": {
+                    "title": "Calza corta LECOQ SPORTIF",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "img/productos/calza-lecoq-1.webp",
+                            "alt": "Calza corta LECOQ SPORTIF"
+                        }
+                    ],
+                    "price": "$34.999",
+                    "previous-price": "$29.000"
+                },
+                "product-6": {
+                    "title": "Camiseta LOSER SIR PERUGiA temporada 2024-25",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "img/productos/Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25.webp",
+                            "alt": "Camiseta LOSER SIR PERUGiA temporada 2024-25"
+                        }
+                    ],
+                    "price": "$20.000",
+                    "previous-price": ""
+                },
+                "product-7": {
+                    "title": "Mangas Thorium Lisa",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "img/productos/Mangas-Thorium-Lisa.webp",
+                            "alt": "Mangas Thorium Lisa"
+                        }
+                    ],
+                    "price": "$11.499",
+                    "previous-price": ""
+                },
+                "product-8": {
+                    "title": "Zapatillas Asics Gel Backhand",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "img/productos/Zapatillas-Asics-Gel-Backhand-Black-PureSIlver.webp",
+                            "alt": "Zapatillas Asics Gel Backhand"
+                        }
+                    ],
+                    "price": "$108.999",
+                    "previous-price": ""
+                },
+                "product-9": {
+                    "title": "Pelota Mikasa V200W Competición",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "img/productos/Pelota-Mikasa-V200W-Competicion.webp",
+                            "alt": "Pelota Mikasa V200W Competición"
+                        }
+                    ],
+                    "price": "$109.999",
+                    "previous-price": ""
+                },
+                "product-10": {
+                    "title": "",
+                    "link": [
+                        {
+                            "href": ""
+                        }
+                    ],
+                    "img": [
+                        {
+                            "src": "",
+                            "alt": ""
+                        }
+                    ],
+                    "price": "",
+                    "previous-price": ""
+                }
+            }
+        }
+    }
+}
