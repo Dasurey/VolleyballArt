@@ -1,7 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Redirigir a la URL raíz si la URL actual es /index.html o /index
+    const pathname = window.location.pathname;
+    if (pathname.endsWith('/index.html') || pathname.endsWith('/index')) {
+        window.location.replace('/VolleyballArt/');
+    }
+    if (pathname.endsWith('.html')) {
+        const newPathname = pathname.replace('.html', '');
+        window.location.replace(newPathname);
+    }
+
     const preloaderElement = document.querySelector('.preloader');
     const pageElement = document.querySelector('.page');
-    const delay = 1900; // Retraso en milisegundos (2 segundos)
+    const delay = 1900; // Retraso en milisegundos (1.9 segundos)
     // Ya se esta mostrando el indicador de carga
 
     // Función para cargar el archivo JSON y aplicar las traducciones
@@ -140,8 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Verificar si estamos en la página de inicio
-    const pathname = window.location.pathname;
-    if (pathname.endsWith("/index") || pathname === "/VolleyballArt/") {
+    if (pathname === "/VolleyballArt/") {
         promises.push(loadHTMLContent('archivo-general/carousel-content.html', carouselElement));
         promises.push(loadHTMLContent('archivo-general/featured-content.html', featuredElement));
         promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement, 8)); // Limitar a 8 productos en index
@@ -166,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Lógica para cambiar las clases del <nav> dependiendo de la URL actual
         const navbar = document.getElementById("navbar-vertical");
-        if (pathname.endsWith("/index") || pathname === "/VolleyballArt/") {
+        if (pathname === "/VolleyballArt/") {
             navbar.classList.add("show");
             navbar.classList.remove("position-absolute", "bg-light");
             navbar.style.width = "";
