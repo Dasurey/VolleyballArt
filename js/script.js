@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (pathname.endsWith("/contact")) {
         promises.push(loadHTMLContent('archivo-general/contact-content.html', contactElement));
     } else if (pathname.endsWith("/review")) {
-        promises.push(loadHTMLContent('archivo-general/review-content.html', reviewsElement));
+        promises.push(loadHTMLContent('archivo-general/reviews-content.html', reviewsElement));
     }
 
     // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones
