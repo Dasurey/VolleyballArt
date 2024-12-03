@@ -6,7 +6,7 @@
                 "img": [
                     {
                         "src": "img/productos/women-mizuno-carousel-1.jpg",
-                        "alt": "Zapatilla Mizuno Unisex Wave Momentum 3"
+                        "alt": "Zapatilla Mizuno Women Wave Momentum 3"
                     }
                 ],
                 "title": "10% de Descuento en tu Primer Pedido",
@@ -174,6 +174,142 @@
                 ]
             }
         },
+        "tab-pane": {
+            "tab-1": {
+                "title": "Descripción"
+            },
+            "tab-2": {
+                "title": "Información"
+            },
+            "tab-3": {
+                "title": "Reseñas"
+            }
+        },
+        "additional-info": {
+            "title": "Información Adicional",
+            "list": {
+                "shoes": {
+                    "men": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "women": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    }
+                },
+                "clothing": {
+                    "jackets-and-hoodies": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "game-shirts": {
+                        "text": "CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "t-shirts-and-tank-tops": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "leggings-and-shorts": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "pants": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    }
+                },
+                "accessories": {
+                    "bags-and-backpacks": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "sleeves": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "socks-and-calf-sleeves": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "knee-pads": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "others": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    }
+                },
+                "equipment": {
+                    "balls": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    },
+                    "nets-and-poles": {
+                        "text": "",
+                        "img": [
+                            {
+                                "src": ""
+                            }
+                        ]
+                    }
+                }
+            }
+        },
         "products": {
             "title": "Productos",
             "list": {
@@ -181,7 +317,7 @@
                     "title": "Zapatilla Asics Metarise Tokyo Men",
                     "link": [
                         {
-                            "href": ""
+                            "href": "product/Zapatilla-Asics-Metarise-Tokyo-Men"
                         }
                     ],
                     "img": [
@@ -191,29 +327,34 @@
                         }
                     ],
                     "price": "$225.000",
-                    "previous-price": ""
+                    "previous-price": "",
+                    "description": "",
+                    "category": "shoes.men",
+                    "outstanding": true
                 },
                 "product-2": {
-                    "title": "Zapatilla Mizuno Unisex Wave Momentum 3",
+                    "title": "Zapatilla Mizuno Women Wave Momentum 3",
                     "link": [
                         {
-                            "href": ""
+                            "href": "product/Zapatilla-Mizuno-Women-Wave-Momentum-3"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/Mizuno-Unisex-Adult-Wave-Momentum-3-Volleyball-Shoe.webp",
-                            "alt": "Zapatilla Mizuno Unisex Wave Momentum 3"
+                            "src": "img/productos/Mizuno-Women-Adult-Wave-Momentum-3-Volleyball-Shoe.webp",
+                            "alt": "Zapatilla Mizuno Women Wave Momentum 3"
                         }
                     ],
                     "price": "$180.000",
-                    "previous-price": "$200.000"
+                    "previous-price": "$200.000",
+                    "category": "shoes.women",
+                    "outstanding": false
                 },
                 "product-3": {
                     "title": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25",
                     "link": [
                         {
-                            "href": ""
+                            "href": "product/Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25"
                         }
                     ],
                     "img": [
@@ -223,13 +364,15 @@
                         }
                     ],
                     "price": "$20.000",
-                    "previous-price": ""
+                    "previous-price": "",
+                    "category": "game-shirts",
+                    "outstanding": true
                 },
                 "product-4": {
                     "title": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
                     "link": [
                         {
-                            "href": ""
+                            "href": "product/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas"
                         }
                     ],
                     "img": [
@@ -239,13 +382,15 @@
                         }
                     ],
                     "price": "$66.999",
-                    "previous-price": "$72.000"
+                    "previous-price": "$72.000",
+                    "category": "game-shirts",
+                    "outstanding": true
                 },
                 "product-5": {
                     "title": "Calza corta LECOQ SPORTIF",
                     "link": [
                         {
-                            "href": ""
+                            "href": "product/Calza-corta-LECOQ-SPORTIF"
                         }
                     ],
                     "img": [
@@ -255,13 +400,15 @@
                         }
                     ],
                     "price": "$34.999",
-                    "previous-price": "$29.000"
+                    "previous-price": "$29.000",
+                    "category": "leggings-and-shorts",
+                    "outstanding": false
                 },
                 "product-6": {
                     "title": "Camiseta LOSER SIR PERUGiA temporada 2024-25",
                     "link": [
                         {
-                            "href": ""
+                            "href": "product/Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25"
                         }
                     ],
                     "img": [
@@ -271,13 +418,15 @@
                         }
                     ],
                     "price": "$20.000",
-                    "previous-price": ""
+                    "previous-price": "",
+                    "category": "game-shirts",
+                    "outstanding": true
                 },
                 "product-7": {
                     "title": "Mangas Thorium Lisa",
                     "link": [
                         {
-                            "href": ""
+                            "href": "product/Mangas-Thorium-Lisa"
                         }
                     ],
                     "img": [
@@ -287,13 +436,15 @@
                         }
                     ],
                     "price": "$11.499",
-                    "previous-price": ""
+                    "previous-price": "",
+                    "category": "sleeves",
+                    "outstanding": false
                 },
                 "product-8": {
                     "title": "Zapatillas Asics Gel Backhand",
                     "link": [
                         {
-                            "href": ""
+                            "href": "product/Zapatillas-Asics-Gel-Backhand"
                         }
                     ],
                     "img": [
@@ -303,13 +454,15 @@
                         }
                     ],
                     "price": "$108.999",
-                    "previous-price": ""
+                    "previous-price": "",
+                    "category": "shoes.men",
+                    "outstanding": false
                 },
                 "product-9": {
                     "title": "Pelota Mikasa V200W Competición",
                     "link": [
                         {
-                            "href": ""
+                            "href": "product/Pelota-Mikasa-V200W-Competición"
                         }
                     ],
                     "img": [
@@ -319,23 +472,9 @@
                         }
                     ],
                     "price": "$109.999",
-                    "previous-price": ""
-                },
-                "product-10": {
-                    "title": "",
-                    "link": [
-                        {
-                            "href": ""
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "",
-                            "alt": ""
-                        }
-                    ],
-                    "price": "",
-                    "previous-price": ""
+                    "previous-price": "",
+                    "category": "balls",
+                    "outstanding": true
                 }
             }
         }

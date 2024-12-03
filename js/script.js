@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Redirigir a la URL raíz si la URL actual es /index.html o /index
     const pathname = window.location.pathname;
     if (pathname.endsWith('/index.html') || pathname.endsWith('/index')) {
-        window.location.replace('/VolleyballArt/');
+        window.location.replace('/VoleyballArt/');
     }
     if (pathname.endsWith('.html')) {
         const newPathname = pathname.replace('.html', '');
@@ -95,24 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Función para cargar el contenido del archivo HTML
-    function loadHTMLContent(url, element, limit = null) {
+    function loadHTMLContent(url, element) {
         return fetch(url)
             .then(response => response.text())
             .then(data => {
-                if (limit !== null) {
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = data;
-                    const items = tempDiv.querySelectorAll('.col-lg-3.col-md-6.col-sm-12.pb-1');
-                    const fragment = document.createDocumentFragment();
-                    for (let i = 0; i < (limit !== null ? limit : items.length); i++) {
-                        if (items[i]) {
-                            fragment.appendChild(items[i]);
-                        }
-                    }
-                    element.appendChild(fragment);
-                } else {
-                    element.innerHTML += data;
-                }
+                element.innerHTML += data;
             })
             .catch(error => console.error(`Error al cargar el contenido de ${url}:`, error));
     }
@@ -122,6 +109,48 @@ document.addEventListener('DOMContentLoaded', () => {
         return fetch(url)
             .then(response => response.json())
             .catch(error => console.error(`Error al cargar el archivo JSON: ${url}`, error));
+    }
+
+    // Función para mostrar los productos
+    function displayProducts(products, limit = null) {
+        const productsListElement = document.getElementById('productsId');
+        let count = 0;
+        for (const key in products) {
+            if (products.hasOwnProperty(key)) {
+                if (limit !== null && count >= limit) break; // Detener el bucle después de alcanzar el límite
+                const product = products[key];
+                const productHTML = `
+                    <a href="product/${encodeURIComponent(product.title).replace(/%20/g, '-')}" class="card product-item border-0 mb-4">
+                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
+                        </div>
+                        <div class="card-body text-center p-0 pt-4 pb-3">
+                            <h6 class="text-cardShop mb-3">${product.title}</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6 class="price">${product.price}</h6>
+                                <h6 class="previous-price ml-2">${product['previous-price']}</h6>
+                            </div>
+                        </div>
+                    </a>
+                `;
+                const tempDiv = document.createElement('div');
+                tempDiv.className = 'col-lg-3 col-md-6 col-sm-12 pb-1';
+                tempDiv.innerHTML = productHTML;
+                const productElement = tempDiv.firstElementChild;
+                productsListElement.appendChild(tempDiv);
+                count++; // Incrementar el contador
+            }
+        }
+    }
+
+    // Función para cargar el contenido del archivo HTML
+    function loadAndDisplayProducts(url, limit = null) {
+        loadJSON(url).then(data => {
+            const products = data.right.products.list;
+            displayProducts(products, limit);
+        }).catch(error => {
+            console.error('Error al cargar y mostrar los productos:', error);
+        });
     }
 
     // Seleccionar los elementos que contienen el contenido de los archivos HTML
@@ -134,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchSectionElement = document.getElementById('searchSectionId');
     const shopSidebarElement = document.getElementById('shopSidebarId');
     const pageNavegationElement = document.getElementById('pageNavegationId');
-    const productsElement = document.getElementById('productsId');
     const contactElement = document.getElementById('contactId');
     const reviewsElement = document.getElementById('reviewsId');
     const footerElement = document.getElementById('footerId');
@@ -153,12 +181,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pathname === "/VolleyballArt/") {
         promises.push(loadHTMLContent('archivo-general/carousel-content.html', carouselElement));
         promises.push(loadHTMLContent('archivo-general/featured-content.html', featuredElement));
-        promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement, 8)); // Limitar a 8 productos en index
+        promises.push(loadAndDisplayProducts('lenguage/products/es.json', 8)); // Limitar a 8 productos en index
     } else if (pathname.endsWith("/shop")) {
         promises.push(loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement));
         promises.push(loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement));
         promises.push(loadHTMLContent('archivo-general/pageNavegation-content.html', pageNavegationElement));
-        promises.push(loadHTMLContent('archivo-general/products-content.html', productsElement)); // Cargar todos los productos en otras páginas
+        promises.push(loadAndDisplayProducts('lenguage/products/es.json')); // Cargar todos los productos en otras páginas
     } else if (pathname.endsWith("/contact")) {
         promises.push(loadHTMLContent('archivo-general/contact-content.html', contactElement));
     } else if (pathname.endsWith("/review")) {
@@ -208,4 +236,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(error => {
         console.error('Error al cargar el contenido:', error);
     });
+
+    // Obtener el title del producto de la URL
+    const productTitle = decodeURIComponent(pathname.split('/').pop().replace(/-/g, ' '));
+
+    if (productTitle) {
+        // Cargar los datos del producto desde el JSON
+        loadJSON('lenguage/products/es.json').then(data => {
+            // Buscar el producto por el title
+            const product = Object.values(data.right.products.list).find(p => p.title === productTitle);
+            if (product) {
+                // Actualizar el contenido de la página con los datos del producto
+                document.getElementById('headId').innerHTML += `<title>${product.title} - VolleyballArt</title>`;
+                document.querySelector('[data-details="title"]').textContent = product.title;
+                document.querySelector('[data-details="price"]').textContent = product.price;
+                document.querySelector('[data-details="img"]').src = product.img[0].src;
+                document.querySelector('[data-details="img"]').alt = product.img[0].alt;
+                document.querySelector('[data-details="price"]').textContent = product.price;
+                document.querySelector('[data-details="previous-price"]').textContent = product['previous-price'];
+                document.querySelector('[data-details="description"]').textContent = product.description;
+            } else {
+                console.error('Producto no encontrado');
+            }
+        }).catch(error => {
+            console.error('Error al cargar el archivo JSON:', error);
+        });
+    }
 });
