@@ -1,3 +1,35 @@
+<!-- <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirigiendo...</title>
+    <script>
+        // Redirigir a la URL correcta
+        var path = window.location.pathname;
+
+        // Si la URL no termina en .html, redirigir a la versión con .html
+        if (!path.endsWith('.html')) {
+            if (path.endsWith('/')) {
+                path += 'index.html';
+            } else {
+                // Manejar URLs de productos
+                if (path.includes('/product/')) {
+                    path = path.replace('/product/', '/product-');
+                } else if (path.endsWith('/index')) {
+                    path = path.replace('/index', 'index.html');
+                } else {
+                    path += '.html';
+                }
+            }
+            window.location.replace(path);
+        }
+    </script>
+</head>
+<body>
+    <p>Redirigiendo...</p>
+</body>
+</html> -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,13 +39,23 @@
     <script>
         // Redirigir a la URL correcta
         var path = window.location.pathname;
+        var search = window.location.search;
+
+        // Si la URL no termina en .html, redirigir a la versión con .html
         if (!path.endsWith('.html')) {
             if (path.endsWith('/')) {
                 path += 'index.html';
             } else {
-                path += '.html';
+                // Manejar URLs de productos
+                if (path.includes('/product/')) {
+                    path = path.replace('/product/', '/product.html?title=');
+                } else if (path.endsWith('/index')) {
+                    path = path.replace('/index', 'index.html');
+                } else {
+                    path += '.html';
+                }
             }
-            window.location.replace(path);
+            window.location.replace(path + search);
         }
     </script>
 </head>

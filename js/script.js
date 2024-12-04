@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Redirigir a la URL raíz si la URL actual es /index.html o /index
     const pathname = window.location.pathname;
-    if (pathname.endsWith('/index.html') || pathname.endsWith('/index')) {
+    /* if (pathname.endsWith('/index.html') || pathname.endsWith('/index')) {
         window.location.replace('/VoleyballArt/');
-    }
+    } 
     if (pathname.endsWith('.html')) {
         const newPathname = pathname.replace('.html', '');
         window.location.replace(newPathname);
-    }
+    }  */
 
     const preloaderElement = document.querySelector('.preloader');
     const pageElement = document.querySelector('.page');
@@ -120,16 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (limit !== null && count >= limit) break; // Detener el bucle después de alcanzar el límite
                 const product = products[key];
                 const productHTML = `
-                    <a href="product/${encodeURIComponent(product.title).replace(/%20/g, '-')}" class="card product-item border-0 mb-4">
+                    <a href="${product.link[0].href}" class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                             <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
                         </div>
                         <div class="card-body text-center p-0 pt-4 pb-3">
                             <h6 class="text-cardShop mb-3">${product.title}</h6>
-                            <div class="d-flex justify-content-center">
-                                <h6 class="price">${product.price}</h6>
-                                <h6 class="previous-price ml-2">${product['previous-price']}</h6>
-                            </div>
+                            <div class="d-flex justify-content-center" id="priceId-${key}"></div>
                         </div>
                     </a>
                 `;
@@ -138,6 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 tempDiv.innerHTML = productHTML;
                 const productElement = tempDiv.firstElementChild;
                 productsListElement.appendChild(tempDiv);
+    
+                // Actualizar el precio y el precio anterior
+                const priceElement = document.getElementById(`priceId-${key}`);
+                if (product['previous-price']) {
+                    priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
+                    priceElement.innerHTML += `<h6 class="previous-price ml-2">$${product['previous-price']}</h6>`;
+                } else {
+                    priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
+                }
                 count++; // Incrementar el contador
             }
         }
@@ -151,6 +157,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(error => {
             console.error('Error al cargar y mostrar los productos:', error);
         });
+    }
+
+    // Cargar producto de la pagina
+    function loadProductDetails() {
+        const searchParams = new URLSearchParams(window.location.search);
+        const productTitle = searchParams.get('title');
+
+        if (productTitle) {
+            
+            // Cargar los datos del producto desde el JSON
+            loadJSON('lenguage/products/es.json').then(data => {
+                // Buscar el producto por el title
+                const product = Object.values(data.right.products.list).find(p => p.title.replace(/ /g, '-') === productTitle);
+                if (product) {
+                    // Actualizar el contenido de la página con los datos del producto
+                    document.getElementById('headId').innerHTML += `<title>${product.title} - VolleyballArt</title>`;
+                    document.querySelector('[data-details="title"]').textContent = product.title;
+                    document.querySelector('[data-details="img"]').src = product.img[0].src;
+                    document.querySelector('[data-details="img"]').alt = product.img[0].alt;
+                    if(product['previous-price']) {
+                        document.getElementById('priceId').innerHTML = `<h3 class="previous-price-details font-weight-semi-bold mb-4">$${product['previous-price']}</h3>`;
+                    }
+                    document.getElementById('priceId').innerHTML += `<h3 class="font-weight-semi-bold mb-4">$${product.price}</h3>`;
+                    /* var previous_price = document.querySelector('[data-details="previous-price"]');
+                    if (previous_price) {
+                        previous_price.textContent = product['previous-price'];
+                    } */
+          
+                    //document.querySelector('[data-details="description"]').textContent = product.description;
+                    document.querySelector('[data-details="share-facebook"]').href = "https://www.facebook.com/sharer/sharer.php?u=" + window.location.href + "&description=" + product.title.replace(/ /g, '%20');
+                    document.querySelector('[data-details="share-twitter"]').href = "https://twitter.com/intent/tweet?text=" + product.title.replace(/ /g, '%20') + "&url=" + window.location.href;
+                    document.querySelector('[data-details="share-pinterest"]').href = "https://pinterest.com/pin/create/button/?url=" + window.location.href + "&media=" + window.location.origin + "/" + product.img[0].src + "&description=" + product.title.replace(/ /g, '%20');
+                    document.querySelector('[data-details="share-whatsapp"]').href = "https://api.whatsapp.com/send?text=" + product.title.replace(/ /g, '%20') + "%20" + window.location.href;
+                } else {
+                    console.error('Producto no encontrado');
+                }
+            }).catch(error => {
+                console.error('Error al cargar el archivo JSON:', error);
+            });
+        }
     }
 
     // Seleccionar los elementos que contienen el contenido de los archivos HTML
@@ -178,19 +224,21 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Verificar si estamos en la página de inicio
-    if (pathname === "/VolleyballArt/") {
+    if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
         promises.push(loadHTMLContent('archivo-general/carousel-content.html', carouselElement));
         promises.push(loadHTMLContent('archivo-general/featured-content.html', featuredElement));
         promises.push(loadAndDisplayProducts('lenguage/products/es.json', 8)); // Limitar a 8 productos en index
-    } else if (pathname.endsWith("/shop")) {
+    } else if (pathname.endsWith("/shop.html")) {
         promises.push(loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement));
         promises.push(loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement));
         promises.push(loadHTMLContent('archivo-general/pageNavegation-content.html', pageNavegationElement));
         promises.push(loadAndDisplayProducts('lenguage/products/es.json')); // Cargar todos los productos en otras páginas
-    } else if (pathname.endsWith("/contact")) {
+    } else if (pathname.endsWith("/contact.html")) {
         promises.push(loadHTMLContent('archivo-general/contact-content.html', contactElement));
-    } else if (pathname.endsWith("/review")) {
+    } else if (pathname.endsWith("/review.html")) {
         promises.push(loadHTMLContent('archivo-general/reviews-content.html', reviewsElement));
+    } else if (pathname.endsWith("/product.html")) {
+        promises.push(loadProductDetails());
     }
 
     // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones
@@ -203,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Lógica para cambiar las clases del <nav> dependiendo de la URL actual
         const navbar = document.getElementById("navbar-vertical");
-        if (pathname === "/VolleyballArt/") {
+        if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
             navbar.classList.add("show");
             navbar.classList.remove("position-absolute", "bg-light");
             navbar.style.width = "";
@@ -238,28 +286,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Obtener el title del producto de la URL
-    const productTitle = decodeURIComponent(pathname.split('/').pop().replace(/-/g, ' '));
-
-    if (productTitle) {
-        // Cargar los datos del producto desde el JSON
-        loadJSON('lenguage/products/es.json').then(data => {
-            // Buscar el producto por el title
-            const product = Object.values(data.right.products.list).find(p => p.title === productTitle);
-            if (product) {
-                // Actualizar el contenido de la página con los datos del producto
-                document.getElementById('headId').innerHTML += `<title>${product.title} - VolleyballArt</title>`;
-                document.querySelector('[data-details="title"]').textContent = product.title;
-                document.querySelector('[data-details="price"]').textContent = product.price;
-                document.querySelector('[data-details="img"]').src = product.img[0].src;
-                document.querySelector('[data-details="img"]').alt = product.img[0].alt;
-                document.querySelector('[data-details="price"]').textContent = product.price;
-                document.querySelector('[data-details="previous-price"]').textContent = product['previous-price'];
-                document.querySelector('[data-details="description"]').textContent = product.description;
-            } else {
-                console.error('Producto no encontrado');
-            }
-        }).catch(error => {
-            console.error('Error al cargar el archivo JSON:', error);
-        });
-    }
+    //const productTitle = decodeURIComponent(pathname.split('/').pop().replace(/-/g, ' '));
 });

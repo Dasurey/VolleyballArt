@@ -5,7 +5,7 @@
             "carousel-1": {
                 "img": [
                     {
-                        "src": "img/productos/women-mizuno-carousel-1.jpg",
+                        "src": "img/products/women-mizuno-carousel-1.jpg",
                         "alt": "Zapatilla Mizuno Women Wave Momentum 3"
                     }
                 ],
@@ -21,7 +21,7 @@
             "carousel-2": {
                 "img": [
                     {
-                        "src": "img/productos/asics-metarise-tokyo-men-shoes-nishida-carousel-2.jpg",
+                        "src": "img/products/asics-metarise-tokyo-men-shoes-nishida-carousel-2.jpg",
                         "alt": "Nishida - Zapatilla Asics Metarise Tokyo Men"
                     }
                 ],
@@ -123,6 +123,14 @@
                     }
                 }
             }
+        },
+        "general": {
+            "btn": [
+                {
+                    "text": " Añadir al Carrito"
+                }
+            ],
+            "share": "Compartir en:"
         },
         "pageNavegation": {
             "previous": {
@@ -317,16 +325,21 @@
                     "title": "Zapatilla Asics Metarise Tokyo Men",
                     "link": [
                         {
-                            "href": "product/Zapatilla-Asics-Metarise-Tokyo-Men"
+                            "href": "product.html?title=Zapatilla-Asics-Metarise-Tokyo-Men"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/asics-metarise-tokyo-men-shoes.png",
+                            "src": "img/products/asics-metarise-tokyo-men-shoes.png",
                             "alt": "Zapatilla Asics Metarise Tokyo Men"
                         }
                     ],
-                    "price": "$225.000",
+                    "share": [
+                        {
+                            "href": "https://www.facebook.com/sharer/sharer.php?u=https://www.google.com/"
+                        }
+                    ],
+                    "price": 225000,
                     "previous-price": "",
                     "description": "",
                     "category": "shoes.men",
@@ -336,17 +349,17 @@
                     "title": "Zapatilla Mizuno Women Wave Momentum 3",
                     "link": [
                         {
-                            "href": "product/Zapatilla-Mizuno-Women-Wave-Momentum-3"
+                            "href": "product.html?title=Zapatilla-Mizuno-Women-Wave-Momentum-3"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/Mizuno-Women-Adult-Wave-Momentum-3-Volleyball-Shoe.webp",
+                            "src": "img/products/Mizuno-Women-Adult-Wave-Momentum-3-Volleyball-Shoe.webp",
                             "alt": "Zapatilla Mizuno Women Wave Momentum 3"
                         }
                     ],
-                    "price": "$180.000",
-                    "previous-price": "$200.000",
+                    "price": 180000,
+                    "previous-price": 200000,
                     "category": "shoes.women",
                     "outstanding": false
                 },
@@ -354,16 +367,16 @@
                     "title": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25",
                     "link": [
                         {
-                            "href": "product/Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25"
+                            "href": "product.html?title=Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25.webp",
+                            "src": "img/products/Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25.webp",
                             "alt": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25"
                         }
                     ],
-                    "price": "$20.000",
+                    "price": 20000,
                     "previous-price": "",
                     "category": "game-shirts",
                     "outstanding": true
@@ -372,17 +385,17 @@
                     "title": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
                     "link": [
                         {
-                            "href": "product/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas"
+                            "href": "product.html?title=Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
+                            "src": "img/products/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
                             "alt": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)"
                         }
                     ],
-                    "price": "$66.999",
-                    "previous-price": "$72.000",
+                    "price": 66999,
+                    "previous-price": 72000,
                     "category": "game-shirts",
                     "outstanding": true
                 },
@@ -390,17 +403,17 @@
                     "title": "Calza corta LECOQ SPORTIF",
                     "link": [
                         {
-                            "href": "product/Calza-corta-LECOQ-SPORTIF"
+                            "href": "product.html?title=Calza-corta-LECOQ-SPORTIF"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/calza-lecoq-1.webp",
+                            "src": "img/products/calza-lecoq-1.webp",
                             "alt": "Calza corta LECOQ SPORTIF"
                         }
                     ],
-                    "price": "$34.999",
-                    "previous-price": "$29.000",
+                    "price": 29000,
+                    "previous-price": 34999,
                     "category": "leggings-and-shorts",
                     "outstanding": false
                 },
@@ -408,16 +421,16 @@
                     "title": "Camiseta LOSER SIR PERUGiA temporada 2024-25",
                     "link": [
                         {
-                            "href": "product/Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25"
+                            "href": "product.html?title=Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25.webp",
+                            "src": "img/products/Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25.webp",
                             "alt": "Camiseta LOSER SIR PERUGiA temporada 2024-25"
                         }
                     ],
-                    "price": "$20.000",
+                    "price": 20000,
                     "previous-price": "",
                     "category": "game-shirts",
                     "outstanding": true
@@ -426,16 +439,16 @@
                     "title": "Mangas Thorium Lisa",
                     "link": [
                         {
-                            "href": "product/Mangas-Thorium-Lisa"
+                            "href": "product.html?title=Mangas-Thorium-Lisa"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/Mangas-Thorium-Lisa.webp",
+                            "src": "img/products/Mangas-Thorium-Lisa.webp",
                             "alt": "Mangas Thorium Lisa"
                         }
                     ],
-                    "price": "$11.499",
+                    "price": 11499,
                     "previous-price": "",
                     "category": "sleeves",
                     "outstanding": false
@@ -444,16 +457,16 @@
                     "title": "Zapatillas Asics Gel Backhand",
                     "link": [
                         {
-                            "href": "product/Zapatillas-Asics-Gel-Backhand"
+                            "href": "product.html?title=Zapatillas-Asics-Gel-Backhand"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/Zapatillas-Asics-Gel-Backhand-Black-PureSIlver.webp",
+                            "src": "img/products/Zapatillas-Asics-Gel-Backhand-Black-PureSIlver.webp",
                             "alt": "Zapatillas Asics Gel Backhand"
                         }
                     ],
-                    "price": "$108.999",
+                    "price": 108999,
                     "previous-price": "",
                     "category": "shoes.men",
                     "outstanding": false
@@ -462,16 +475,16 @@
                     "title": "Pelota Mikasa V200W Competición",
                     "link": [
                         {
-                            "href": "product/Pelota-Mikasa-V200W-Competición"
+                            "href": "product.html?title=Pelota-Mikasa-V200W-Competición"
                         }
                     ],
                     "img": [
                         {
-                            "src": "img/productos/Pelota-Mikasa-V200W-Competicion.webp",
+                            "src": "img/products/Pelota-Mikasa-V200W-Competicion.webp",
                             "alt": "Pelota Mikasa V200W Competición"
                         }
                     ],
-                    "price": "$109.999",
+                    "price": 109999,
                     "previous-price": "",
                     "category": "balls",
                     "outstanding": true
