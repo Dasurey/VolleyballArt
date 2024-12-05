@@ -51,7 +51,7 @@
                 "href": "contact.html"
             }
         ],
-        "navbar-secondary": {
+        "navbar_secondary": {
             "title": "Categorias",
             "shoes": {
                 "link": [
@@ -80,25 +80,25 @@
                         "href": ""
                     }
                 ],
-                "jackets-and-hoodies": [
+                "jackets_and_hoodies": [
                     {
                         "text": "Camperas y Buzos",
                         "href": ""
                     }
                 ],
-                "game-shirts": [
+                "game_shirts": [
                     {
                         "text": "Camisetas de Juegos",
                         "href": ""
                     }
                 ],
-                "t-shirts-and-tank-tops": [
+                "t_shirts_and_tank_tops": [
                     {
                         "text": "Remeras y Musculosas",
                         "href": ""
                     }
                 ],
-                "leggings-and-shorts": [
+                "leggings_and_shorts": [
                     {
                         "text": "Calzas y Shorts",
                         "href": ""
@@ -118,7 +118,7 @@
                         "href": ""
                     }
                 ],
-                "bags-and-backpacks": [
+                "bags_and_backpacks": [
                     {
                         "text": "Bolsos y Mochilas",
                         "href": ""
@@ -130,13 +130,13 @@
                         "href": ""
                     }
                 ],
-                "socks-and-calf-sleeves": [
+                "socks_and_calf_sleeves": [
                     {
                         "text": "Medias y Gemeleras",
                         "href": ""
                     }
                 ],
-                "knee-pads": [
+                "knee_pads": [
                     {
                         "text": "Rodilleras",
                         "href": ""
@@ -162,7 +162,7 @@
                         "href": ""
                     }
                 ],
-                "nets-and-poles": [
+                "nets_and_poles": [
                     {
                         "text": "Redes y Varillas",
                         "href": ""
@@ -188,7 +188,7 @@
                 ]
             }
         },
-        "page-contact": {
+        "page_contact": {
             "title": "Contáctenos Para Cualquier Consulta",
             "form": {
                 "btn": [
@@ -197,11 +197,11 @@
                     }
                 ]
             },
-            "subtitle-1": "Contáctenos",
-            "subtext-1": "Nuestro Centro de Atención al Cliente está a tu disposición para atender todas tus consultas. También podés contactarnos por nuestras redes sociales.",
-            "subtitle-2": "Tienda VolleyballArt"
+            "subtitle_1": "Contáctenos",
+            "subtext_1": "Nuestro Centro de Atención al Cliente está a tu disposición para atender todas tus consultas. También podés contactarnos por nuestras redes sociales.",
+            "subtitle_2": "Tienda VolleyballArt"
         },
-        "page-review": {
+        "page_review": {
             "title": "Reseñas de los Clientes"
         },
         "searchSection": {
@@ -223,7 +223,7 @@
                         "href": ""
                     }
                 ],
-                "best-rating": [
+                "best_rating": [
                     {
                         "text": "Mejor Calificación",
                         "href": ""
@@ -249,7 +249,7 @@
                 ]
             },
             "phone": {
-                "text": "+54 011 1234-5678",
+                "text": "+54 011 1234_5678",
                 "medium": "Soporte 24/7",
                 "link": [
                     {
@@ -258,9 +258,9 @@
                 ]
             }
         },
-        "store-info": {
+        "store_info": {
             "title": "Información de la tienda",
-            "about-us": [
+            "about_us": [
                 {
                     "text": "¿Quiénes somos?",
                     "href": "index.html"
@@ -278,7 +278,7 @@
                     "href": "review.html"
                 }
             ],
-            "contact-us": [
+            "contact_us": [
                 {
                     "text": "Contáctenos",
                     "href": "contact"
@@ -287,13 +287,13 @@
         },
         "resources": {
             "title": "Recursos",
-            "privacy-policy": [
+            "privacy_policy": [
                 {
                     "text": "Políticas de Privacidad",
                     "href": ""
                 }
             ],
-            "terms-conditions": [
+            "terms_conditions": [
                 {
                     "text": "Términos y Condiciones",
                     "href": ""
@@ -301,14 +301,14 @@
             ],
             "tracking": {
                 "text": "Seguimiento Correo Argentino",
-                "text-offer": "Envío Gratis",
+                "text_offer": "Envío Gratis",
                 "link": [
                     {
-                        "href": "https://www.correoargentino.com.ar/formularios/e-commerce"
+                        "href": "https://www.correoargentino.com.ar/formularios/e_commerce"
                     }
                 ]
             },
-            "consumer-defense": [
+            "consumer_defense": [
                 {
                     "text": "Defensa al Consumidor",
                     "href": "https://autogestion.produccion.gob.ar/consumidores"
@@ -321,7 +321,7 @@
                 }
             ]
         },
-        "social-media": {
+        "social_media": {
             "title": "Redes Sociales",
             "instagram": [
                 {
@@ -351,9 +351,9 @@
                     "href": "index.html"
                 }
             ],
-            "text": " - 2024. Todos los derechos reservados."
+            "text": " _ 2024. Todos los derechos reservados."
         },
-        "payment-methods": [
+        "payment_methods": [
             {
                 "src": "img/general/payments.png",
                 "alt": "Medios de pago"

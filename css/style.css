@@ -238,3 +238,7 @@ nav.navbar-vertical ul.navbar-nav li.nav-item:hover ul.dropdown-menu {
     color: #a9a9a9;
     text-decoration: line-through;
 }
+
+.justify-content {
+    justify-content: center;
+}
