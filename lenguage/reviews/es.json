@@ -6,8 +6,7 @@
         "title": "Reseñas",
         "general": {
             "review_product": " reseñas para ",
-            "null_reviews_1": "No hay reseñas para este producto",
-            "null_reviews_2": "Sea el primero en dejar una."
+            "null_reviews": "<p class=\"text-center\">No hay reseñas para este producto</p>\n<p class=\"text-center\">Sea el primero en dejar una.</p>\n"
         },
         "reviews": [
             {

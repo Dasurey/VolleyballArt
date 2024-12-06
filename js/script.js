@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const delay = 1900; // Retraso en milisegundos (1.9 segundos)
     // Ya se esta mostrando el indicador de carga
 
+    const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
+
     // Función para cargar el archivo JSON y aplicar las traducciones
     function applyTranslations(data, attributes) {
         // Función para actualizar los textos de los elementos
@@ -80,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 element.innerHTML += `${nameVariable}`; // Añadir el texto a la derecha del contenido existente
                             }
                         }
-                        console.log('Texto aplicado:', nameVariable);
                     } else {
                         console.error(`No se pudo aplicar la traducción para: ${keysString}`);
                     }
@@ -271,6 +272,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function addCart(e) {
+        const quantityInput = document.querySelector('.quantity-input');
+        const amount = parseInt(quantityInput.value);
+    
+        // Obtener el tamaño seleccionado, si existe
+        const sizeInput = document.querySelector('input[name="size"]:checked');
+        const size = sizeInput ? sizeInput.value : null;
+    
+        // Crear una copia del objeto `e`
+        const productCopy = { ...e, amount, size };
+    
+        // Verificar si el producto ya existe en el carrito
+        const existingProductIndex = productsCart.findIndex(product => product.title === e.title && product.size === size);
+        if (existingProductIndex !== -1) {
+            productsCart[existingProductIndex].amount += amount;
+        } else {
+            productsCart.push(productCopy);
+        }
+    
+        updateCart();
+        console.log(productsCart);
+        localStorage.setItem('productsCart', JSON.stringify(productsCart));
+    }
+
+    function updateCart() {
+        let newNumber = Object.values(productsCart).flat().reduce((acc, product) => acc + product.amount, 0);
+        const cartNumberElement = document.querySelector('.cart-number');
+        if (cartNumberElement) {
+            cartNumberElement.textContent = newNumber;
+        }
+    }
+
     // Cargar producto de la pagina
     function loadProductDetails() {
         const searchParams = new URLSearchParams(window.location.search);
@@ -287,13 +320,42 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Actualizar el contenido de la página con los datos del producto
                     document.getElementById('headId').innerHTML += `<title>${product.title} - VolleyballArt</title>`;
                     document.querySelector('[data-details="title"]').textContent = product.title;
-                    document.querySelector('[data-details="img"]').src = product.img[0].src;
-                    document.querySelector('[data-details="img"]').alt = product.img[0].alt;
+                    // Verificar si el array `product.img` tiene más de 0 elementos
+                    if (product.img && product.img.length > 0) {
+                        const carouselContainer = document.querySelector('[data-details="img-carousel"]');
+                        let carouselHTML = `
+                            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner border">
+                        `;
+                    
+                        product.img.forEach((image, index) => {
+                            carouselHTML += `
+                                <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                                    <img class="w-100 h-100" src="${image.src}" alt="${image.alt}">
+                                </div>
+                            `;
+                        });
+                    
+                        carouselHTML += `
+                                </div>
+                                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                                    <i class="fa fa-2x fa-angle-left text-dark"></i>
+                                </a>
+                                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                                    <i class="fa fa-2x fa-angle-right text-dark"></i>
+                                </a>
+                            </div>
+                        `;
+                    
+                        carouselContainer.innerHTML = carouselHTML;
+                    } else {
+                        document.querySelector('[data-details="img-carousel"]').src = product.img[0].src;
+                        document.querySelector('[data-details="img-carousel"]').alt = product.img[0].alt;
+                    }
                     if (product.previous_price) {
                         document.getElementById('priceId').innerHTML = `<h3 class="previous-price-details font-weight-semi-bold mb-4">$${product.previous_price}</h3>`;
                     }
                     document.getElementById('priceId').innerHTML += `<h3 class="font-weight-semi-bold mb-4">$${product.price}</h3>`;
-                    document.querySelector('[data-details="description"]').textContent = product.description_1;
                     // Actualizar los enlaces de compartir
                     document.querySelector('[data-details="share_facebook"]').href = "https://www.facebook.com/sharer/sharer.php?u=" + window.location.href + "&description=" + product.title.replace(/ /g, '%20');
                     document.querySelector('[data-details="share_twitter"]').href = "https://twitter.com/intent/tweet?text=" + product.title.replace(/ /g, '%20') + "&url=" + window.location.href;
@@ -301,42 +363,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelector('[data-details="share_whatsapp"]').href = "https://api.whatsapp.com/send?text=" + product.title.replace(/ /g, '%20') + "%20" + window.location.href;
                     // Agregar descripciones
                     const descriptionContainer = document.querySelector('[data-details="description"]');
-                    descriptionContainer.innerHTML = ''; // Limpiar contenido previo
-                    if (product.description_1) {
-                        const p1 = document.createElement('p');
-                        p1.textContent = product.description_1;
-                        descriptionContainer.appendChild(p1);
-                    }
-                    if (product.description_2) {
-                        const p2 = document.createElement('p');
-                        p2.textContent = product.description_2;
-                        descriptionContainer.appendChild(p2);
-                    }
-                    if (product.description_3) {
-                        const p3 = document.createElement('p');
-                        p3.textContent = product.description_3;
-                        descriptionContainer.appendChild(p3);
+                    if (product.description) {
+                        descriptionContainer.innerHTML = product.description;
                     }
                     // Buscar información adicional que coincida con la categoría y subcategoría del producto
                     const additionalInfo = data.right.additional_info.list;
                     let info = null;
                     if (additionalInfo[product.category] && additionalInfo[product.category][product.subcategory]) {
                         info = additionalInfo[product.category][product.subcategory];
-                        console.log('Información adicional encontrada:', info);
+                    }
+                    if (additionalInfo[product.category] && additionalInfo[product.category][product.subcategory] && additionalInfo[product.category][product.subcategory][product.subcategory_2]) {
+                        info = additionalInfo[product.category][product.subcategory][product.subcategory_2];
                     }
 
                     // Actualizar el contenido de la página con la información adicional
                     if (info) {
-                        document.querySelector('[data-details="additional_info"]').textContent = info.text;
+                        const additionalInfoContainer = document.querySelector('[data-details="additional_info"]');
+                        if (info.text) {
+                            additionalInfoContainer.innerHTML = info.text;
+                        }
                         const additional_info_img = document.querySelector('[data-details="additional_info_img"]');
-                        if (info.img && info.img[0] && info.img[0].src) {
-                            const data_info = `
-                                <div class="card product-item border-0 mb-4">
-                                    <div class="card-header position-relative overflow-hidden bg-transparent border p-0">
-                                        <img class="img-fluid w-100" src="${info.img[0].src}" alt="${info.img[0].alt}">
+                        if (info.img && info.img.length > 0) {
+                            let data_info = '';
+                            info.img.forEach((image, index) => {
+                                data_info += `
+                                    <div class="card product-item border-0 mb-4">
+                                        <div class="card-header position-relative overflow-hidden bg-transparent border p-0">
+                                            <img class="img-fluid w-100" src="${image.src}" alt="${image.alt}">
+                                        </div>
                                     </div>
-                                </div>
-                            `;
+                                `;
+                            });
                             const tempDiv = document.createElement('div');
                             tempDiv.className = 'col-lg-6 col-md-8 col-sm-12 pb-1';
                             tempDiv.innerHTML = data_info;
@@ -345,16 +402,57 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
 
+                    // Actualizar los tamaños según la categoría y subcategoría
+                    const sizeContainer = document.querySelector('.size-container');
+                    sizeContainer.innerHTML = ''; // Limpiar contenido previo
+
+                    const sizes = {
+                        clothing: {
+                            jackets_and_hoodies: ['XS', 'S', 'M', 'L', 'XL'],
+                            game_shirts: ['XS', 'S', 'M', 'L', 'XL']
+                        },
+                        shoes: {
+                            men: ['38', '39', '40', '41', '42', '43', '44', '45'],
+                            women: ['36', '37', '38', '39', '40', '41', '42', '43']
+                        }
+                    };
+
+                    const category = product.category;
+                    const subcategory = product.subcategory;
+                    const availableSizes = (sizes[category] && sizes[category][subcategory]) ? sizes[category][subcategory] : [];
+
+                    availableSizes.forEach((size, index) => {
+                        const sizeHTML = `
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="size-${index}" name="size" value="${size}">
+                                <label class="custom-control-label" for="size-${index}">${size}</label>
+                            </div>
+                        `;
+                        sizeContainer.innerHTML += sizeHTML;
+                    });
+
                     // Cargar y mostrar productos filtrados, excluyendo el producto actual
                     loadJSON(reviewJson).then(reviewsData => {
                         // Buscar reseñas que coincidan con el producto actual
                         const reviews = reviewsData.right.reviews.filter(review => review.product === product.title);
                         const numberOfReviews = reviews.length;
+                        if(numberOfReviews > 0) {
+                            const totalStars = reviews.reduce((sum, review) => sum + review.stars, 0);
+                            const averageStars = numberOfReviews > 0 ? (totalStars / numberOfReviews).toFixed(1) : 0;
+                            const starsProductHTML = `
+                                ${'<i class="fa-solid fa-star"></i>\n'.repeat(Math.ceil(averageStars))}
+                                ${'<i class="fa-regular fa-star"></i>\n'.repeat(5 - Math.ceil(averageStars))}
+                            `;
+                            document.querySelector('[data-details="stars_product"]').style.display = '';
+                            document.querySelector('[data-details="stars_product"]').innerHTML = starsProductHTML;
+                        }
+                        const countsReviewsProductHTML = document.querySelector('[data-details="count_reviews"]');
+                        countsReviewsProductHTML.textContent = "(" + numberOfReviews + " " + data.right.tab_pane.tab_3.title + ")";
 
                         // Mostrar las reseñas
                         const reviewsContainer = document.querySelector('[data-details="reviews-product"]');
                         reviewsContainer.innerHTML = `<h4 class="mb-5 text-center">${numberOfReviews} ${reviewsData.right.general.review_product} "${product.title}"</h4>`; // Limpiar contenido previo
-
+                        
                         if (numberOfReviews > 0) {
                         reviews.forEach(review => {
                             const reviewHTML = `
@@ -362,8 +460,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <div class="media-body">
                                         <h6>${review.name}<small> - <i>${review.date}</i></small></h6>
                                         <div class="text-primary mb-2">
-                                            ${'<i class="fas fa-star"></i>'.repeat(review.stars)}
-                                            ${'<i class="far fa-star"></i>'.repeat(5 - review.stars)}
+                                            ${'<i class="fa-solid fa-star"></i>\n'.repeat(review.stars)}
+                                            ${'<i class="fa-regular fa-star"></i>\n'.repeat(5 - review.stars)}
                                         </div>
                                         <p>${review.comment}</p>
                                     </div>
@@ -372,18 +470,35 @@ document.addEventListener('DOMContentLoaded', () => {
                             reviewsContainer.innerHTML += reviewHTML;
                         });
                     } else {
-                        const noReviews = reviewsData.right.general;
-                        if (noReviews.null_reviews_1) {
-                            reviewsContainer.innerHTML += `<p class="text-center">${noReviews.null_reviews_1}</p>`;
-                        }
-                        if (noReviews.null_reviews_2) {
-                            reviewsContainer.innerHTML += `<p class="text-center">${noReviews.null_reviews_2}</p>`;
+                        const noReviews = reviewsData.right.general.null_reviews;
+                        if (noReviews) {
+                            reviewsContainer.innerHTML += noReviews;
                         }
                     }
                     }).catch(error => {
                         console.error('Error al cargar el archivo JSON:', error);
                     });
+
+                    // Desactivar el botón inicialmente
+                    const btnCartFunction = document.querySelector('.btn_cart_function');
+                    btnCartFunction.disabled = availableSizes.length > 0;
+
+                    // Habilitar el botón cuando se seleccione un tamaño
+                    const sizeInputs = document.querySelectorAll('input[name="size"]');
+                    sizeInputs.forEach(input => {
+                        input.addEventListener('change', () => {
+                            btnCartFunction.disabled = false;
+                        });
+                    });
+                    // Agregar el producto al carrito al hacer clic en el botón
+                    btnCartFunction.addEventListener('click', () => {
+                        addCart(product);
+                    });
+
                     loadAndDisplayFilteredProducts(productJson, product.category, product.subcategory, 4, product.title);
+
+                    // Actualizar el contador al iniciar
+                    updateCart();
                 } else {
                     console.error('Producto no encontrado');
                 }
@@ -433,48 +548,23 @@ document.addEventListener('DOMContentLoaded', () => {
         promises.push(loadHTMLContent('archivo-general/reviews-content.html', reviewsElement));
     } else if (pathname.endsWith("/product.html")) {
         promises.push(loadProductDetails());
-    }
 
-    // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones
-    Promise.all(promises).then((results) => {
-        console.log('Contenido HTML y JSON cargado completamente');
-        const jsonData1 = results[5]; // El primer archivo JSON
-        const jsonData2 = results[6]; // El segundo archivo JSON
-        applyTranslations(jsonData1, ['data-name', 'data-name-inside']);
-        applyTranslations(jsonData2, ['data-product']);
+        const quantityInput = document.querySelector('.quantity-input');
+        const btnMinus = document.querySelector('.btn-minus');
+        const btnPlus = document.querySelector('.btn-plus');
 
-        // Lógica para cambiar las clases del <nav> dependiendo de la URL actual
-        const navbar = document.getElementById("navbar-vertical");
-        if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
-            navbar.classList.add("show");
-            navbar.classList.remove("position-absolute", "bg-light");
-            navbar.style.width = "";
-            navbar.style.zIndex = "";
-        } else {
-            navbar.classList.add("position-absolute", "bg-light");
-            navbar.classList.remove("show");
-            navbar.style.width = "calc(100% - 30px)";
-            navbar.style.zIndex = "1";
-        }
-        // Seleccionar elementos por clase
-        const navLinks = document.querySelectorAll('.nav-link');
-        const dropdownMenus = document.querySelectorAll('.dropdown-menu.bg-secondary.border-0.rounded-0.w-100.m-0');
-
-        navLinks.forEach((navLink, index) => {
-            const dropdownMenu = dropdownMenus[index];
-
-            if (dropdownMenu) {
-                dropdownMenu.addEventListener('mouseenter', () => {
-                    console.log('mouseenter:', navLink);
-                    navLink.classList.add('active-color');
-                });
-
-                dropdownMenu.addEventListener('mouseleave', () => {
-                    console.log('mouseleave:', navLink);
-                    navLink.classList.remove('active-color');
-                });
+        btnMinus.addEventListener('click', () => {
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
             }
         });
+
+        btnPlus.addEventListener('click', () => {
+            let currentValue = parseInt(quantityInput.value);
+            quantityInput.value = currentValue + 1;
+        });
+
         const starsContainer = document.getElementById('stars');
         const stars = starsContainer.querySelectorAll('i');
         let selectedRating = -1; // Variable para almacenar la calificación seleccionada
@@ -511,6 +601,46 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             });
+        });
+    }
+
+    // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones
+    Promise.all(promises).then((results) => {
+        console.log('Contenido HTML y JSON cargado completamente');
+        const jsonData1 = results[5]; // El primer archivo JSON
+        const jsonData2 = results[6]; // El segundo archivo JSON
+        applyTranslations(jsonData1, ['data-name', 'data-name-inside']);
+        applyTranslations(jsonData2, ['data-product']);
+
+        // Lógica para cambiar las clases del <nav> dependiendo de la URL actual
+        const navbar = document.getElementById("navbar-vertical");
+        if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
+            navbar.classList.add("show");
+            navbar.classList.remove("position-absolute", "bg-light");
+            navbar.style.width = "";
+            navbar.style.zIndex = "";
+        } else {
+            navbar.classList.add("position-absolute", "bg-light");
+            navbar.classList.remove("show");
+            navbar.style.width = "calc(100% - 30px)";
+            navbar.style.zIndex = "1";
+        }
+        // Seleccionar elementos por clase
+        const navLinks = document.querySelectorAll('.nav-link');
+        const dropdownMenus = document.querySelectorAll('.dropdown-menu.bg-secondary.border-0.rounded-0.w-100.m-0');
+
+        navLinks.forEach((navLink, index) => {
+            const dropdownMenu = dropdownMenus[index];
+
+            if (dropdownMenu) {
+                dropdownMenu.addEventListener('mouseenter', () => {
+                    navLink.classList.add('active-color');
+                });
+
+                dropdownMenu.addEventListener('mouseleave', () => {
+                    navLink.classList.remove('active-color');
+                });
+            }
         });
     }).catch(error => {
         console.error('Error al cargar el contenido:', error);

@@ -70,106 +70,50 @@
                 <div class="row px-xl-5">
                     <div class="col-lg-5 pb-5">
                         <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner border">
-                                <div class="carousel-item active">
-                                    <img class="w-100 h-100" data-details="img">
-                                </div>
-                            </div>
-                            </a>
+                            <div class="carousel-inner border" data-details="img-carousel"></div>
                         </div>
                     </div>
 
                     <div class="col-lg-7 pb-5">
                         <h3 class="font-weight-semi-bold" data-details="title"></h3>
                         <div class="d-flex mb-3">
-                            <div class="text-primary mr-2">
-                                <small class="fas fa-star"></small>
-                                <small class="fas fa-star"></small>
-                                <small class="fas fa-star"></small>
-                                <small class="fas fa-star"></small>
-                                <small class="far fa-star"></small>
-                            </div>
+                            <div class="text-primary mr-2" data-details="stars_product" style="display: none;"></div>
+                            <small class="pt-1" data-details="count_reviews"></small>
                         </div>
                         <div class="price-alignment" id="priceId"></div>
                         <div class="d-flex mb-3">
                             <p class="text-dark font-weight-medium mb-0 mr-3">Talles:</p>
-                            <form>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-1" name="size">
-                                    <label class="custom-control-label" for="size-1">XS</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-2" name="size">
-                                    <label class="custom-control-label" for="size-2">S</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-3" name="size">
-                                    <label class="custom-control-label" for="size-3">M</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-4" name="size">
-                                    <label class="custom-control-label" for="size-4">L</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-5" name="size">
-                                    <label class="custom-control-label" for="size-5">XL</label>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="d-flex mb-4">
-                            <p class="text-dark font-weight-medium mb-0 mr-3">Colores:</p>
-                            <form>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-1" name="color">
-                                    <label class="custom-control-label" for="color-1">Negro</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-2" name="color">
-                                    <label class="custom-control-label" for="color-2">Blanco</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-3" name="color">
-                                    <label class="custom-control-label" for="color-3">Rojo</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-4" name="color">
-                                    <label class="custom-control-label" for="color-4">Azul</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-5" name="color">
-                                    <label class="custom-control-label" for="color-5">Verde</label>
-                                </div>
-                            </form>
+                            <form class="size-container"></form>
                         </div>
                         <div class="d-flex align-items-center mb-4 pt-2">
                             <div class="input-group quantity mr-3" style="width: 130px;">
                                 <div class="input-group-btn">
                                     <button class="btn btn-primary btn-minus">
-                                        <i class="fa fa-minus"></i>
+                                        <i class="fa-solid fa-minus"></i>
                                     </button>
                                 </div>
-                                <input type="text" class="form-control bg-secondary text-center" value="1">
+                                <input type="text" class="form-control bg-secondary text-center quantity-input" value="1">
                                 <div class="input-group-btn">
                                     <button class="btn btn-primary btn-plus">
-                                        <i class="fa fa-plus"></i>
+                                        <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
-                            <button class="btn btn-primary px-3" data-product="right.general.btn"><i class="fa fa-shopping-cart mr-1"></i></button>
+                            <button class="btn_cart_function btn btn-primary px-3" data-product="right.general.btn"><i class="fa-solid fa-cart-shopping mr-1"></i></button>
                         </div>
                         <div class="d-flex pt-2">
                             <p class="text-dark font-weight-medium mb-0 mr-2" data-product="right.general.share"></p>
-                            <div class="d-inline-flex">
-                                <a class="text-dark px-2" data-details="share_facebook">
+                            <div class="share-icons d-inline-flex">
+                                <a class="px-2" data-details="share_facebook">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
-                                <a class="text-dark px-2" data-details="share_twitter">
+                                <a class="px-2" data-details="share_twitter">
                                     <i class="fab fa-twitter"></i>
                                 </a>
-                                <a class="text-dark px-2" data-details="share_pinterest">
+                                <a class="px-2" data-details="share_pinterest">
                                     <i class="fab fa-pinterest"></i>
                                 </a>
-                                <a class="text-dark px-2" data-details="share_whatsapp">
+                                <a class="px-2" data-details="share_whatsapp">
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
                             </div>
@@ -187,12 +131,10 @@
                                 data-product="right.tab_pane.tab_3.title"></a>
                         </div>
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="tab-pane-1" data-details="description">
-                                <p></p>
-                            </div>
+                            <div class="tab-pane fade show active" id="tab-pane-1" data-details="description"></div>
                             <div class="tab-pane fade" id="tab-pane-2">
                                 <h4 class="mb-3" data-product="right.additional_info.title"></h4>
-                                <p data-details="additional_info"></p>
+                                <div data-details="additional_info"></div>
                                 <div class="row px-xl-5 pb-3 justify-content" data-details="additional_info_img">
                                 </div>
                             </div>
@@ -200,16 +142,16 @@
                                 <div class="row">
                                     <div class="col-md-6" data-details="reviews-product"></div>
                                     <div class="col-md-6">
-                                        <h4 class="mb-4 text-center" data-product="right.review_product.title"></h4>
+                                        <h4 class="mb-4" data-product="right.review_product.title"></h4>
                                         <small data-product="right.review_product.text"></small>
                                         <div class="d-flex my-3">
                                             <p class="mb-0 mr-2" data-product="right.review_product.rating"></p>
                                             <div class="text-primary" id="stars">
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
+                                                <i class="far fa-solid fa-star"></i>
+                                                <i class="far fa-solid fa-star"></i>
+                                                <i class="far fa-solid fa-star"></i>
+                                                <i class="far fa-solid fa-star"></i>
+                                                <i class="far fa-solid fa-star"></i>
                                             </div>
                                         </div>
                                         <form>

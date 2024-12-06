@@ -9,12 +9,12 @@
                         "alt": "Zapatilla Mizuno Women Wave Momentum 3"
                     }
                 ],
-                "title": "10% de Descuento en tu Primer Pedido",
+                "title": "10% de Descuento Por Inauguración de Tienda",
                 "text": "Zapatilla Mizuno",
                 "btn": [
                     {
                         "text": "Compra Ahora",
-                        "href": ""
+                        "href": null
                     }
                 ]
             },
@@ -25,12 +25,12 @@
                         "alt": "Nishida - Zapatilla Asics Metarise Tokyo Men"
                     }
                 ],
-                "title": "10% de Descuento en tu Primer Pedido",
+                "title": "10% de Descuento Por Inauguración de Tienda",
                 "text": "Zapatilla Asics Metarise Tokyo Men",
                 "btn": [
                     {
                         "text": "Compra Ahora",
-                        "href": ""
+                        "href": null
                     }
                 ]
             }
@@ -138,7 +138,7 @@
                 "text": "Anterior",
                 "link": [
                     {
-                        "href": ""
+                        "href": null
                     }
                 ]
             },
@@ -146,7 +146,7 @@
                 "text": "Siguiente",
                 "link": [
                     {
-                        "href": ""
+                        "href": null
                     }
                 ]
             },
@@ -154,31 +154,31 @@
                 "page_1": [
                     {
                         "text": "1",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "page_2": [
                     {
                         "text": "2",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "page_3": [
                     {
                         "text": "3",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "page_4": [
                     {
                         "text": "4",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "page_5": [
                     {
                         "text": "5",
-                        "href": ""
+                        "href": null
                     }
                 ]
             }
@@ -199,35 +199,36 @@
             "list": {
                 "shoes": {
                     "men": {
-                        "text": "",
+                        "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
                         "img": [
                             {
-                                "src": "",
-                                "alt": ""
+                                "src": "img/additional_info/shoes_alls.webp",
+                                "alt": "Talles de Zapatillas"
                             }
                         ]
                     },
                     "women": {
-                        "text": "",
+                        "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
                         "img": [
                             {
-                                "src": ""
+                                "src": "img/additional_info/shoes_alls.webp",
+                                "alt": "Talles de Zapatillas"
                             }
                         ]
                     }
                 },
                 "clothing": {
                     "jackets_and_hoodies": {
-                        "text": "",
+                        "text": "<p>CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.</p>\n",
                         "img": [
                             {
-                                "src": "",
-                                "alt": ""
+                                "src": "img/additional_info/jacket.webp",
+                                "alt": "Talle de Camperas y Buzos"
                             }
                         ]
                     },
                     "game_shirts": {
-                        "text": "CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.",
+                        "text": "<p>CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.</p>\n",
                         "img": [
                             {
                                 "src": "img/additional_info/game_shirts.webp",
@@ -236,96 +237,109 @@
                         ]
                     },
                     "t_shirts_and_tank_tops": {
-                        "text": "",
+                        "text": "<p>CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.</p>\n",
                         "img": [
                             {
-                                "src": "",
-                                "alt": ""
+                                "src": "img/additional_info/game_shirts.webp",
+                                "alt": "Talles de Remeras y Musculosas"
                             }
                         ]
                     },
                     "leggings_and_shorts": {
-                        "text": "",
-                        "img": [
-                            {
-                                "src": "",
-                                "alt": ""
-                            }
-                        ]
-                    },
-                    "pants": {
-                        "text": "",
-                        "img": [
-                            {
-                                "src": "",
-                                "alt": ""
-                            }
-                        ]
+                        "leggings": {
+                            "text": null,
+                            "img": [
+                                {
+                                    "src": "img/additional_info/leggings.webp",
+                                    "alt": "Talle de Calzas"
+                                }
+                            ]
+                        },
+                        "shorts": {
+                            "text": null,
+                            "img": [
+                                {
+                                    "src": "img/additional_info/short.webp",
+                                    "alt": "Talle de Shorts"
+                                }
+                            ]
+                        }
                     }
                 },
                 "accessories": {
                     "bags_and_backpacks": {
-                        "text": "",
+                        "text": null,
                         "img": [
                             {
-                                "src": "",
-                                "alt": ""
+                                "src": null,
+                                "alt": null
                             }
                         ]
                     },
                     "sleeves": {
-                        "text": "",
+                        "text": "<p>Recomendaciones:  Aptas Lavarropas. No planchar. Para elegir el talle, chequeá la tabla de medidas publicada.</p>\n<p>El precio publicado es por Par.</p>\n",
                         "img": [
                             {
-                                "src": "",
-                                "alt": ""
+                                "src": "img/additional_info/sleeves.webp",
+                                "alt": "Talle de Manguitas"
                             }
                         ]
                     },
                     "socks_and_calf_sleeves": {
-                        "text": "",
-                        "img": [
-                            {
-                                "src": "",
-                                "alt": ""
-                            }
-                        ]
+                        "sock": {
+                            "text": null,
+                            "img": [
+                                {
+                                    "src": "img/additional_info/sock.webp.webp",
+                                    "alt": null
+                                }
+                            ]
+                        },
+                        "calf_sleeves": {
+                            "text": null,
+                            "img": [
+                                {
+                                    "src": null,
+                                    "alt": null
+                                }
+                            ]
+                        }
                     },
                     "knee_pads": {
-                        "text": "",
+                        "text": null,
                         "img": [
                             {
-                                "src": "",
-                                "alt": ""
+                                "src": null,
+                                "alt": null
                             }
                         ]
                     },
                     "others": {
-                        "text": "",
+                        "text": null,
                         "img": [
                             {
-                                "src": "",
-                                "alt": ""
+                                "src": null,
+                                "alt": null
                             }
                         ]
                     }
                 },
                 "equipment": {
                     "balls": {
-                        "text": "",
+                        "text": null,
                         "img": [
                             {
-                                "src": "",
-                                "alt": ""
+                                "src": "img/additional_info/balls.webp",
+                                "alt": "Como cuidar la pelota"
                             }
                         ]
                     },
                     "nets_and_poles": {
-                        "text": "",
+                        "text": null,
                         "img": [
                             {
-                                "src": "",
-                                "alt": ""
+                                "src": null,
+                                "alt": null
                             }
                         ]
                     }
@@ -354,8 +368,8 @@
                         }
                     ],
                     "price": 225000,
-                    "previous_price": "",
-                    "description_1": "",
+                    "previous_price": null,
+                    "description": null,
                     "category": "shoes",
                     "subcategory": "men",
                     "outstanding": true
@@ -375,7 +389,7 @@
                     ],
                     "price": 180000,
                     "previous_price": 200000,
-                    "description_1": "",
+                    "description": null,
                     "category": "shoes",
                     "subcategory": "women",
                     "outstanding": false
@@ -394,8 +408,8 @@
                         }
                     ],
                     "price": 20000,
-                    "previous_price": "",
-                    "description_1": "Tené la Camiseta de Yuki Ishikawa en el SIR PERUGIA de Italia. Modelo utilizado para los partidos oficiales",
+                    "previous_price": null,
+                    "description": "Tené la Camiseta de Yuki Ishikawa en el SIR PERUGIA de Italia. Modelo utilizado para los partidos oficiales",
                     "category": "clothing",
                     "subcategory": "game_shirts",
                     "outstanding": true
@@ -411,13 +425,19 @@
                         {
                             "src": "img/products/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
                             "alt": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)"
+                        },
+                        {
+                            "src": "img/products/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
+                            "alt": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)"
+                        },
+                        {
+                            "src": "img/products/calza-lecoq-1.webp",
+                            "alt": "Calza corta LECOQ SPORTIF"
                         }
                     ],
                     "price": 66999,
                     "previous_price": 72000,
-                    "description_1": "Camiseta oficial LECOQ SPORTIF de la Selección Argentina de Voley.",
-                    "description_2": "Original, logo LECOQ y escudo de Argentina.",
-                    "description_3": "La colección combina dinamismo, tradición y elegancia. Las camisetas, hechas de poliéster con elastano, ofrecen comodidad y flexibilidad. Se exploró un color alternativo dentro de la paleta del equipo argentino, buscando modernidad y juventud.",
+                    "description": "<p>Camiseta oficial LECOQ SPORTIF de la Selección Argentina de Voley.</p>\n<p>Original, logo LECOQ y escudo de Argentina.</p>\n<p>La colección combina dinamismo, tradición y elegancia. Las camisetas, hechas de poliéster con elastano, ofrecen comodidad y flexibilidad. Se exploró un color alternativo dentro de la paleta del equipo argentino, buscando modernidad y juventud.</p>",
                     "category": "clothing",
                     "subcategory": "game_shirts",
                     "outstanding": true
@@ -437,9 +457,10 @@
                     ],
                     "price": 29000,
                     "previous_price": 34999,
-                    "description_1": "",
+                    "description": "<p>La Calza corta LECOQ SPORTIF es ideal para entrenamientos voley, handball, newcom, running, basquet. Es una una prenda de alta calidad, confeccionada con materiales suaves y transpirables y con un ajuste favorecedor.</p>\n<p>Productos 100% originales!!! con garantía oficial del fabricante (Contra defecto de fabricación)</p>\n",
                     "category": "clothing",
                     "subcategory": "leggings_and_shorts",
+                    "subcategory_2": "leggings",
                     "outstanding": false
                 },
                 "product_6": {
@@ -456,8 +477,8 @@
                         }
                     ],
                     "price": 20000,
-                    "previous_price": "",
-                    "description_1": "Tené la Camiseta de Agustin Loser en el SIR PERUGIA de Italia. Modelo utilizado para los partidos oficiales",
+                    "previous_price": null,
+                    "description": "Tené la Camiseta de Agustin Loser en el SIR PERUGIA de Italia. Modelo utilizado para los partidos oficiales",
                     "category": "clothing",
                     "subcategory": "game_shirts",
                     "outstanding": true
@@ -476,8 +497,8 @@
                         }
                     ],
                     "price": 11499,
-                    "previous_price": "",
-                    "description_1": "",
+                    "previous_price": null,
+                    "description": "<p>Las Mangas de Voley Thorium son de Lycra De Compresión – Thorium (protector Antebrazos).</p>\n<p>El material es polisap (es una lycra más gruesa).</p>\n<p>Los protectores de antebrazos son accesorios cada vez más populares entre jugadores de voley, tanto en niveles amateurs como profesionales. Diseñados para brindar soporte y amortiguación, cumplen un rol clave al reducir el impacto directo de la pelota sobre la piel y los músculos del brazo durante los pases y recepciones. Tambien aportan protección para quiene tienen sensibilidad en la piel o están comenzando a practicar el deporte, ya que disminuyen la aparición de moretones y raspaduras al entrenar intensamente.</p>\n",
                     "category": "accessories",
                     "subcategory": "seleeves",
                     "outstanding": false
@@ -496,8 +517,8 @@
                         }
                     ],
                     "price": 108999,
-                    "previous_price": "",
-                    "description_1": "",
+                    "previous_price": null,
+                    "description": "Diseñada para jugadores de Volleyball tiene excelente performance temporada tras temporada. Con un calce excepcional, tracción y amortiguacion mejoradas. Este modelo es conocido por ser el eterno favorito entre los jugadores principiantes e intermedios. Ante todo, la zapatilla asegura tu comfort y estabilidad en la cancha. Ademas, es un perfecto ejemplo de gran relación precio calidad.  El antepié de gel asegura pisadas, pivots y frenadas confortables en la cancha. La nueva media suela y diseño superior brindaran mejor calce y andar. La malla superior cerrada en cuero permite una mayor durabilidad",
                     "category": "shoes",
                     "subcategory": "men",
                     "outstanding": false
@@ -516,8 +537,8 @@
                         }
                     ],
                     "price": 109999,
-                    "previous_price": "",
-                    "description_1": "",
+                    "previous_price": null,
+                    "description": null,
                     "category": "equipment",
                     "subcategory": "balls",
                     "outstanding": true

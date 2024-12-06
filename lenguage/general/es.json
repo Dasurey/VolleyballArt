@@ -57,19 +57,19 @@
                 "link": [
                     {
                         "text": "Zapatillas",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "men": [
                     {
                         "text": "Hombre",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "women": [
                     {
                         "text": "Mujer",
-                        "href": ""
+                        "href": null
                     }
                 ]
             },
@@ -77,37 +77,31 @@
                 "link": [
                     {
                         "text": "Indumentaria",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "jackets_and_hoodies": [
                     {
                         "text": "Camperas y Buzos",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "game_shirts": [
                     {
                         "text": "Camisetas de Juegos",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "t_shirts_and_tank_tops": [
                     {
                         "text": "Remeras y Musculosas",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "leggings_and_shorts": [
                     {
                         "text": "Calzas y Shorts",
-                        "href": ""
-                    }
-                ],
-                "pants": [
-                    {
-                        "text": "Pantalones",
-                        "href": ""
+                        "href": null
                     }
                 ]
             },
@@ -115,37 +109,37 @@
                 "link": [
                     {
                         "text": "Accesorios",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "bags_and_backpacks": [
                     {
                         "text": "Bolsos y Mochilas",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "sleeves": [
                     {
                         "text": "Manguitas",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "socks_and_calf_sleeves": [
                     {
                         "text": "Medias y Gemeleras",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "knee_pads": [
                     {
                         "text": "Rodilleras",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "others": [
                     {
                         "text": "Otros",
-                        "href": ""
+                        "href": null
                     }
                 ]
             },
@@ -153,19 +147,19 @@
                 "link": [
                     {
                         "text": "Equipamiento",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "balls": [
                     {
                         "text": "Pelotas",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "nets_and_poles": [
                     {
                         "text": "Redes y Varillas",
-                        "href": ""
+                        "href": null
                     }
                 ]
             }
@@ -175,7 +169,7 @@
                 "title": "Producto de Calidad",
                 "link": [
                     {
-                        "href": ""
+                        "href": null
                     }
                 ]
             },
@@ -183,7 +177,7 @@
                 "title": "14 Días de Devolución",
                 "link": [
                     {
-                        "href": ""
+                        "href": null
                     }
                 ]
             }
@@ -214,19 +208,19 @@
                 "last": [
                     {
                         "text": "El Último",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "popularity": [
                     {
                         "text": "Popularidad",
-                        "href": ""
+                        "href": null
                     }
                 ],
                 "best_rating": [
                     {
                         "text": "Mejor Calificación",
-                        "href": ""
+                        "href": null
                     }
                 ]
             }
@@ -290,13 +284,13 @@
             "privacy_policy": [
                 {
                     "text": "Políticas de Privacidad",
-                    "href": ""
+                    "href": null
                 }
             ],
             "terms_conditions": [
                 {
                     "text": "Términos y Condiciones",
-                    "href": ""
+                    "href": null
                 }
             ],
             "tracking": {
@@ -317,7 +311,7 @@
             "faq": [
                 {
                     "text": "Preguntas Frecuentes",
-                    "href": ""
+                    "href": null
                 }
             ]
         },
@@ -325,22 +319,22 @@
             "title": "Redes Sociales",
             "instagram": [
                 {
-                    "href": ""
+                    "href": null
                 }
             ],
             "facebook": [
                 {
-                    "href": ""
+                    "href": null
                 }
             ],
             "whatsapp": [
                 {
-                    "href": ""
+                    "href": null
                 }
             ],
             "x": [
                 {
-                    "href": ""
+                    "href": null
                 }
             ]
         },
