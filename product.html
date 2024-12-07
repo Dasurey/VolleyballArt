@@ -69,8 +69,8 @@
             <div class="container-fluid py-5">
                 <div class="row px-xl-5">
                     <div class="col-lg-5 pb-5">
-                        <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner border" data-details="img-carousel"></div>
+                        <div id="product-carousel" class="carousel slide" data-ride="carousel" data-details="img-carousel">
+                            <div class="carousel-inner border" data-details="img"></div>
                         </div>
                     </div>
 
@@ -82,7 +82,7 @@
                         </div>
                         <div class="price-alignment" id="priceId"></div>
                         <div class="d-flex mb-3">
-                            <p class="text-dark font-weight-medium mb-0 mr-3">Talles:</p>
+                            <p class="text-dark font-weight-medium mb-0 mr-3" data-details="size-name"></p>
                             <form class="size-container"></form>
                         </div>
                         <div class="d-flex align-items-center mb-4 pt-2">
@@ -122,14 +122,7 @@
                 </div>
                 <div class="row px-xl-5">
                     <div class="col">
-                        <div class="nav nav-tabs justify-content-center border-secondary mb-4">
-                            <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1"
-                                data-product="right.tab_pane.tab_1.title"></a>
-                            <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2"
-                                data-product="right.tab_pane.tab_2.title"></a>
-                            <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3"
-                                data-product="right.tab_pane.tab_3.title"></a>
-                        </div>
+                        <div class="nav nav-tabs justify-content-center border-secondary mb-4" data-details="tab_pane"></div>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="tab-pane-1" data-details="description"></div>
                             <div class="tab-pane fade" id="tab-pane-2">
@@ -147,11 +140,11 @@
                                         <div class="d-flex my-3">
                                             <p class="mb-0 mr-2" data-product="right.review_product.rating"></p>
                                             <div class="text-primary" id="stars">
-                                                <i class="far fa-solid fa-star"></i>
-                                                <i class="far fa-solid fa-star"></i>
-                                                <i class="far fa-solid fa-star"></i>
-                                                <i class="far fa-solid fa-star"></i>
-                                                <i class="far fa-solid fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                                <i class="fa-regular fa-star"></i>
                                             </div>
                                         </div>
                                         <form>

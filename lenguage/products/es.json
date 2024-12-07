@@ -2,124 +2,46 @@
     "left": {},
     "right": {
         "carousel": {
-            "carousel_1": {
-                "img": [
-                    {
-                        "src": "img/products/women-mizuno-carousel-1.jpg",
-                        "alt": "Zapatilla Mizuno Women Wave Momentum 3"
-                    }
-                ],
-                "title": "10% de Descuento Por Inauguración de Tienda",
-                "text": "Zapatilla Mizuno",
-                "btn": [
-                    {
-                        "text": "Compra Ahora",
-                        "href": null
-                    }
-                ]
-            },
-            "carousel_2": {
-                "img": [
-                    {
-                        "src": "img/products/asics-metarise-tokyo-men-shoes-nishida-carousel-2.jpg",
-                        "alt": "Nishida - Zapatilla Asics Metarise Tokyo Men"
-                    }
-                ],
-                "title": "10% de Descuento Por Inauguración de Tienda",
-                "text": "Zapatilla Asics Metarise Tokyo Men",
-                "btn": [
-                    {
-                        "text": "Compra Ahora",
-                        "href": null
-                    }
-                ]
-            }
+            "title": "10% de Descuento Por Inauguración de Tienda",
+            "btn": "Ver Producto"
         },
         "filter": {
             "price": {
-                "title": "Filtrar Por Precios",
+                "title": "Filtrar Por Precio",
                 "form": {
-                    "all": {
-                        "text": "Todos los Precios",
-                        "amount": "1000"
-                    },
-                    "1": {
-                        "text": "$0 - $10.000",
-                        "amount": "150"
-                    },
-                    "2": {
-                        "text": "$10.000 - $20.000",
-                        "amount": "295"
-                    },
-                    "3": {
-                        "text": "$20.000 - $30.000",
-                        "amount": "246"
-                    },
-                    "4": {
-                        "text": "$100.000 - $200.000",
-                        "amount": "145"
-                    },
-                    "5": {
-                        "text": "$200.000 - $300.000",
-                        "amount": "168"
-                    }
-                }
-            },
-            "color": {
-                "title": "Filtrar Por Colores",
-                "form": {
-                    "all": {
-                        "text": "Todos los Colores",
-                        "amount": "1000"
-                    },
-                    "1": {
-                        "text": "Negro",
-                        "amount": "150"
-                    },
-                    "2": {
-                        "text": "Blanco",
-                        "amount": "295"
-                    },
-                    "3": {
-                        "text": "Rojo",
-                        "amount": "246"
-                    },
-                    "4": {
-                        "text": "Azul",
-                        "amount": "145"
-                    },
-                    "5": {
-                        "text": "Verde",
-                        "amount": "168"
+                    "range_all": {
+                        "text": "Todos los Precios"
                     }
                 }
             },
             "waist": {
                 "title": "Filtrar Por Talle",
                 "form": {
-                    "all": {
-                        "text": "Todos los Talles",
-                        "amount": "1000"
+                    "range_all": {
+                        "text": "Todos los Talles"
+                    }
+                }
+            },
+            "color": {
+                "title": "Filtrar Por Color",
+                "form": {
+                    "range_all": {
+                        "text": "Todos los Colores"
                     },
-                    "1": {
-                        "text": "XS",
-                        "amount": "150"
+                    "range_1": {
+                        "text": "Negro"
                     },
-                    "2": {
-                        "text": "S",
-                        "amount": "295"
+                    "range_2": {
+                        "text": "Blanco"
                     },
-                    "3": {
-                        "text": "M",
-                        "amount": "246"
+                    "range_3": {
+                        "text": "Rojo"
                     },
-                    "4": {
-                        "text": "L",
-                        "amount": "145"
+                    "range_4": {
+                        "text": "Azul"
                     },
-                    "5": {
-                        "text": "XL",
-                        "amount": "168"
+                    "range_5": {
+                        "text": "Verde"
                     }
                 }
             }
@@ -313,15 +235,6 @@
                                 "alt": null
                             }
                         ]
-                    },
-                    "others": {
-                        "text": null,
-                        "img": [
-                            {
-                                "src": null,
-                                "alt": null
-                            }
-                        ]
                     }
                 },
                 "equipment": {
@@ -368,7 +281,7 @@
                         }
                     ],
                     "price": 225000,
-                    "previous_price": null,
+                    "previous_price": 247500,
                     "description": null,
                     "category": "shoes",
                     "subcategory": "men",
@@ -425,18 +338,10 @@
                         {
                             "src": "img/products/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
                             "alt": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)"
-                        },
-                        {
-                            "src": "img/products/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
-                            "alt": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)"
-                        },
-                        {
-                            "src": "img/products/calza-lecoq-1.webp",
-                            "alt": "Calza corta LECOQ SPORTIF"
                         }
                     ],
                     "price": 66999,
-                    "previous_price": 72000,
+                    "previous_price": null,
                     "description": "<p>Camiseta oficial LECOQ SPORTIF de la Selección Argentina de Voley.</p>\n<p>Original, logo LECOQ y escudo de Argentina.</p>\n<p>La colección combina dinamismo, tradición y elegancia. Las camisetas, hechas de poliéster con elastano, ofrecen comodidad y flexibilidad. Se exploró un color alternativo dentro de la paleta del equipo argentino, buscando modernidad y juventud.</p>",
                     "category": "clothing",
                     "subcategory": "game_shirts",
@@ -456,7 +361,7 @@
                         }
                     ],
                     "price": 29000,
-                    "previous_price": 34999,
+                    "previous_price": null,
                     "description": "<p>La Calza corta LECOQ SPORTIF es ideal para entrenamientos voley, handball, newcom, running, basquet. Es una una prenda de alta calidad, confeccionada con materiales suaves y transpirables y con un ajuste favorecedor.</p>\n<p>Productos 100% originales!!! con garantía oficial del fabricante (Contra defecto de fabricación)</p>\n",
                     "category": "clothing",
                     "subcategory": "leggings_and_shorts",
@@ -547,22 +452,22 @@
         },
         "review_product": {
             "title": "Deja una reseña",
-            "text": "Tu dirección de correo electrónico no será publicada. Los campos obligatorios están marcados con *",
+            "text": "Tu dirección de correo electrónico no será publicada. Los campos obligatorios están branddos con *",
             "rating": "Tu Rating * :",
             "form": {
                 "review": [
                     {
-                        "text": "Tu Reseña *"
+                        "text": "Tu Reseña *:"
                     }
                 ],
                 "name": [
                     {
-                        "text": "Tu Nombre *"
+                        "text": "Tu Nombre *:"
                     }
                 ],
                 "email": [
                     {
-                        "text": "Tu Email *"
+                        "text": "Tu Email *:"
                     }
                 ],
                 "submit": [

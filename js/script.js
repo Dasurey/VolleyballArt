@@ -8,6 +8,45 @@ document.addEventListener('DOMContentLoaded', () => {
         const newPathname = pathname.replace('.html', '');
         window.location.replace(newPathname);
     }  */
+    const generalJson = 'lenguage/general/es.json'; // Ruta del archivo JSON
+    const productJson = 'lenguage/products/es.json'; // Ruta del archivo JSON
+    const reviewJson = 'lenguage/reviews/es.json'; // Ruta del archivo JSON
+    let many_variables = {
+        sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+        numbers: [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
+        prices: {
+            range_1: { min: 0, max: 50000 },
+            range_2: { min: 50000, max: 100000 },
+            range_3: { min: 100000, max: 150000 },
+            range_4: { min: 150000, max: 200000 },
+            range_5: { min: 200000, max: 250000 },
+            range_6: { min: 250000, max: 300000 }
+        }
+        /* Color no se pudo cargar desde el JSON despues tratar de buscarle la vuelta */
+    };
+    
+    const sizesCategory = {
+        shoes: {
+            men: getArrayElements(many_variables.numbers, [36, 37]),
+            women: getArrayElements(many_variables.numbers, [44, 45]),
+        },
+        clothing: {
+            jackets_and_hoodies: many_variables.sizes,
+            game_shirts: many_variables.sizes,
+            t_shirts_and_tank_tops: many_variables.sizes,
+            leggings_and_shorts: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
+        },
+        accessories: {
+            /* bags_and_backpacks: , */
+            sleeves: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
+            socks_and_calf_sleeves: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
+            knee_pads: getArrayElements(many_variables.sizes, ['XS', 'XXL'])
+        }
+        /* equipment: {
+            balls: ,
+            nets_and_poles:
+        } */
+    };
 
     const preloaderElement = document.querySelector('.preloader');
     const pageElement = document.querySelector('.page');
@@ -15,6 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ya se esta mostrando el indicador de carga
 
     const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
+
+    function getArrayElements(array, elementsToRemove) {
+        return array.filter(item => !elementsToRemove.includes(item));
+    }
 
     // Función para cargar el archivo JSON y aplicar las traducciones
     function applyTranslations(data, attributes) {
@@ -275,14 +318,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function addCart(e) {
         const quantityInput = document.querySelector('.quantity-input');
         const amount = parseInt(quantityInput.value);
-    
+
         // Obtener el tamaño seleccionado, si existe
         const sizeInput = document.querySelector('input[name="size"]:checked');
         const size = sizeInput ? sizeInput.value : null;
-    
+
         // Crear una copia del objeto `e`
         const productCopy = { ...e, amount, size };
-    
+
         // Verificar si el producto ya existe en el carrito
         const existingProductIndex = productsCart.findIndex(product => product.title === e.title && product.size === size);
         if (existingProductIndex !== -1) {
@@ -290,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             productsCart.push(productCopy);
         }
-    
+
         updateCart();
         console.log(productsCart);
         localStorage.setItem('productsCart', JSON.stringify(productsCart));
@@ -308,8 +351,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadProductDetails() {
         const searchParams = new URLSearchParams(window.location.search);
         const productTitle = searchParams.get('title');
-        const productJson = 'lenguage/products/es.json'; // Ruta del archivo JSON
-        const reviewJson = 'lenguage/reviews/es.json'; // Ruta del archivo JSON
 
         if (productTitle) {
             // Cargar los datos del producto desde el JSON
@@ -321,13 +362,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('headId').innerHTML += `<title>${product.title} - VolleyballArt</title>`;
                     document.querySelector('[data-details="title"]').textContent = product.title;
                     // Verificar si el array `product.img` tiene más de 0 elementos
-                    if (product.img && product.img.length > 0) {
+                    if (product.img && product.img.length > 1) {
                         const carouselContainer = document.querySelector('[data-details="img-carousel"]');
                         let carouselHTML = `
-                            <div id="product-carousel" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner border">
                         `;
-                    
+
                         product.img.forEach((image, index) => {
                             carouselHTML += `
                                 <div class="carousel-item ${index === 0 ? 'active' : ''}">
@@ -335,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                             `;
                         });
-                    
+
                         carouselHTML += `
                                 </div>
                                 <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
@@ -344,14 +384,18 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <a class="carousel-control-next" href="#product-carousel" data-slide="next">
                                     <i class="fa fa-2x fa-angle-right text-dark"></i>
                                 </a>
-                            </div>
                         `;
-                    
                         carouselContainer.innerHTML = carouselHTML;
                     } else {
-                        document.querySelector('[data-details="img-carousel"]').src = product.img[0].src;
-                        document.querySelector('[data-details="img-carousel"]').alt = product.img[0].alt;
+                        const carouselContainer = document.querySelector('[data-details="img"]');
+                        let carouselHTML = `
+                            <div class="carousel-item active">
+                                <img class="w-100 h-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
+                            </div>
+                        `;
+                        carouselContainer.innerHTML = carouselHTML;
                     }
+                    // Actualizar el contenido de la página con los datos del producto
                     if (product.previous_price) {
                         document.getElementById('priceId').innerHTML = `<h3 class="previous-price-details font-weight-semi-bold mb-4">$${product.previous_price}</h3>`;
                     }
@@ -361,6 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelector('[data-details="share_twitter"]').href = "https://twitter.com/intent/tweet?text=" + product.title.replace(/ /g, '%20') + "&url=" + window.location.href;
                     document.querySelector('[data-details="share_pinterest"]').href = "https://pinterest.com/pin/create/button/?url=" + window.location.href + "&media=" + window.location.origin + "/" + product.img[0].src + "&description=" + product.title.replace(/ /g, '%20');
                     document.querySelector('[data-details="share_whatsapp"]').href = "https://api.whatsapp.com/send?text=" + product.title.replace(/ /g, '%20') + "%20" + window.location.href;
+
                     // Agregar descripciones
                     const descriptionContainer = document.querySelector('[data-details="description"]');
                     if (product.description) {
@@ -385,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const additional_info_img = document.querySelector('[data-details="additional_info_img"]');
                         if (info.img && info.img.length > 0) {
                             let data_info = '';
-                            info.img.forEach((image, index) => {
+                            info.img.forEach((image) => {
                                 data_info += `
                                     <div class="card product-item border-0 mb-4">
                                         <div class="card-header position-relative overflow-hidden bg-transparent border p-0">
@@ -406,20 +451,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     const sizeContainer = document.querySelector('.size-container');
                     sizeContainer.innerHTML = ''; // Limpiar contenido previo
 
-                    const sizes = {
-                        clothing: {
-                            jackets_and_hoodies: ['XS', 'S', 'M', 'L', 'XL'],
-                            game_shirts: ['XS', 'S', 'M', 'L', 'XL']
-                        },
-                        shoes: {
-                            men: ['38', '39', '40', '41', '42', '43', '44', '45'],
-                            women: ['36', '37', '38', '39', '40', '41', '42', '43']
-                        }
-                    };
-
                     const category = product.category;
                     const subcategory = product.subcategory;
-                    const availableSizes = (sizes[category] && sizes[category][subcategory]) ? sizes[category][subcategory] : [];
+                    const availableSizes = (sizesCategory[category] && sizesCategory[category][subcategory]) ? sizesCategory[category][subcategory] : [];
+
+                    // Actualizar el texto de size-name según la categoría
+                    const sizeNameElement = document.querySelector('[data-details="size-name"]');
+                    if (category === 'shoes') {
+                        sizeNameElement.textContent = 'Numero de calzado:';
+                    } else {
+                        sizeNameElement.textContent = 'Talle:';
+                    }
 
                     availableSizes.forEach((size, index) => {
                         const sizeHTML = `
@@ -436,7 +478,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Buscar reseñas que coincidan con el producto actual
                         const reviews = reviewsData.right.reviews.filter(review => review.product === product.title);
                         const numberOfReviews = reviews.length;
-                        if(numberOfReviews > 0) {
+                        // Insertar el contenido HTML de los tabs
+                        const tabPaneContainer = document.querySelector('[data-details="tab_pane"]');
+                        tabPaneContainer.innerHTML = `
+                            <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">${data.right.tab_pane.tab_1.title}</a>
+                            <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">${data.right.tab_pane.tab_2.title}</a>
+                            <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">${data.right.tab_pane.tab_3.title} (${numberOfReviews})</a>
+                        `;
+
+                        if (numberOfReviews > 0) {
                             const totalStars = reviews.reduce((sum, review) => sum + review.stars, 0);
                             const averageStars = numberOfReviews > 0 ? (totalStars / numberOfReviews).toFixed(1) : 0;
                             const starsProductHTML = `
@@ -452,10 +502,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Mostrar las reseñas
                         const reviewsContainer = document.querySelector('[data-details="reviews-product"]');
                         reviewsContainer.innerHTML = `<h4 class="mb-5 text-center">${numberOfReviews} ${reviewsData.right.general.review_product} "${product.title}"</h4>`; // Limpiar contenido previo
-                        
+
                         if (numberOfReviews > 0) {
-                        reviews.forEach(review => {
-                            const reviewHTML = `
+                            reviews.forEach(review => {
+                                const reviewHTML = `
                                 <div class="media mb-4">
                                     <div class="media-body">
                                         <h6>${review.name}<small> - <i>${review.date}</i></small></h6>
@@ -467,14 +517,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                     </div>
                                 </div>
                         `;
-                            reviewsContainer.innerHTML += reviewHTML;
-                        });
-                    } else {
-                        const noReviews = reviewsData.right.general.null_reviews;
-                        if (noReviews) {
-                            reviewsContainer.innerHTML += noReviews;
+                                reviewsContainer.innerHTML += reviewHTML;
+                            });
+                        } else {
+                            const noReviews = reviewsData.right.general.null_reviews;
+                            if (noReviews) {
+                                reviewsContainer.innerHTML += noReviews;
+                            }
                         }
-                    }
                     }).catch(error => {
                         console.error('Error al cargar el archivo JSON:', error);
                     });
@@ -508,44 +558,173 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function loadCarouselContent() {
+        loadJSON(productJson).then(data => {
+            const products = Object.values(data.right.products.list);
+            const onSaleProducts = products.filter(product => product.previous_price !== null);
+    
+            const carouselContainer = document.getElementById('header-carousel');
+            if (carouselContainer) {
+                let carouselHTML = '<div class="carousel-inner">';
+    
+                // Cargar la lista de archivos disponibles
+                loadJSON('lenguage/files/files.json').then(filesData => {
+                    const availableFiles = filesData.files.on_sale;
+    
+                    onSaleProducts.forEach((product, index) => {
+                        const baseImgSrc = product.img[0].src.replace('img/products/', '').replace(/\.\w+$/, '');
+                        const matchingFiles = availableFiles.filter(file => file.includes(baseImgSrc));
+    
+                        if (matchingFiles.length > 0) {
+                            const imgSrc = `img/products/on-sale/${matchingFiles[0]}`; // Usar el primer archivo coincidente
+    
+                            carouselHTML += `
+                                <div class="carousel-item ${index === 0 ? 'active' : ''}" style="height: 410px;">
+                                    <img class="img-fluid" src="${imgSrc}" alt="${product.img[0].alt}">
+                                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                        <div class="p-3" style="max-width: 700px;">
+                                            <h4 class="text-light text-uppercase font-weight-medium mb-3">${data.right.carousel.title}</h4>
+                                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">${product.title}</h3>
+                                            <a class="btn btn-light py-2 px-3" href="product.html?title=${product.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}">${data.right.carousel.btn}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+    
+                        if (index === onSaleProducts.length - 1) {
+                            carouselHTML += `
+                                </div>
+                                <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+                                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                                        <span class="carousel-control-prev-icon mb-n2"></span>
+                                    </div>
+                                </a>
+                                <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+                                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                                        <span class="carousel-control-next-icon mb-n2"></span>
+                                    </div>
+                                </a>
+                            `;
+                            carouselContainer.innerHTML = carouselHTML;
+                        }
+                    });
+                }).catch(error => {
+                    console.error('Error al cargar la lista de archivos:', error);
+                });
+            }
+        }).catch(error => {
+            console.error('Error al cargar el archivo JSON de productos:', error);
+        });
+    }
+
+    function createFilterForm(filterData, formId, type) {
+        const form = document.getElementById(formId);
+        form.innerHTML = ''; // Limpiar contenido previo
+    
+        filterData.forEach((filter, index) => {
+            let filterHTML = '';
+            if (type === 'price') {
+                const priceRange = filter.min !== undefined && filter.max !== undefined ? `$${filter.min} - $${filter.max}` : filter.text;
+                filterHTML = `
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" class="custom-control-input" id="${formId}-${index}" ${filter.checked ? 'checked' : ''}>
+                        <label class="custom-control-label" for="${formId}-${index}">${priceRange}</label>
+                    </div>
+                `;
+            } else {
+                const text = typeof filter === 'string' ? filter : filter.text;
+                filterHTML = `
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" class="custom-control-input" id="${formId}-${index}" ${filter.checked ? 'checked' : ''}>
+                        <label class="custom-control-label" for="${formId}-${index}">${text}</label>
+                    </div>
+                `;
+            }
+            form.innerHTML += filterHTML;
+        });
+    }
+    
+    function loadFilters() {
+        loadJSON(productJson).then(data => {
+            const priceFilters = [
+                { text: data.right.filter.price.form.range_all.text, checked: true },
+                many_variables.prices.range_1,
+                many_variables.prices.range_2,
+                many_variables.prices.range_3,
+                many_variables.prices.range_4,
+                many_variables.prices.range_5,
+                many_variables.prices.range_6
+            ];
+
+            /* const sizeFilters = [
+                { text: data.right.filter.waist.form.range_all.text, checked: true },
+                many_variables.sizes[0],
+                many_variables.sizes[1],
+                many_variables.sizes[2],
+                many_variables.sizes[3],
+                many_variables.sizes[4],
+                many_variables.sizes[5]
+            ]; */
+
+            const sidebar = document.getElementById('shopSidebarId');
+            sidebar.innerHTML = `
+                <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">${data.right.filter.price.title}</h5>
+                    <form id="price-form"></form>
+                </div>
+            `;
+            /*  Abajo de price
+                <div class="mb-5">
+                    <h5 class="font-weight-semi-bold mb-4">${data.right.filter.waist.title}</h5>
+                    <form id="size-form"></form>
+                </div>
+            */
+    
+            createFilterForm(priceFilters, 'price-form', 'price');
+            // createFilterForm(sizeFilters, 'size-form', 'size');
+            
+        }).catch(error => {
+            console.error('Error al cargar los filtros:', error);
+        });
+    }
+
     // Seleccionar los elementos que contienen el contenido de los archivos HTML
     const headElement = document.getElementById('headId');
     const headerElement = document.getElementById('headerId');
     const navSecondaryElement = document.getElementById('nav-secondaryId');
     const navPrimaryElement = document.getElementById('nav-primaryId');
-    const carouselElement = document.getElementById('header-carousel');
     const featuredElement = document.getElementById('featuredId');
     const searchSectionElement = document.getElementById('searchSectionId');
-    const shopSidebarElement = document.getElementById('shopSidebarId');
     const pageNavegationElement = document.getElementById('pageNavegationId');
     const contactElement = document.getElementById('contactId');
     const reviewsElement = document.getElementById('reviewsId');
     const footerElement = document.getElementById('footerId');
 
     const promises = [
-        loadHTMLContent('archivo-general/head-content.html', headElement),
-        loadHTMLContent('archivo-general/header-content.html', headerElement),
-        loadHTMLContent('archivo-general/navbarSecondary-content.html', navSecondaryElement),
-        loadHTMLContent('archivo-general/navbarPrimary-content.html', navPrimaryElement),
-        loadHTMLContent('archivo-general/footer-content.html', footerElement),
-        loadJSON('lenguage/general/es.json'),
-        loadJSON('lenguage/products/es.json') // Cargar el segundo archivo JSON
+        loadHTMLContent('general-file/head-content.html', headElement),
+        loadHTMLContent('general-file/header-content.html', headerElement),
+        loadHTMLContent('general-file/navbarSecondary-content.html', navSecondaryElement),
+        loadHTMLContent('general-file/navbarPrimary-content.html', navPrimaryElement),
+        loadHTMLContent('general-file/footer-content.html', footerElement),
+        loadJSON(generalJson),
+        loadJSON(productJson)
     ];
 
     // Verificar si estamos en la página de inicio
     if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
-        promises.push(loadHTMLContent('archivo-general/carousel-content.html', carouselElement));
-        promises.push(loadHTMLContent('archivo-general/featured-content.html', featuredElement));
-        promises.push(loadAndDisplayProducts('lenguage/products/es.json', 8)); // Limitar a 8 productos en index
+        promises.push(loadCarouselContent());
+        promises.push(loadHTMLContent('general-file/featured-content.html', featuredElement));
+        promises.push(loadAndDisplayProducts(productJson, 8)); // Limitar a 8 productos en index
     } else if (pathname.endsWith("/shop.html")) {
-        promises.push(loadHTMLContent('archivo-general/searchSection-content.html', searchSectionElement));
-        promises.push(loadHTMLContent('archivo-general/shopSidebar-content.html', shopSidebarElement));
-        promises.push(loadHTMLContent('archivo-general/pageNavegation-content.html', pageNavegationElement));
-        promises.push(loadAndDisplayProducts('lenguage/products/es.json')); // Cargar todos los productos en otras páginas
+        promises.push(loadHTMLContent('general-file/searchSection-content.html', searchSectionElement));
+        promises.push(loadHTMLContent('general-file/pageNavegation-content.html', pageNavegationElement));
+        promises.push(loadFilters());
+        promises.push(loadAndDisplayProducts(productJson)); // Cargar todos los productos en otras páginas
     } else if (pathname.endsWith("/contact.html")) {
-        promises.push(loadHTMLContent('archivo-general/contact-content.html', contactElement));
+        promises.push(loadHTMLContent('general-file/contact-content.html', contactElement));
     } else if (pathname.endsWith("/review.html")) {
-        promises.push(loadHTMLContent('archivo-general/reviews-content.html', reviewsElement));
+        promises.push(loadHTMLContent('general-file/reviews-content.html', reviewsElement));
     } else if (pathname.endsWith("/product.html")) {
         promises.push(loadProductDetails());
 
@@ -573,8 +752,8 @@ document.addEventListener('DOMContentLoaded', () => {
             star.addEventListener('mouseover', () => {
                 // Cambiar las clases de los elementos anteriores y el actual
                 for (let i = 0; i <= index; i++) {
-                    stars[i].classList.remove('far');
-                    stars[i].classList.add('fas');
+                    stars[i].classList.remove('fa-regular');
+                    stars[i].classList.add('fa-solid');
                 }
             });
 
@@ -582,8 +761,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Restaurar las clases originales de todos los elementos si no están seleccionados
                 stars.forEach((star, i) => {
                     if (i > selectedRating) {
-                        star.classList.remove('fas');
-                        star.classList.add('far');
+                        star.classList.remove('fa-solid');
+                        star.classList.add('fa-regular');
                     }
                 });
             });
@@ -593,11 +772,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedRating = index;
                 stars.forEach((star, i) => {
                     if (i <= selectedRating) {
-                        star.classList.remove('far');
-                        star.classList.add('fas');
+                        star.classList.remove('fa-regular');
+                        star.classList.add('fa-solid');
                     } else {
-                        star.classList.remove('fas');
-                        star.classList.add('far');
+                        star.classList.remove('fa-solid');
+                        star.classList.add('fa-regular');
                     }
                 });
             });

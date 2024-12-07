@@ -11,7 +11,7 @@
     "right": {
         "icon": [
             {
-                "href": "img/marca/LogoConPelota.ico"
+                "href": "img/brand/LogoConPelota.ico"
             }
         ],
         "logo": {
@@ -22,8 +22,8 @@
             ],
             "img": [
                 {
-                    "src": "img/marca/VolleyballArt.gif",
-                    "alt": "Logo de Marca"
+                    "src": "img/brand/VolleyballArt.gif",
+                    "alt": "Logo de brand"
                 }
             ]
         },
@@ -133,12 +133,6 @@
                 "knee_pads": [
                     {
                         "text": "Rodilleras",
-                        "href": null
-                    }
-                ],
-                "others": [
-                    {
-                        "text": "Otros",
                         "href": null
                     }
                 ]
