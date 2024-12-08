@@ -261,194 +261,214 @@
         },
         "products": {
             "title": "Productos",
-            "list": {
-                "product_1": {
-                    "title": "Zapatilla Asics Metarise Tokyo Men",
-                    "link": [
-                        {
-                            "href": "product.html?title=Zapatilla-Asics-Metarise-Tokyo-Men"
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "img/products/asics-metarise-tokyo-men-shoes.png",
-                            "alt": "Zapatilla Asics Metarise Tokyo Men"
-                        }
-                    ],
-                    "share": [
-                        {
-                            "href": "https://www.facebook.com/sharer/sharer.php?u=https://www.google.com/"
-                        }
-                    ],
-                    "price": 225000,
-                    "previous_price": 247500,
-                    "description": null,
-                    "category": "shoes",
-                    "subcategory": "men",
-                    "outstanding": true
-                },
-                "product_2": {
-                    "title": "Zapatilla Mizuno Women Wave Momentum 3",
-                    "link": [
-                        {
-                            "href": "product.html?title=Zapatilla-Mizuno-Women-Wave-Momentum-3"
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "img/products/Mizuno-Women-Adult-Wave-Momentum-3-Volleyball-Shoe.webp",
-                            "alt": "Zapatilla Mizuno Women Wave Momentum 3"
-                        }
-                    ],
-                    "price": 180000,
-                    "previous_price": 200000,
-                    "description": null,
-                    "category": "shoes",
-                    "subcategory": "women",
-                    "outstanding": false
-                },
-                "product_3": {
-                    "title": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25",
-                    "link": [
-                        {
-                            "href": "product.html?title=Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25"
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "img/products/Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25.webp",
-                            "alt": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25"
-                        }
-                    ],
-                    "price": 20000,
-                    "previous_price": null,
-                    "description": "Tené la Camiseta de Yuki Ishikawa en el SIR PERUGIA de Italia. Modelo utilizado para los partidos oficiales",
-                    "category": "clothing",
-                    "subcategory": "game_shirts",
-                    "outstanding": true
-                },
-                "product_4": {
-                    "title": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
-                    "link": [
-                        {
-                            "href": "product.html?title=Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas"
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "img/products/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
-                            "alt": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)"
-                        }
-                    ],
-                    "price": 66999,
-                    "previous_price": null,
-                    "description": "<p>Camiseta oficial LECOQ SPORTIF de la Selección Argentina de Voley.</p>\n<p>Original, logo LECOQ y escudo de Argentina.</p>\n<p>La colección combina dinamismo, tradición y elegancia. Las camisetas, hechas de poliéster con elastano, ofrecen comodidad y flexibilidad. Se exploró un color alternativo dentro de la paleta del equipo argentino, buscando modernidad y juventud.</p>",
-                    "category": "clothing",
-                    "subcategory": "game_shirts",
-                    "outstanding": true
-                },
-                "product_5": {
-                    "title": "Calza corta LECOQ SPORTIF",
-                    "link": [
-                        {
-                            "href": "product.html?title=Calza-corta-LECOQ-SPORTIF"
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "img/products/calza-lecoq-1.webp",
-                            "alt": "Calza corta LECOQ SPORTIF"
-                        }
-                    ],
-                    "price": 29000,
-                    "previous_price": null,
-                    "description": "<p>La Calza corta LECOQ SPORTIF es ideal para entrenamientos voley, handball, newcom, running, basquet. Es una una prenda de alta calidad, confeccionada con materiales suaves y transpirables y con un ajuste favorecedor.</p>\n<p>Productos 100% originales!!! con garantía oficial del fabricante (Contra defecto de fabricación)</p>\n",
-                    "category": "clothing",
-                    "subcategory": "leggings_and_shorts",
-                    "subcategory_2": "leggings",
-                    "outstanding": false
-                },
-                "product_6": {
-                    "title": "Camiseta LOSER SIR PERUGiA temporada 2024-25",
-                    "link": [
-                        {
-                            "href": "product.html?title=Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25"
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "img/products/Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25.webp",
-                            "alt": "Camiseta LOSER SIR PERUGiA temporada 2024-25"
-                        }
-                    ],
-                    "price": 20000,
-                    "previous_price": null,
-                    "description": "Tené la Camiseta de Agustin Loser en el SIR PERUGIA de Italia. Modelo utilizado para los partidos oficiales",
-                    "category": "clothing",
-                    "subcategory": "game_shirts",
-                    "outstanding": true
-                },
-                "product_7": {
-                    "title": "Mangas Thorium Lisa",
-                    "link": [
-                        {
-                            "href": "product.html?title=Mangas-Thorium-Lisa"
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "img/products/Mangas-Thorium-Lisa.webp",
-                            "alt": "Mangas Thorium Lisa"
-                        }
-                    ],
-                    "price": 11499,
-                    "previous_price": null,
-                    "description": "<p>Las Mangas de Voley Thorium son de Lycra De Compresión – Thorium (protector Antebrazos).</p>\n<p>El material es polisap (es una lycra más gruesa).</p>\n<p>Los protectores de antebrazos son accesorios cada vez más populares entre jugadores de voley, tanto en niveles amateurs como profesionales. Diseñados para brindar soporte y amortiguación, cumplen un rol clave al reducir el impacto directo de la pelota sobre la piel y los músculos del brazo durante los pases y recepciones. Tambien aportan protección para quiene tienen sensibilidad en la piel o están comenzando a practicar el deporte, ya que disminuyen la aparición de moretones y raspaduras al entrenar intensamente.</p>\n",
-                    "category": "accessories",
-                    "subcategory": "seleeves",
-                    "outstanding": false
-                },
-                "product_8": {
-                    "title": "Zapatillas Asics Gel Backhand",
-                    "link": [
-                        {
-                            "href": "product.html?title=Zapatillas-Asics-Gel-Backhand"
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "img/products/Zapatillas-Asics-Gel-Backhand-Black-PureSIlver.webp",
-                            "alt": "Zapatillas Asics Gel Backhand"
-                        }
-                    ],
-                    "price": 108999,
-                    "previous_price": null,
-                    "description": "Diseñada para jugadores de Volleyball tiene excelente performance temporada tras temporada. Con un calce excepcional, tracción y amortiguacion mejoradas. Este modelo es conocido por ser el eterno favorito entre los jugadores principiantes e intermedios. Ante todo, la zapatilla asegura tu comfort y estabilidad en la cancha. Ademas, es un perfecto ejemplo de gran relación precio calidad.  El antepié de gel asegura pisadas, pivots y frenadas confortables en la cancha. La nueva media suela y diseño superior brindaran mejor calce y andar. La malla superior cerrada en cuero permite una mayor durabilidad",
-                    "category": "shoes",
-                    "subcategory": "men",
-                    "outstanding": false
-                },
-                "product_9": {
-                    "title": "Pelota Mikasa V200W Competición",
-                    "link": [
-                        {
-                            "href": "product.html?title=Pelota-Mikasa-V200W-Competición"
-                        }
-                    ],
-                    "img": [
-                        {
-                            "src": "img/products/Pelota-Mikasa-V200W-Competicion.webp",
-                            "alt": "Pelota Mikasa V200W Competición"
-                        }
-                    ],
-                    "price": 109999,
-                    "previous_price": null,
-                    "description": null,
-                    "category": "equipment",
-                    "subcategory": "balls",
-                    "outstanding": true
+            "list": [
+                {
+                    "product_1": [
+                    {
+                        "title": "Zapatilla Asics Metarise Tokyo Men",
+                        "link": [
+                            {
+                                "href": "product.html?title=Zapatilla-Asics-Metarise-Tokyo-Men"
+                            }
+                        ],
+                        "img": [
+                            {
+                                "src": "img/products/asics-metarise-tokyo-men-shoes.png",
+                                "alt": "Zapatilla Asics Metarise Tokyo Men"
+                            }
+                        ],
+                        "share": [
+                            {
+                                "href": "https://www.facebook.com/sharer/sharer.php?u=https://www.google.com/"
+                            }
+                        ],
+                        "price": 225000,
+                        "previous_price": 247500,
+                        "description": null,
+                        "category": "shoes",
+                        "subcategory": "men",
+                        "outstanding": true
+                    }
+                ],
+                "product_2": [
+                    {
+                        "title": "Zapatilla Mizuno Women Wave Momentum 3",
+                        "link": [
+                            {
+                                "href": "product.html?title=Zapatilla-Mizuno-Women-Wave-Momentum-3"
+                            }
+                        ],
+                        "img": [
+                            {
+                                "src": "img/products/Mizuno-Women-Adult-Wave-Momentum-3-Volleyball-Shoe.webp",
+                                "alt": "Zapatilla Mizuno Women Wave Momentum 3"
+                            }
+                        ],
+                        "price": 180000,
+                        "previous_price": 200000,
+                        "description": null,
+                        "category": "shoes",
+                        "subcategory": "women",
+                        "outstanding": false
+                    }
+                ],
+                "product_3": [
+                    {
+                        "title": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25",
+                        "link": [
+                            {
+                                "href": "product.html?title=Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25"
+                            }
+                        ],
+                        "img": [
+                            {
+                                "src": "img/products/Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25.webp",
+                                "alt": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25"
+                            }
+                        ],
+                        "price": 20000,
+                        "previous_price": null,
+                        "description": "Tené la Camiseta de Yuki Ishikawa en el SIR PERUGIA de Italia. Modelo utilizado para los partidos oficiales",
+                        "category": "clothing",
+                        "subcategory": "game_shirts",
+                        "outstanding": true
+                    }
+                ],
+                "product_4": [
+                    {
+                        "title": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
+                        "link": [
+                            {
+                                "href": "product.html?title=Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas"
+                            }
+                        ],
+                        "img": [
+                            {
+                                "src": "img/products/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
+                                "alt": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)"
+                            }
+                        ],
+                        "price": 66999,
+                        "previous_price": null,
+                        "description": "<p>Camiseta oficial LECOQ SPORTIF de la Selección Argentina de Voley.</p>\n<p>Original, logo LECOQ y escudo de Argentina.</p>\n<p>La colección combina dinamismo, tradición y elegancia. Las camisetas, hechas de poliéster con elastano, ofrecen comodidad y flexibilidad. Se exploró un color alternativo dentro de la paleta del equipo argentino, buscando modernidad y juventud.</p>",
+                        "category": "clothing",
+                        "subcategory": "game_shirts",
+                        "outstanding": true
+                    }
+                ],
+                "product_5": [
+                    {
+                        "title": "Calza corta LECOQ SPORTIF",
+                        "link": [
+                            {
+                                "href": "product.html?title=Calza-corta-LECOQ-SPORTIF"
+                            }
+                        ],
+                        "img": [
+                            {
+                                "src": "img/products/calza-lecoq-1.webp",
+                                "alt": "Calza corta LECOQ SPORTIF"
+                            }
+                        ],
+                        "price": 29000,
+                        "previous_price": null,
+                        "description": "<p>La Calza corta LECOQ SPORTIF es ideal para entrenamientos voley, handball, newcom, running, basquet. Es una una prenda de alta calidad, confeccionada con materiales suaves y transpirables y con un ajuste favorecedor.</p>\n<p>Productos 100% originales!!! con garantía oficial del fabricante (Contra defecto de fabricación)</p>\n",
+                        "category": "clothing",
+                        "subcategory": "leggings_and_shorts",
+                        "subcategory_2": "leggings",
+                        "outstanding": false
+                    }
+                ],
+                "product_6": [
+                    {
+                        "title": "Camiseta LOSER SIR PERUGiA temporada 2024-25",
+                        "link": [
+                            {
+                                "href": "product.html?title=Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25"
+                            }
+                        ],
+                        "img": [
+                            {
+                                "src": "img/products/Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25.webp",
+                                "alt": "Camiseta LOSER SIR PERUGiA temporada 2024-25"
+                            }
+                        ],
+                        "price": 20000,
+                        "previous_price": null,
+                        "description": "Tené la Camiseta de Agustin Loser en el SIR PERUGIA de Italia. Modelo utilizado para los partidos oficiales",
+                        "category": "clothing",
+                        "subcategory": "game_shirts",
+                        "outstanding": true
+                    }
+                ],
+                "product_7": [
+                    {
+                        "title": "Mangas Thorium Lisa",
+                        "link": [
+                            {
+                                "href": "product.html?title=Mangas-Thorium-Lisa"
+                            }
+                        ],
+                        "img": [
+                            {
+                                "src": "img/products/Mangas-Thorium-Lisa.webp",
+                                "alt": "Mangas Thorium Lisa"
+                            }
+                        ],
+                        "price": 11499,
+                        "previous_price": null,
+                        "description": "<p>Las Mangas de Voley Thorium son de Lycra De Compresión – Thorium (protector Antebrazos).</p>\n<p>El material es polisap (es una lycra más gruesa).</p>\n<p>Los protectores de antebrazos son accesorios cada vez más populares entre jugadores de voley, tanto en niveles amateurs como profesionales. Diseñados para brindar soporte y amortiguación, cumplen un rol clave al reducir el impacto directo de la pelota sobre la piel y los músculos del brazo durante los pases y recepciones. Tambien aportan protección para quiene tienen sensibilidad en la piel o están comenzando a practicar el deporte, ya que disminuyen la aparición de moretones y raspaduras al entrenar intensamente.</p>\n",
+                        "category": "accessories",
+                        "subcategory": "seleeves",
+                        "outstanding": false
+                    }
+                ],
+                "product_8": [
+                    {
+                        "title": "Zapatillas Asics Gel Backhand",
+                        "link": [
+                            {
+                                "href": "product.html?title=Zapatillas-Asics-Gel-Backhand"
+                            }
+                        ],
+                        "img": [
+                            {
+                                "src": "img/products/Zapatillas-Asics-Gel-Backhand-Black-PureSIlver.webp",
+                                "alt": "Zapatillas Asics Gel Backhand"
+                            }
+                        ],
+                        "price": 108999,
+                        "previous_price": null,
+                        "description": "Diseñada para jugadores de Volleyball tiene excelente performance temporada tras temporada. Con un calce excepcional, tracción y amortiguacion mejoradas. Este modelo es conocido por ser el eterno favorito entre los jugadores principiantes e intermedios. Ante todo, la zapatilla asegura tu comfort y estabilidad en la cancha. Ademas, es un perfecto ejemplo de gran relación precio calidad.  El antepié de gel asegura pisadas, pivots y frenadas confortables en la cancha. La nueva media suela y diseño superior brindaran mejor calce y andar. La malla superior cerrada en cuero permite una mayor durabilidad",
+                        "category": "shoes",
+                        "subcategory": "men",
+                        "outstanding": false
+                    }
+                ],
+                "product_9": [
+                    {
+                        "title": "Pelota Mikasa V200W Competición",
+                        "link": [
+                            {
+                                "href": "product.html?title=Pelota-Mikasa-V200W-Competición"
+                            }
+                        ],
+                        "img": [
+                            {
+                                "src": "img/products/Pelota-Mikasa-V200W-Competicion.webp",
+                                "alt": "Pelota Mikasa V200W Competición"
+                            }
+                        ],
+                        "price": 109999,
+                        "previous_price": null,
+                        "description": null,
+                        "category": "equipment",
+                        "subcategory": "balls",
+                        "outstanding": true
+                    }
+                ]
                 }
-            }
+            ]
         },
         "review_product": {
             "title": "Deja una reseña",

@@ -159,20 +159,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Función para mostrar los productos
-    function displayProducts(products, limit = null) {
+    function displayProducts(products, sortCriteria, limit = null) {
+        if (sortCriteria) {
+            products = sortProducts(products, sortCriteria);
+        }
+
         const productsListElement = document.getElementById('productsId');
+        productsListElement.innerHTML = ''; // Limpiar contenido previo
         let count = 0;
         for (const key in products) {
             if (products.hasOwnProperty(key)) {
                 if (limit !== null && count >= limit) break; // Detener el bucle después de alcanzar el límite
                 const product = products[key];
                 const productHTML = `
-                    <a href="${product.link[0].href}" class="card product-item border-0 mb-4">
+                    <a href="${product[0].link[0].href}" class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
+                            <img class="img-fluid w-100" src="${product[0].img[0].src}" alt="${product[0].img[0].alt}">
                         </div>
                         <div class="card-body text-center p-0 pt-4 pb-3">
-                            <h6 class="text-cardShop mb-3">${product.title}</h6>
+                            <h6 class="text-cardShop mb-3">${product[0].title}</h6>
                             <div class="d-flex justify-content-center" id="priceId-${key}"></div>
                         </div>
                     </a>
@@ -184,11 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 productsListElement.appendChild(tempDiv);
                 // Actualizar el precio y el precio anterior
                 const priceElement = document.getElementById(`priceId-${key}`);
-                if (product.previous_price) {
-                    priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
-                    priceElement.innerHTML += `<h6 class="previous-price ml-2">$${product.previous_price}</h6>`;
+                if (product[0].previous_price) {
+                    priceElement.innerHTML = `<h6 class="price">$${product[0].price}</h6>`;
+                    priceElement.innerHTML += `<h6 class="previous-price ml-2">$${product[0].previous_price}</h6>`;
                 } else {
-                    priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
+                    priceElement.innerHTML = `<h6 class="price">$${product[0].price}</h6>`;
                 }
                 count++; // Incrementar el contador
             }
@@ -198,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para cargar el contenido del archivo HTML
     function loadAndDisplayProducts(url, limit = null) {
         loadJSON(url).then(data => {
-            const products = data.right.products.list;
-            displayProducts(products, limit);
+            const products = data.right.products.list[0];
+            displayProducts(products, null, limit);
         }).catch(error => {
             console.error('Error al cargar y mostrar los productos:', error);
         });
@@ -211,65 +216,65 @@ document.addEventListener('DOMContentLoaded', () => {
         let selectedProductTitles = new Set();
 
         // Filtrar productos destacados de la misma subcategoría
-        let filteredProducts = Object.values(products).filter(p => p.category === category && p.subcategory === subcategory && p.outstanding && p.title !== currentProductTitle);
+        let filteredProducts = Object.values(products).filter(p => p[0].category === category && p[0].subcategory === subcategory && p[0].outstanding && p[0].title !== currentProductTitle);
         filteredProducts.forEach(product => {
-            if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
+            if (selectedProducts.length < limit && !selectedProductTitles.has(product[0].title)) {
                 selectedProducts.push(product);
-                selectedProductTitles.add(product.title);
+                selectedProductTitles.add(product[0].title);
             }
         });
 
         // Si no se alcanzó el límite, agregar productos de la misma subcategoría sin que sean destacados
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => p.category === category && p.subcategory === subcategory && !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => p[0].category === category && p[0].subcategory === subcategory && !selectedProductTitles.has(p[0].title) && p[0].title !== currentProductTitle);
             filteredProducts.forEach(product => {
-                if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
+                if (selectedProducts.length < limit && !selectedProductTitles.has(product[0].title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product.title);
+                    selectedProductTitles.add(product[0].title);
                 }
             });
         }
 
         // Si no se alcanzó el límite, agregar productos destacados de la misma categoría
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => p.category === category && p.outstanding && !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => p[0].category === category && p[0].outstanding && !selectedProductTitles.has(p[0].title) && p[0].title !== currentProductTitle);
             filteredProducts.forEach(product => {
-                if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
+                if (selectedProducts.length < limit && !selectedProductTitles.has(product[0].title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product.title);
+                    selectedProductTitles.add(product[0].title);
                 }
             });
         }
 
         // Si no se alcanzó el límite, agregar productos de la misma categoría
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => p.category === category && !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => p.category === category && !selectedProductTitles.has(p[0].title) && p.title !== currentProductTitle);
             filteredProducts.forEach(product => {
                 if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product.title);
+                    selectedProductTitles.add(product[0].title);
                 }
             });
         }
 
         // Si no se alcanzó el límite, agregar productos destacados de cualquier categoría
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => p.outstanding && !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => p[0].outstanding && !selectedProductTitles.has(p[0].title) && p[0].title !== currentProductTitle);
             filteredProducts.forEach(product => {
                 if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product.title);
+                    selectedProductTitles.add(product[0].title);
                 }
             });
         }
 
         // Si no se alcanzó el límite, agregar cualquier producto
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => !selectedProductTitles.has(p[0].title) && p[0].title !== currentProductTitle);
             filteredProducts.forEach(product => {
                 if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product.title);
+                    selectedProductTitles.add(product[0].title);
                 }
             });
         }
@@ -278,13 +283,13 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedProducts.forEach(product => {
             const productHTML = `
                 <div class="col-lg-3 col-md-5 col-sm-12 pb-1">
-                    <a href="${product.link[0].href}" class="card product-item border-0 mb-4">
+                    <a href="${product[0].link[0].href}" class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
+                            <img class="img-fluid w-100" src="${product[0].img[0].src}" alt="${product[0].img[0].alt}">
                         </div>
                         <div class="card-body text-center p-0 pt-4 pb-3">
-                            <h6 class="text-cardShop mb-3">${product.title}</h6>
-                            <div class="d-flex justify-content-center" id="priceId-${product.title.replace(/\s+/g, '-')}"></div>
+                            <h6 class="text-cardShop mb-3">${product[0].title}</h6>
+                            <div class="d-flex justify-content-center" id="priceId-${product[0].title.replace(/\s+/g, '-')}"></div>
                         </div>
                     </a>
                 </div>
@@ -295,12 +300,12 @@ document.addEventListener('DOMContentLoaded', () => {
             productsListElement.appendChild(productElement);
 
             // Actualizar el precio y el precio anterior
-            const priceElement = document.getElementById(`priceId-${product.title.replace(/\s+/g, '-')}`);
-            if (product.previous_price) {
-                priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
-                priceElement.innerHTML += `<h6 class="previous-price ml-2">$${product.previous_price}</h6>`;
+            const priceElement = document.getElementById(`priceId-${product[0].title.replace(/\s+/g, '-')}`);
+            if (product[0].previous_price) {
+                priceElement.innerHTML = `<h6 class="price">$${product[0].price}</h6>`;
+                priceElement.innerHTML += `<h6 class="previous-price ml-2">$${product[0].previous_price}</h6>`;
             } else {
-                priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
+                priceElement.innerHTML = `<h6 class="price">$${product[0].price}</h6>`;
             }
         });
     }
@@ -308,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cargar y mostrar productos filtrados
     function loadAndDisplayFilteredProducts(url, category, subcategory, limit, currentProductTitle) {
         loadJSON(url).then(data => {
-            const products = data.right.products.list;
+            const products = data.right.products.list[0];
             displayFilteredProducts(products, category, subcategory, limit, currentProductTitle);
         }).catch(error => {
             console.error('Error al cargar y mostrar los productos:', error);
@@ -327,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const productCopy = { ...e, amount, size };
 
         // Verificar si el producto ya existe en el carrito
-        const existingProductIndex = productsCart.findIndex(product => product.title === e.title && product.size === size);
+        const existingProductIndex = productsCart.findIndex(product => product[0].title === e.title && product[0].size === size);
         if (existingProductIndex !== -1) {
             productsCart[existingProductIndex].amount += amount;
         } else {
@@ -356,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Cargar los datos del producto desde el JSON
             loadJSON(productJson).then(data => {
                 // Buscar el producto por el title
-                const product = Object.values(data.right.products.list).find(p => p.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === productTitle);
+                const product = Object.values(data.right.products.list[0]).find(p => p.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === productTitle);
                 if (product) {
                     // Actualizar el contenido de la página con los datos del producto
                     document.getElementById('headId').innerHTML += `<title>${product.title} - VolleyballArt</title>`;
@@ -412,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         descriptionContainer.innerHTML = product.description;
                     }
                     // Buscar información adicional que coincida con la categoría y subcategoría del producto
-                    const additionalInfo = data.right.additional_info.list;
+                    const additionalInfo = data.right.additional_info.list[0];
                     let info = null;
                     if (additionalInfo[product.category] && additionalInfo[product.category][product.subcategory]) {
                         info = additionalInfo[product.category][product.subcategory];
@@ -560,8 +565,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadCarouselContent() {
         loadJSON(productJson).then(data => {
-            const products = Object.values(data.right.products.list);
-            const onSaleProducts = products.filter(product => product.previous_price !== null);
+            const products = Object.values(data.right.products.list[0]);
+            const onSaleProducts = products.filter(product => product[0].previous_price !== null);
     
             const carouselContainer = document.getElementById('header-carousel');
             if (carouselContainer) {
@@ -572,7 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const availableFiles = filesData.files.on_sale;
     
                     onSaleProducts.forEach((product, index) => {
-                        const baseImgSrc = product.img[0].src.replace('img/products/', '').replace(/\.\w+$/, '');
+                        const baseImgSrc = product[0].img[0].src.replace('img/products/', '').replace(/\.\w+$/, '');
                         const matchingFiles = availableFiles.filter(file => file.includes(baseImgSrc));
     
                         if (matchingFiles.length > 0) {
@@ -580,12 +585,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
                             carouselHTML += `
                                 <div class="carousel-item ${index === 0 ? 'active' : ''}" style="height: 410px;">
-                                    <img class="img-fluid" src="${imgSrc}" alt="${product.img[0].alt}">
+                                    <img class="img-fluid" src="${imgSrc}" alt="${product[0].img[0].alt}">
                                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                         <div class="p-3" style="max-width: 700px;">
                                             <h4 class="text-light text-uppercase font-weight-medium mb-3">${data.right.carousel.title}</h4>
-                                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">${product.title}</h3>
-                                            <a class="btn btn-light py-2 px-3" href="product.html?title=${product.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}">${data.right.carousel.btn}</a>
+                                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">${product[0].title}</h3>
+                                            <a class="btn btn-light py-2 px-3" href="product.html?title=${product[0].title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}">${data.right.carousel.btn}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -625,10 +630,12 @@ document.addEventListener('DOMContentLoaded', () => {
         filterData.forEach((filter, index) => {
             let filterHTML = '';
             if (type === 'price') {
-                const priceRange = filter.min !== undefined && filter.max !== undefined ? `$${filter.min} - $${filter.max}` : filter.text;
+                const priceRange = filter.min !== undefined && filter.max !== undefined
+                    ? (filter.max === Number.MAX_SAFE_INTEGER ? 'Todos los Precios' : `$${filter.min} - $${filter.max}`)
+                    : filter.text;
                 filterHTML = `
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="${formId}-${index}" ${filter.checked ? 'checked' : ''}>
+                        <input type="checkbox" class="custom-control-input" id="${formId}-${index}" ${filter.checked ? 'checked' : ''} data-min="${filter.min}" data-max="${filter.max}">
                         <label class="custom-control-label" for="${formId}-${index}">${priceRange}</label>
                     </div>
                 `;
@@ -643,12 +650,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             form.innerHTML += filterHTML;
         });
+    
+        // Agregar evento de cambio a los checkboxes de precios
+        if (type === 'price') {
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    filterProductsByPrice();
+                });
+            });
+        }
     }
     
     function loadFilters() {
         loadJSON(productJson).then(data => {
             const priceFilters = [
-                { text: data.right.filter.price.form.range_all.text, checked: true },
+                { text: data.right.filter.price.form.range_all.text, checked: true, min: 0, max: Number.MAX_SAFE_INTEGER},
                 many_variables.prices.range_1,
                 many_variables.prices.range_2,
                 many_variables.prices.range_3,
@@ -689,6 +706,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function filterProductsByPrice(sortCriteria = null) {
+        const checkboxes = document.querySelectorAll('#price-form input[type="checkbox"]:checked');
+        const selectedRanges = Array.from(checkboxes).map(checkbox => ({
+            min: parseInt(checkbox.getAttribute('data-min')),
+            max: parseInt(checkbox.getAttribute('data-max'))
+        }));
+    
+        updateProducts(selectedRanges, sortCriteria);
+    }
+
+    function updateProducts(selectedRanges, sortCriteria = null) {
+        loadJSON(productJson).then(data => {
+            const products = Object.values(data.right.products.list[0]);
+            let filteredProducts;
+
+            if (selectedRanges.length === 0) {
+                // Si no hay checkboxes seleccionados, no mostrar ningún producto
+                filteredProducts = [];
+            } else {
+                // Filtrar los productos según los rangos seleccionados
+                filteredProducts = products.filter(product => {
+                    return selectedRanges.some(range => product[0].price >= range.min && product[0].price <= range.max);
+                });
+            }
+
+            displayProducts(filteredProducts, sortCriteria);
+        }).catch(error => {
+            console.error('Error al cargar y filtrar los productos:', error);
+        });
+    }
+
+    function sortProducts(products, criteria) {
+        switch (criteria) {
+            case 'reverse':
+                return products.reverse();
+            case 'best_rating':
+                return products.sort((a, b) => {
+                    const ratingA = a.reviews ? a.reviews.reduce((sum, review) => sum + review.stars, 0) / a.reviews.length : 0;
+                    const ratingB = b.reviews ? b.reviews.reduce((sum, review) => sum + review.stars, 0) / b.reviews.length : 0;
+                    return ratingB - ratingA;
+                });
+            case 'featured':
+                return products.sort((a, b) => b[0].outstanding - a[0].outstanding);
+            default:
+                return products;
+        }
+    }
+
     // Seleccionar los elementos que contienen el contenido de los archivos HTML
     const headElement = document.getElementById('headId');
     const headerElement = document.getElementById('headerId');
@@ -720,6 +785,28 @@ document.addEventListener('DOMContentLoaded', () => {
         promises.push(loadHTMLContent('general-file/searchSection-content.html', searchSectionElement));
         promises.push(loadHTMLContent('general-file/pageNavegation-content.html', pageNavegationElement));
         promises.push(loadFilters());
+        // Manejar los eventos de clic para los elementos del menú desplegable
+        const sortReverseElement = document.getElementById('sort-reverse');
+        const sortBestRatingElement = document.getElementById('sort-best-rating');
+        const sortFeaturedElement = document.getElementById('sort-featured');
+        
+        if (sortReverseElement) {
+            sortReverseElement.addEventListener('click', () => {
+                filterProductsByPrice('reverse');
+            });
+        }
+    
+        if (sortBestRatingElement) {
+            sortBestRatingElement.addEventListener('click', () => {
+                filterProductsByPrice('best_rating');
+            });
+        }
+    
+        if (sortFeaturedElement) {
+            sortFeaturedElement.addEventListener('click', () => {
+                filterProductsByPrice('featured');
+            });
+        }
         promises.push(loadAndDisplayProducts(productJson)); // Cargar todos los productos en otras páginas
     } else if (pathname.endsWith("/contact.html")) {
         promises.push(loadHTMLContent('general-file/contact-content.html', contactElement));
