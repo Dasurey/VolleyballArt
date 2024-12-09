@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const generalJson = 'lenguage/general/es.json'; // Ruta del archivo JSON
     const productJson = 'lenguage/products/es.json'; // Ruta del archivo JSON
     const reviewJson = 'lenguage/reviews/es.json'; // Ruta del archivo JSON
+    let currentSortCriteria = null;
+    let isAscending = true;
     let many_variables = {
         sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
         numbers: [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
@@ -159,9 +161,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Función para mostrar los productos
-    function displayProducts(products, sortCriteria, limit = null) {
+    function displayProducts(products, sortCriteria, limit = null, reviews = null) {
+        if (!Array.isArray(products)) {
+            products = Object.values(products);
+        }
+        products.sort((a, b) => a[0].price - b[0].price);
         if (sortCriteria) {
-            products = sortProducts(products, sortCriteria);
+            if (currentSortCriteria === sortCriteria) {
+                isAscending = !isAscending; // Alternar el orden
+            } else {
+                isAscending = true; // Restablecer a ascendente si se cambia el criterio
+            }
+            currentSortCriteria = sortCriteria;
+            products = sortProducts(products, sortCriteria, reviews);
         }
 
         const productsListElement = document.getElementById('productsId');
@@ -201,10 +213,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Función para cargar el contenido del archivo HTML
-    function loadAndDisplayProducts(url, limit = null) {
+    function loadAndDisplayProducts(url, sortCriteria = null,limit = null) {
         loadJSON(url).then(data => {
             const products = data.right.products.list[0];
-            displayProducts(products, null, limit);
+            displayProducts(products, sortCriteria, limit);
         }).catch(error => {
             console.error('Error al cargar y mostrar los productos:', error);
         });
@@ -332,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const productCopy = { ...e, amount, size };
 
         // Verificar si el producto ya existe en el carrito
-        const existingProductIndex = productsCart.findIndex(product => product[0].title === e.title && product[0].size === size);
+        const existingProductIndex = productsCart.findIndex(product => product[0].title === e[0].title && product[0].size === size);
         if (existingProductIndex !== -1) {
             productsCart[existingProductIndex].amount += amount;
         } else {
@@ -361,19 +373,23 @@ document.addEventListener('DOMContentLoaded', () => {
             // Cargar los datos del producto desde el JSON
             loadJSON(productJson).then(data => {
                 // Buscar el producto por el title
-                const product = Object.values(data.right.products.list[0]).find(p => p.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === productTitle);
+                const product = Object.values(data.right.products.list[0]).find(p => p[0].title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === productTitle);
                 if (product) {
                     // Actualizar el contenido de la página con los datos del producto
-                    document.getElementById('headId').innerHTML += `<title>${product.title} - VolleyballArt</title>`;
-                    document.querySelector('[data-details="title"]').textContent = product.title;
-                    // Verificar si el array `product.img` tiene más de 0 elementos
-                    if (product.img && product.img.length > 1) {
+                    document.getElementById('headId').innerHTML += `<title>${product[0].title} - VolleyballArt</title>`;
+                    document.querySelector('[data-details="title"]').textContent = product[0].title;
+                    
+                    // Filtrar los elementos del array `product[0].img` que no tienen `carousel` en `true`
+                    const filteredImages = product[0].img.filter(image => !image.carousel);
+
+                    // Verificar si el array `filteredImages` tiene más de 0 elementos
+                    if (filteredImages.length > 1) {
                         const carouselContainer = document.querySelector('[data-details="img-carousel"]');
                         let carouselHTML = `
                                 <div class="carousel-inner border">
                         `;
 
-                        product.img.forEach((image, index) => {
+                        filteredImages.forEach((image, index) => {
                             carouselHTML += `
                                 <div class="carousel-item ${index === 0 ? 'active' : ''}">
                                     <img class="w-100 h-100" src="${image.src}" alt="${image.alt}">
@@ -382,48 +398,48 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
 
                         carouselHTML += `
-                                </div>
-                                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                                    <i class="fa fa-2x fa-angle-left text-dark"></i>
-                                </a>
-                                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                                    <i class="fa fa-2x fa-angle-right text-dark"></i>
-                                </a>
+                            </div>
+                            <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                                <i class="fa fa-2x fa-angle-left text-dark"></i>
+                            </a>
+                            <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                                <i class="fa fa-2x fa-angle-right text-dark"></i>
+                            </a>
                         `;
                         carouselContainer.innerHTML = carouselHTML;
                     } else {
                         const carouselContainer = document.querySelector('[data-details="img"]');
                         let carouselHTML = `
                             <div class="carousel-item active">
-                                <img class="w-100 h-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
+                                <img class="w-100 h-100" src="${product[0].img[0].src}" alt="${product[0].img[0].alt}">
                             </div>
                         `;
                         carouselContainer.innerHTML = carouselHTML;
                     }
                     // Actualizar el contenido de la página con los datos del producto
-                    if (product.previous_price) {
-                        document.getElementById('priceId').innerHTML = `<h3 class="previous-price-details font-weight-semi-bold mb-4">$${product.previous_price}</h3>`;
+                    if (product[0].previous_price) {
+                        document.getElementById('priceId').innerHTML = `<h3 class="previous-price-details font-weight-semi-bold mb-4">$${product[0].previous_price}</h3>`;
                     }
-                    document.getElementById('priceId').innerHTML += `<h3 class="font-weight-semi-bold mb-4">$${product.price}</h3>`;
+                    document.getElementById('priceId').innerHTML += `<h3 class="font-weight-semi-bold mb-4">$${product[0].price}</h3>`;
                     // Actualizar los enlaces de compartir
-                    document.querySelector('[data-details="share_facebook"]').href = "https://www.facebook.com/sharer/sharer.php?u=" + window.location.href + "&description=" + product.title.replace(/ /g, '%20');
-                    document.querySelector('[data-details="share_twitter"]').href = "https://twitter.com/intent/tweet?text=" + product.title.replace(/ /g, '%20') + "&url=" + window.location.href;
-                    document.querySelector('[data-details="share_pinterest"]').href = "https://pinterest.com/pin/create/button/?url=" + window.location.href + "&media=" + window.location.origin + "/" + product.img[0].src + "&description=" + product.title.replace(/ /g, '%20');
-                    document.querySelector('[data-details="share_whatsapp"]').href = "https://api.whatsapp.com/send?text=" + product.title.replace(/ /g, '%20') + "%20" + window.location.href;
+                    document.querySelector('[data-details="share_facebook"]').href = "https://www.facebook.com/sharer/sharer.php?u=" + window.location.href + "&description=" + product[0].title.replace(/ /g, '%20');
+                    document.querySelector('[data-details="share_twitter"]').href = "https://twitter.com/intent/tweet?text=" + product[0].title.replace(/ /g, '%20') + "&url=" + window.location.href;
+                    document.querySelector('[data-details="share_pinterest"]').href = "https://pinterest.com/pin/create/button/?url=" + window.location.href + "&media=" + window.location.origin + "/" + product[0].img[0].src + "&description=" + product[0].title.replace(/ /g, '%20');
+                    document.querySelector('[data-details="share_whatsapp"]').href = "https://api.whatsapp.com/send?text=" + product[0].title.replace(/ /g, '%20') + "%20" + window.location.href;
 
                     // Agregar descripciones
                     const descriptionContainer = document.querySelector('[data-details="description"]');
-                    if (product.description) {
-                        descriptionContainer.innerHTML = product.description;
+                    if (product[0].description) {
+                        descriptionContainer.innerHTML = product[0].description;
                     }
                     // Buscar información adicional que coincida con la categoría y subcategoría del producto
-                    const additionalInfo = data.right.additional_info.list[0];
+                    const additionalInfo = data.right.additional_info.list;
                     let info = null;
-                    if (additionalInfo[product.category] && additionalInfo[product.category][product.subcategory]) {
-                        info = additionalInfo[product.category][product.subcategory];
+                    if (additionalInfo[product[0].category] && additionalInfo[product[0].category][product[0].subcategory]) {
+                        info = additionalInfo[product[0].category][product[0].subcategory];
                     }
-                    if (additionalInfo[product.category] && additionalInfo[product.category][product.subcategory] && additionalInfo[product.category][product.subcategory][product.subcategory_2]) {
-                        info = additionalInfo[product.category][product.subcategory][product.subcategory_2];
+                    if (additionalInfo[product[0].category] && additionalInfo[product[0].category][product[0].subcategory] && additionalInfo[product[0].category][product[0].subcategory][product[0].subcategory_2]) {
+                        info = additionalInfo[product[0].category][product[0].subcategory][product[0].subcategory_2];
                     }
 
                     // Actualizar el contenido de la página con la información adicional
@@ -456,8 +472,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const sizeContainer = document.querySelector('.size-container');
                     sizeContainer.innerHTML = ''; // Limpiar contenido previo
 
-                    const category = product.category;
-                    const subcategory = product.subcategory;
+                    const category = product[0].category;
+                    const subcategory = product[0].subcategory;
                     const availableSizes = (sizesCategory[category] && sizesCategory[category][subcategory]) ? sizesCategory[category][subcategory] : [];
 
                     // Actualizar el texto de size-name según la categoría
@@ -481,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Cargar y mostrar productos filtrados, excluyendo el producto actual
                     loadJSON(reviewJson).then(reviewsData => {
                         // Buscar reseñas que coincidan con el producto actual
-                        const reviews = reviewsData.right.reviews.filter(review => review.product === product.title);
+                        const reviews = reviewsData.right.reviews.filter(review => review.product === product[0].title);
                         const numberOfReviews = reviews.length;
                         // Insertar el contenido HTML de los tabs
                         const tabPaneContainer = document.querySelector('[data-details="tab_pane"]');
@@ -506,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Mostrar las reseñas
                         const reviewsContainer = document.querySelector('[data-details="reviews-product"]');
-                        reviewsContainer.innerHTML = `<h4 class="mb-5 text-center">${numberOfReviews} ${reviewsData.right.general.review_product} "${product.title}"</h4>`; // Limpiar contenido previo
+                        reviewsContainer.innerHTML = `<h4 class="mb-5 text-center">${numberOfReviews} ${reviewsData.right.general.review_product} "${product[0].title}"</h4>`; // Limpiar contenido previo
 
                         if (numberOfReviews > 0) {
                             reviews.forEach(review => {
@@ -550,7 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         addCart(product);
                     });
 
-                    loadAndDisplayFilteredProducts(productJson, product.category, product.subcategory, 4, product.title);
+                    loadAndDisplayFilteredProducts(productJson, product[0].category, product[0].subcategory, 4, product[0].title);
 
                     // Actualizar el contador al iniciar
                     updateCart();
@@ -571,52 +587,41 @@ document.addEventListener('DOMContentLoaded', () => {
             const carouselContainer = document.getElementById('header-carousel');
             if (carouselContainer) {
                 let carouselHTML = '<div class="carousel-inner">';
-    
+
                 // Cargar la lista de archivos disponibles
-                loadJSON('lenguage/files/files.json').then(filesData => {
-                    const availableFiles = filesData.files.on_sale;
-    
-                    onSaleProducts.forEach((product, index) => {
-                        const baseImgSrc = product[0].img[0].src.replace('img/products/', '').replace(/\.\w+$/, '');
-                        const matchingFiles = availableFiles.filter(file => file.includes(baseImgSrc));
-    
-                        if (matchingFiles.length > 0) {
-                            const imgSrc = `img/products/on-sale/${matchingFiles[0]}`; // Usar el primer archivo coincidente
-    
-                            carouselHTML += `
-                                <div class="carousel-item ${index === 0 ? 'active' : ''}" style="height: 410px;">
-                                    <img class="img-fluid" src="${imgSrc}" alt="${product[0].img[0].alt}">
-                                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                        <div class="p-3" style="max-width: 700px;">
-                                            <h4 class="text-light text-uppercase font-weight-medium mb-3">${data.right.carousel.title}</h4>
-                                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">${product[0].title}</h3>
-                                            <a class="btn btn-light py-2 px-3" href="product.html?title=${product[0].title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}">${data.right.carousel.btn}</a>
-                                        </div>
+                onSaleProducts.forEach((product, index) => {
+                    const filteredImages = product[0].img.filter(image => image.carousel === true);
+
+                    if (filteredImages) {
+                        carouselHTML += `
+                            <div class="carousel-item ${index === 0 ? 'active' : ''}" style="height: 410px;">
+                                <img class="img-fluid" src="${filteredImages[0].src}" alt="${product[0].img[0].alt}">
+                                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                    <div class="p-3" style="max-width: 700px;">
+                                        <h4 class="text-light text-uppercase font-weight-medium mb-3">${data.right.carousel.title}</h4>
+                                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">${product[0].title}</h3>
+                                        <a class="btn btn-light py-2 px-3" href="product.html?title=${product[0].title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}">${data.right.carousel.btn}</a>
                                     </div>
                                 </div>
-                            `;
-                        }
-    
-                        if (index === onSaleProducts.length - 1) {
-                            carouselHTML += `
-                                </div>
-                                <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
-                                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                                        <span class="carousel-control-prev-icon mb-n2"></span>
-                                    </div>
-                                </a>
-                                <a class="carousel-control-next" href="#header-carousel" data-slide="next">
-                                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                                        <span class="carousel-control-next-icon mb-n2"></span>
-                                    </div>
-                                </a>
-                            `;
-                            carouselContainer.innerHTML = carouselHTML;
-                        }
-                    });
-                }).catch(error => {
-                    console.error('Error al cargar la lista de archivos:', error);
+                            </div>
+                        `;
+                    }
                 });
+                carouselHTML += '</div>';
+
+                carouselHTML += `
+                    <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                            <span class="carousel-control-prev-icon mb-n2"></span>
+                        </div>
+                    </a>
+                    <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                            <span class="carousel-control-next-icon mb-n2"></span>
+                        </div>
+                    </a>
+                `;
+                carouselContainer.innerHTML = carouselHTML;
             }
         }).catch(error => {
             console.error('Error al cargar el archivo JSON de productos:', error);
@@ -700,7 +705,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
             createFilterForm(priceFilters, 'price-form', 'price');
             // createFilterForm(sizeFilters, 'size-form', 'size');
-            
+
+            // Aplicar la lógica de filtrado inicial
+            filterProductsByPrice();
         }).catch(error => {
             console.error('Error al cargar los filtros:', error);
         });
@@ -713,15 +720,27 @@ document.addEventListener('DOMContentLoaded', () => {
             max: parseInt(checkbox.getAttribute('data-max'))
         }));
     
+        // Si no hay checkboxes seleccionados, no mostrar ningún producto
         updateProducts(selectedRanges, sortCriteria);
     }
 
-    function updateProducts(selectedRanges, sortCriteria = null) {
-        loadJSON(productJson).then(data => {
-            const products = Object.values(data.right.products.list[0]);
+    function updateProducts(selectedRanges = [], sortCriteria = null) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const subcategory = urlParams.get('subcategory');
+    
+        Promise.all([loadJSON(productJson), loadJSON(reviewJson)]).then(([productData, reviewData]) => {
+            let products = Object.values(productData.right.products.list[0]);
+            const reviews = reviewData.right.reviews;
+    
+            // Filtrar los productos por categoría y subcategoría
+            products = filterProductsByCategory(products, category, subcategory);
+    
             let filteredProducts;
-
             if (selectedRanges.length === 0) {
+                /* Si no hay checkboxes seleccionados, mostrar todos los productos
+                filteredProducts = products; */
+
                 // Si no hay checkboxes seleccionados, no mostrar ningún producto
                 filteredProducts = [];
             } else {
@@ -730,28 +749,104 @@ document.addEventListener('DOMContentLoaded', () => {
                     return selectedRanges.some(range => product[0].price >= range.min && product[0].price <= range.max);
                 });
             }
-
-            displayProducts(filteredProducts, sortCriteria);
+    
+            displayProducts(filteredProducts, sortCriteria, null, reviews);
         }).catch(error => {
             console.error('Error al cargar y filtrar los productos:', error);
         });
     }
 
-    function sortProducts(products, criteria) {
+    function sortProducts(products, criteria, reviews) {
         switch (criteria) {
             case 'reverse':
-                return products.reverse();
+                return isAscending ? products.reverse() : products.reverse().reverse();
             case 'best_rating':
                 return products.sort((a, b) => {
-                    const ratingA = a.reviews ? a.reviews.reduce((sum, review) => sum + review.stars, 0) / a.reviews.length : 0;
-                    const ratingB = b.reviews ? b.reviews.reduce((sum, review) => sum + review.stars, 0) / b.reviews.length : 0;
-                    return ratingB - ratingA;
+                    const ratingA = getAverageRating(a, reviews);
+                    const ratingB = getAverageRating(b, reviews);
+                    return isAscending ? ratingB - ratingA : ratingA - ratingB;
                 });
             case 'featured':
-                return products.sort((a, b) => b[0].outstanding - a[0].outstanding);
+                return  products.sort((a, b) => isAscending ? b[0].outstanding - a[0].outstanding : a[0].outstanding - b[0].outstanding);
             default:
                 return products;
         }
+    }
+    
+    function getAverageRating(product, reviews) {
+        const productReviews = reviews.filter(review => review.product === product[0].title);
+        if (productReviews.length === 0) return 0;
+        const totalStars = productReviews.reduce((sum, review) => sum + review.stars, 0);
+        return totalStars / productReviews.length;
+    }
+
+    function searchSection() {
+        const searchSectionElement = document.getElementById('searchSectionId');
+        loadJSON(generalJson).then(data => {
+        const searchSectionHTML = `
+            <!-- searchSection-content.html -->
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <!-- Product Search - Start -->
+                <form action="">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search by Name">
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-transparent text-primary">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <!-- Product Search - End -->
+                <!-- Sort By - Start -->
+                <div class="dropdown ml-4">
+                    <button class="btn border dropdown-toggle" type="button" id="triggerId"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${data.right.searchSection.btn.text}</button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
+                        <a class="dropdown-item" id="sort-reverse">${data.right.searchSection.menu.reverse.text}</a>
+                        <a class="dropdown-item" id="sort-featured">${data.right.searchSection.menu.featured.text}</a>
+                        <a class="dropdown-item" id="sort-best-rating">${data.right.searchSection.menu.best_rating.text}</a>
+                    </div>
+                </div>
+                <!-- Sort By - End -->
+            </div>
+        `;
+        searchSectionElement.innerHTML = searchSectionHTML;
+
+        // Agregar los event listeners después de cargar el contenido HTML
+        const sortReverseElement = document.getElementById('sort-reverse');
+        const sortBestRatingElement = document.getElementById('sort-best-rating');
+        const sortFeaturedElement = document.getElementById('sort-featured');
+
+        if (sortReverseElement) {
+            sortReverseElement.addEventListener('click', () => {
+                filterProductsByPrice('reverse');
+            });
+        }
+
+        if (sortBestRatingElement) {
+            sortBestRatingElement.addEventListener('click', () => {
+                filterProductsByPrice('best_rating');
+            });
+        }
+
+        if (sortFeaturedElement) {
+            sortFeaturedElement.addEventListener('click', () => {
+                filterProductsByPrice('featured');
+            });
+        }
+        });
+    }
+
+    function filterProductsByCategory(products, category, subcategory) {
+        return products.filter(product => {
+            if (category && subcategory) {
+                return product[0].category === category && product[0].subcategory === subcategory;
+            } else if (category) {
+                return product[0].category === category;
+            }
+            return true;
+        });
     }
 
     // Seleccionar los elementos que contienen el contenido de los archivos HTML
@@ -760,7 +855,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const navSecondaryElement = document.getElementById('nav-secondaryId');
     const navPrimaryElement = document.getElementById('nav-primaryId');
     const featuredElement = document.getElementById('featuredId');
-    const searchSectionElement = document.getElementById('searchSectionId');
     const pageNavegationElement = document.getElementById('pageNavegationId');
     const contactElement = document.getElementById('contactId');
     const reviewsElement = document.getElementById('reviewsId');
@@ -780,34 +874,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
         promises.push(loadCarouselContent());
         promises.push(loadHTMLContent('general-file/featured-content.html', featuredElement));
-        promises.push(loadAndDisplayProducts(productJson, 8)); // Limitar a 8 productos en index
+        promises.push(loadAndDisplayProducts(productJson, 'featured', 8)); // Limitar a 8 productos en index
     } else if (pathname.endsWith("/shop.html")) {
-        promises.push(loadHTMLContent('general-file/searchSection-content.html', searchSectionElement));
+        //promises.push(loadHTMLContent('general-file/searchSection-content.html', searchSectionElement));
         promises.push(loadHTMLContent('general-file/pageNavegation-content.html', pageNavegationElement));
         promises.push(loadFilters());
-        // Manejar los eventos de clic para los elementos del menú desplegable
-        const sortReverseElement = document.getElementById('sort-reverse');
-        const sortBestRatingElement = document.getElementById('sort-best-rating');
-        const sortFeaturedElement = document.getElementById('sort-featured');
-        
-        if (sortReverseElement) {
-            sortReverseElement.addEventListener('click', () => {
-                filterProductsByPrice('reverse');
-            });
-        }
-    
-        if (sortBestRatingElement) {
-            sortBestRatingElement.addEventListener('click', () => {
-                filterProductsByPrice('best_rating');
-            });
-        }
-    
-        if (sortFeaturedElement) {
-            sortFeaturedElement.addEventListener('click', () => {
-                filterProductsByPrice('featured');
-            });
-        }
         promises.push(loadAndDisplayProducts(productJson)); // Cargar todos los productos en otras páginas
+        // Manejar los eventos de clic para los elementos del menú desplegable
+        promises.push(searchSection()); // Llamar a searchSection para cargar el contenido y agregar los event listeners
+        promises.push(updateProducts()); // Llamar a updateProducts para filtrar los productos al cargar la página
     } else if (pathname.endsWith("/contact.html")) {
         promises.push(loadHTMLContent('general-file/contact-content.html', contactElement));
     } else if (pathname.endsWith("/review.html")) {

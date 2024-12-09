@@ -193,30 +193,19 @@
             "title": "Reseñas de los Clientes"
         },
         "searchSection": {
-            "btn": [
-                {
-                    "text": "Ordenar por"
-                }
-            ],
+            "btn": {
+                "text": "Ordenar por"
+            },
             "menu": {
-                "last": [
-                    {
-                        "text": "El Último",
-                        "href": null
-                    }
-                ],
-                "featured": [
-                    {
-                        "text": "Destacados",
-                        "href": null
-                    }
-                ],
-                "best_rating": [
-                    {
-                        "text": "Mejor Calificación",
-                        "href": null
-                    }
-                ]
+                "reverse": {
+                    "text": "El Último"
+                },
+                "featured": {
+                    "text": "Destacados"
+                },
+                "best_rating": {
+                    "text": "Mejor Calificación"
+                }
             }
         },
         "dato": {
@@ -237,7 +226,7 @@
                 ]
             },
             "phone": {
-                "text": "+54 011 1234_5678",
+                "text": "+54 011 1234-5678",
                 "medium": "Soporte 24/7",
                 "link": [
                     {
@@ -339,7 +328,7 @@
                     "href": "index.html"
                 }
             ],
-            "text": " _ 2024. Todos los derechos reservados."
+            "text": " - 2024. Todos los derechos reservados."
         },
         "payment_methods": [
             {

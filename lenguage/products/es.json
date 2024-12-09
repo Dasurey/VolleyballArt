@@ -275,6 +275,14 @@
                             {
                                 "src": "img/products/asics-metarise-tokyo-men-shoes.png",
                                 "alt": "Zapatilla Asics Metarise Tokyo Men"
+                            },
+                            {
+                                "src": "img/products/on-sale/asics-metarise-tokyo-men-shoes.jpg",
+                                "carousel": true
+                            },
+                            {
+                                "src": "img/products/on-sale/asics-metarise-tokyo-men-shoes.jpg",
+                                "carousel": true
                             }
                         ],
                         "share": [
@@ -302,6 +310,10 @@
                             {
                                 "src": "img/products/Mizuno-Women-Adult-Wave-Momentum-3-Volleyball-Shoe.webp",
                                 "alt": "Zapatilla Mizuno Women Wave Momentum 3"
+                            },
+                            {
+                                "src": "img/products/on-sale/Mizuno-Women-Adult-Wave-Momentum-3-Volleyball-Shoe.jpg",
+                                "carousel": true
                             }
                         ],
                         "price": 180000,
@@ -455,7 +467,7 @@
                         ],
                         "img": [
                             {
-                                "src": "img/products/Pelota-Mikasa-V200W-Competicion.webp",
+                                "src": "img/products/Pelota-Mikasa-V200W-Competicion.jpg",
                                 "alt": "Pelota Mikasa V200W Competición"
                             }
                         ],
