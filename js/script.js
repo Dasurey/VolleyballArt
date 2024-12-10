@@ -175,11 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
             products = sortProducts(products, sortCriteria, reviews);
         } else {
             products.sort((a, b) => a.price - b.price);
-            /* products.sort((a, b) => a.price - b.price).sort((a, b) => a.outstanding - b.outstanding).sort((a, b) => {
-                    const ratingA = getAverageRating(a, reviews);
-                    const ratingB = getAverageRating(b, reviews);
-                    return isAscending ? ratingB - ratingA : ratingA - ratingB;
-                }).sort((a, b) => a.subcategory - b.subcategory).sort((a, b) => a.category - b.category); */
         }
         if(pathname.endsWith('/index.html')) {
             products.sort((a, b) => a.price - b.price);
@@ -303,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         products.sort((a, b) => a.price - b.price).sort((a, b) => a.outstanding - b.outstanding).sort((a, b) => a.subcategory - b.subcategory).sort((a, b) => a.category - b.category);
-
+        
         // Mostrar los productos seleccionados
         selectedProducts.forEach(product => {
             const productHTML = `
