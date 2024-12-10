@@ -165,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!Array.isArray(products)) {
             products = Object.values(products);
         }
-        products.sort((a, b) => a[0].price - b[0].price);
         if (sortCriteria) {
             if (currentSortCriteria === sortCriteria) {
                 isAscending = !isAscending; // Alternar el orden
@@ -173,6 +172,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 isAscending = true; // Restablecer a ascendente si se cambia el criterio
             }
             currentSortCriteria = sortCriteria;
+            products = sortProducts(products, sortCriteria, reviews);
+        } else {
+            products.sort((a, b) => a.price - b.price);
+            /* products.sort((a, b) => a.price - b.price).sort((a, b) => a.outstanding - b.outstanding).sort((a, b) => {
+                    const ratingA = getAverageRating(a, reviews);
+                    const ratingB = getAverageRating(b, reviews);
+                    return isAscending ? ratingB - ratingA : ratingA - ratingB;
+                }).sort((a, b) => a.subcategory - b.subcategory).sort((a, b) => a.category - b.category); */
+        }
+        if(pathname.endsWith('/index.html')) {
+            products.sort((a, b) => a.price - b.price);
+            sortCriteria = 'featured';
             products = sortProducts(products, sortCriteria, reviews);
         }
 
@@ -184,12 +195,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (limit !== null && count >= limit) break; // Detener el bucle después de alcanzar el límite
                 const product = products[key];
                 const productHTML = `
-                    <a href="${product[0].link[0].href}" class="card product-item border-0 mb-4">
+                    <a href="${product.link[0].href}" class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="${product[0].img[0].src}" alt="${product[0].img[0].alt}">
+                            <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
                         </div>
                         <div class="card-body text-center p-0 pt-4 pb-3">
-                            <h6 class="text-cardShop mb-3">${product[0].title}</h6>
+                            <h6 class="text-cardShop mb-3">${product.title}</h6>
                             <div class="d-flex justify-content-center" id="priceId-${key}"></div>
                         </div>
                     </a>
@@ -201,11 +212,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 productsListElement.appendChild(tempDiv);
                 // Actualizar el precio y el precio anterior
                 const priceElement = document.getElementById(`priceId-${key}`);
-                if (product[0].previous_price) {
-                    priceElement.innerHTML = `<h6 class="price">$${product[0].price}</h6>`;
-                    priceElement.innerHTML += `<h6 class="previous-price ml-2">$${product[0].previous_price}</h6>`;
+                if (product.previous_price) {
+                    priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
+                    priceElement.innerHTML += `<h6 class="previous-price ml-2">$${product.previous_price}</h6>`;
                 } else {
-                    priceElement.innerHTML = `<h6 class="price">$${product[0].price}</h6>`;
+                    priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
                 }
                 count++; // Incrementar el contador
             }
@@ -215,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para cargar el contenido del archivo HTML
     function loadAndDisplayProducts(url, sortCriteria = null,limit = null) {
         loadJSON(url).then(data => {
-            const products = data.right.products.list[0];
+            const products = data.right.products.list;
             displayProducts(products, sortCriteria, limit);
         }).catch(error => {
             console.error('Error al cargar y mostrar los productos:', error);
@@ -228,80 +239,82 @@ document.addEventListener('DOMContentLoaded', () => {
         let selectedProductTitles = new Set();
 
         // Filtrar productos destacados de la misma subcategoría
-        let filteredProducts = Object.values(products).filter(p => p[0].category === category && p[0].subcategory === subcategory && p[0].outstanding && p[0].title !== currentProductTitle);
+        let filteredProducts = Object.values(products).filter(p => p.category === category && p.subcategory === subcategory && p.outstanding && p.title !== currentProductTitle);
         filteredProducts.forEach(product => {
-            if (selectedProducts.length < limit && !selectedProductTitles.has(product[0].title)) {
+            if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
                 selectedProducts.push(product);
-                selectedProductTitles.add(product[0].title);
+                selectedProductTitles.add(product.title);
             }
         });
 
         // Si no se alcanzó el límite, agregar productos de la misma subcategoría sin que sean destacados
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => p[0].category === category && p[0].subcategory === subcategory && !selectedProductTitles.has(p[0].title) && p[0].title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => p.category === category && p.subcategory === subcategory && !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
             filteredProducts.forEach(product => {
-                if (selectedProducts.length < limit && !selectedProductTitles.has(product[0].title)) {
+                if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product[0].title);
+                    selectedProductTitles.add(product.title);
                 }
             });
         }
 
         // Si no se alcanzó el límite, agregar productos destacados de la misma categoría
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => p[0].category === category && p[0].outstanding && !selectedProductTitles.has(p[0].title) && p[0].title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => p.category === category && p.outstanding && !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
             filteredProducts.forEach(product => {
-                if (selectedProducts.length < limit && !selectedProductTitles.has(product[0].title)) {
+                if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product[0].title);
+                    selectedProductTitles.add(product.title);
                 }
             });
         }
 
         // Si no se alcanzó el límite, agregar productos de la misma categoría
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => p.category === category && !selectedProductTitles.has(p[0].title) && p.title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => p.category === category && !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
             filteredProducts.forEach(product => {
                 if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product[0].title);
+                    selectedProductTitles.add(product.title);
                 }
             });
         }
 
         // Si no se alcanzó el límite, agregar productos destacados de cualquier categoría
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => p[0].outstanding && !selectedProductTitles.has(p[0].title) && p[0].title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => p.outstanding && !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
             filteredProducts.forEach(product => {
                 if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product[0].title);
+                    selectedProductTitles.add(product.title);
                 }
             });
         }
 
         // Si no se alcanzó el límite, agregar cualquier producto
         if (selectedProducts.length < limit) {
-            filteredProducts = Object.values(products).filter(p => !selectedProductTitles.has(p[0].title) && p[0].title !== currentProductTitle);
+            filteredProducts = Object.values(products).filter(p => !selectedProductTitles.has(p.title) && p.title !== currentProductTitle);
             filteredProducts.forEach(product => {
                 if (selectedProducts.length < limit && !selectedProductTitles.has(product.title)) {
                     selectedProducts.push(product);
-                    selectedProductTitles.add(product[0].title);
+                    selectedProductTitles.add(product.title);
                 }
             });
         }
+
+        products.sort((a, b) => a.price - b.price).sort((a, b) => a.outstanding - b.outstanding).sort((a, b) => a.subcategory - b.subcategory).sort((a, b) => a.category - b.category);
 
         // Mostrar los productos seleccionados
         selectedProducts.forEach(product => {
             const productHTML = `
                 <div class="col-lg-3 col-md-5 col-sm-12 pb-1">
-                    <a href="${product[0].link[0].href}" class="card product-item border-0 mb-4">
+                    <a href="${product.link[0].href}" class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="${product[0].img[0].src}" alt="${product[0].img[0].alt}">
+                            <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
                         </div>
                         <div class="card-body text-center p-0 pt-4 pb-3">
-                            <h6 class="text-cardShop mb-3">${product[0].title}</h6>
-                            <div class="d-flex justify-content-center" id="priceId-${product[0].title.replace(/\s+/g, '-')}"></div>
+                            <h6 class="text-cardShop mb-3">${product.title}</h6>
+                            <div class="d-flex justify-content-center" id="priceId-${product.title.replace(/\s+/g, '-')}"></div>
                         </div>
                     </a>
                 </div>
@@ -312,12 +325,12 @@ document.addEventListener('DOMContentLoaded', () => {
             productsListElement.appendChild(productElement);
 
             // Actualizar el precio y el precio anterior
-            const priceElement = document.getElementById(`priceId-${product[0].title.replace(/\s+/g, '-')}`);
-            if (product[0].previous_price) {
-                priceElement.innerHTML = `<h6 class="price">$${product[0].price}</h6>`;
-                priceElement.innerHTML += `<h6 class="previous-price ml-2">$${product[0].previous_price}</h6>`;
+            const priceElement = document.getElementById(`priceId-${product.title.replace(/\s+/g, '-')}`);
+            if (product.previous_price) {
+                priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
+                priceElement.innerHTML += `<h6 class="previous-price ml-2">$${product.previous_price}</h6>`;
             } else {
-                priceElement.innerHTML = `<h6 class="price">$${product[0].price}</h6>`;
+                priceElement.innerHTML = `<h6 class="price">$${product.price}</h6>`;
             }
         });
     }
@@ -325,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cargar y mostrar productos filtrados
     function loadAndDisplayFilteredProducts(url, category, subcategory, limit, currentProductTitle) {
         loadJSON(url).then(data => {
-            const products = data.right.products.list[0];
+            const products = data.right.products.list;
             displayFilteredProducts(products, category, subcategory, limit, currentProductTitle);
         }).catch(error => {
             console.error('Error al cargar y mostrar los productos:', error);
@@ -344,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const productCopy = { ...e, amount, size };
 
         // Verificar si el producto ya existe en el carrito
-        const existingProductIndex = productsCart.findIndex(product => product[0].title === e[0].title && product[0].size === size);
+        const existingProductIndex = productsCart.findIndex(product => product.title === e.title && product.size === size);
         if (existingProductIndex !== -1) {
             productsCart[existingProductIndex].amount += amount;
         } else {
@@ -373,14 +386,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Cargar los datos del producto desde el JSON
             loadJSON(productJson).then(data => {
                 // Buscar el producto por el title
-                const product = Object.values(data.right.products.list[0]).find(p => p[0].title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === productTitle);
+                const product = Object.values(data.right.products.list).find(p => p.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === productTitle);
                 if (product) {
                     // Actualizar el contenido de la página con los datos del producto
-                    document.getElementById('headId').innerHTML += `<title>${product[0].title} - VolleyballArt</title>`;
-                    document.querySelector('[data-details="title"]').textContent = product[0].title;
+                    document.getElementById('headId').innerHTML += `<title>${product.title} - VolleyballArt</title>`;
+                    document.querySelector('[data-details="title"]').textContent = product.title;
                     
-                    // Filtrar los elementos del array `product[0].img` que no tienen `carousel` en `true`
-                    const filteredImages = product[0].img.filter(image => !image.carousel);
+                    // Filtrar los elementos del array `product.img` que no tienen `carousel` en `true`
+                    const filteredImages = product.img.filter(image => !image.carousel);
 
                     // Verificar si el array `filteredImages` tiene más de 0 elementos
                     if (filteredImages.length > 1) {
@@ -411,35 +424,35 @@ document.addEventListener('DOMContentLoaded', () => {
                         const carouselContainer = document.querySelector('[data-details="img"]');
                         let carouselHTML = `
                             <div class="carousel-item active">
-                                <img class="w-100 h-100" src="${product[0].img[0].src}" alt="${product[0].img[0].alt}">
+                                <img class="w-100 h-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
                             </div>
                         `;
                         carouselContainer.innerHTML = carouselHTML;
                     }
                     // Actualizar el contenido de la página con los datos del producto
-                    if (product[0].previous_price) {
-                        document.getElementById('priceId').innerHTML = `<h3 class="previous-price-details font-weight-semi-bold mb-4">$${product[0].previous_price}</h3>`;
+                    if (product.previous_price) {
+                        document.getElementById('priceId').innerHTML = `<h3 class="previous-price-details font-weight-semi-bold mb-4">$${product.previous_price}</h3>`;
                     }
-                    document.getElementById('priceId').innerHTML += `<h3 class="font-weight-semi-bold mb-4">$${product[0].price}</h3>`;
+                    document.getElementById('priceId').innerHTML += `<h3 class="font-weight-semi-bold mb-4">$${product.price}</h3>`;
                     // Actualizar los enlaces de compartir
-                    document.querySelector('[data-details="share_facebook"]').href = "https://www.facebook.com/sharer/sharer.php?u=" + window.location.href + "&description=" + product[0].title.replace(/ /g, '%20');
-                    document.querySelector('[data-details="share_twitter"]').href = "https://twitter.com/intent/tweet?text=" + product[0].title.replace(/ /g, '%20') + "&url=" + window.location.href;
-                    document.querySelector('[data-details="share_pinterest"]').href = "https://pinterest.com/pin/create/button/?url=" + window.location.href + "&media=" + window.location.origin + "/" + product[0].img[0].src + "&description=" + product[0].title.replace(/ /g, '%20');
-                    document.querySelector('[data-details="share_whatsapp"]').href = "https://api.whatsapp.com/send?text=" + product[0].title.replace(/ /g, '%20') + "%20" + window.location.href;
+                    document.querySelector('[data-details="share_facebook"]').href = "https://www.facebook.com/sharer/sharer.php?u=" + window.location.href + "&description=" + product.title.replace(/ /g, '%20');
+                    document.querySelector('[data-details="share_twitter"]').href = "https://twitter.com/intent/tweet?text=" + product.title.replace(/ /g, '%20') + "&url=" + window.location.href;
+                    document.querySelector('[data-details="share_pinterest"]').href = "https://pinterest.com/pin/create/button/?url=" + window.location.href + "&media=" + window.location.origin + "/" + product.img[0].src + "&description=" + product.title.replace(/ /g, '%20');
+                    document.querySelector('[data-details="share_whatsapp"]').href = "https://api.whatsapp.com/send?text=" + product.title.replace(/ /g, '%20') + "%20" + window.location.href;
 
                     // Agregar descripciones
                     const descriptionContainer = document.querySelector('[data-details="description"]');
-                    if (product[0].description) {
-                        descriptionContainer.innerHTML = product[0].description;
+                    if (product.description) {
+                        descriptionContainer.innerHTML = product.description;
                     }
                     // Buscar información adicional que coincida con la categoría y subcategoría del producto
                     const additionalInfo = data.right.additional_info.list;
                     let info = null;
-                    if (additionalInfo[product[0].category] && additionalInfo[product[0].category][product[0].subcategory]) {
-                        info = additionalInfo[product[0].category][product[0].subcategory];
+                    if (additionalInfo[product.category] && additionalInfo[product.category][product.subcategory]) {
+                        info = additionalInfo[product.category][product.subcategory];
                     }
-                    if (additionalInfo[product[0].category] && additionalInfo[product[0].category][product[0].subcategory] && additionalInfo[product[0].category][product[0].subcategory][product[0].subcategory_2]) {
-                        info = additionalInfo[product[0].category][product[0].subcategory][product[0].subcategory_2];
+                    if (additionalInfo[product.category] && additionalInfo[product.category][product.subcategory] && additionalInfo[product.category][product.subcategory][product.subcategory_2]) {
+                        info = additionalInfo[product.category][product.subcategory][product.subcategory_2];
                     }
 
                     // Actualizar el contenido de la página con la información adicional
@@ -472,8 +485,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const sizeContainer = document.querySelector('.size-container');
                     sizeContainer.innerHTML = ''; // Limpiar contenido previo
 
-                    const category = product[0].category;
-                    const subcategory = product[0].subcategory;
+                    const category = product.category;
+                    const subcategory = product.subcategory;
                     const availableSizes = (sizesCategory[category] && sizesCategory[category][subcategory]) ? sizesCategory[category][subcategory] : [];
 
                     // Actualizar el texto de size-name según la categoría
@@ -497,14 +510,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Cargar y mostrar productos filtrados, excluyendo el producto actual
                     loadJSON(reviewJson).then(reviewsData => {
                         // Buscar reseñas que coincidan con el producto actual
-                        const reviews = reviewsData.right.reviews.filter(review => review.product === product[0].title);
+                        const reviews = reviewsData.right.reviews.filter(review => review.product === product.title);
                         const numberOfReviews = reviews.length;
                         // Insertar el contenido HTML de los tabs
                         const tabPaneContainer = document.querySelector('[data-details="tab_pane"]');
                         tabPaneContainer.innerHTML = `
-                            <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">${data.right.tab_pane.tab_1.title}</a>
-                            <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">${data.right.tab_pane.tab_2.title}</a>
-                            <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">${data.right.tab_pane.tab_3.title} (${numberOfReviews})</a>
+                            <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">${data.right.tab_pane.description.title}</a>
+                            <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">${data.right.tab_pane.information.title}</a>
+                            <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">${data.right.tab_pane.review.title} (${numberOfReviews})</a>
                         `;
 
                         if (numberOfReviews > 0) {
@@ -518,11 +531,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             document.querySelector('[data-details="stars_product"]').innerHTML = starsProductHTML;
                         }
                         const countsReviewsProductHTML = document.querySelector('[data-details="count_reviews"]');
-                        countsReviewsProductHTML.textContent = "(" + numberOfReviews + " " + data.right.tab_pane.tab_3.title + ")";
+                        countsReviewsProductHTML.textContent = "(" + numberOfReviews + " " + data.right.tab_pane.review.title + ")";
 
                         // Mostrar las reseñas
                         const reviewsContainer = document.querySelector('[data-details="reviews-product"]');
-                        reviewsContainer.innerHTML = `<h4 class="mb-5 text-center">${numberOfReviews} ${reviewsData.right.general.review_product} "${product[0].title}"</h4>`; // Limpiar contenido previo
+                        reviewsContainer.innerHTML = `<h4 class="mb-5 text-center">${numberOfReviews} ${reviewsData.right.general.review_product} "${product.title}"</h4>`; // Limpiar contenido previo
 
                         if (numberOfReviews > 0) {
                             reviews.forEach(review => {
@@ -566,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         addCart(product);
                     });
 
-                    loadAndDisplayFilteredProducts(productJson, product[0].category, product[0].subcategory, 4, product[0].title);
+                    loadAndDisplayFilteredProducts(productJson, product.category, product.subcategory, 4, product.title);
 
                     // Actualizar el contador al iniciar
                     updateCart();
@@ -581,8 +594,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadCarouselContent() {
         loadJSON(productJson).then(data => {
-            const products = Object.values(data.right.products.list[0]);
-            const onSaleProducts = products.filter(product => product[0].previous_price !== null);
+            const products = Object.values(data.right.products.list);
+            const onSaleProducts = products.filter(product => product.previous_price !== null);
     
             const carouselContainer = document.getElementById('header-carousel');
             if (carouselContainer) {
@@ -590,17 +603,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Cargar la lista de archivos disponibles
                 onSaleProducts.forEach((product, index) => {
-                    const filteredImages = product[0].img.filter(image => image.carousel === true);
+                    const filteredImages = product.img.filter(image => image.carousel === true);
 
                     if (filteredImages) {
                         carouselHTML += `
                             <div class="carousel-item ${index === 0 ? 'active' : ''}" style="height: 410px;">
-                                <img class="img-fluid" src="${filteredImages[0].src}" alt="${product[0].img[0].alt}">
+                                <img class="img-fluid" src="${filteredImages[0].src}" alt="${product.img[0].alt}">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                     <div class="p-3" style="max-width: 700px;">
                                         <h4 class="text-light text-uppercase font-weight-medium mb-3">${data.right.carousel.title}</h4>
-                                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">${product[0].title}</h3>
-                                        <a class="btn btn-light py-2 px-3" href="product.html?title=${product[0].title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}">${data.right.carousel.btn}</a>
+                                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">${product.title}</h3>
+                                        <a class="btn btn-light py-2 px-3" href="product.html?title=${product.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}">${data.right.carousel.btn}</a>
                                     </div>
                                 </div>
                             </div>
@@ -702,18 +715,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     <form id="size-form"></form>
                 </div>
             */
+            let products = Object.values(data.right.products.list);
+            products.sort((a, b) => a.price - b.price);
     
             createFilterForm(priceFilters, 'price-form', 'price');
             // createFilterForm(sizeFilters, 'size-form', 'size');
 
             // Aplicar la lógica de filtrado inicial
-            filterProductsByPrice();
+            filterProductsByPrice(null ,products);
         }).catch(error => {
             console.error('Error al cargar los filtros:', error);
         });
     }
 
-    function filterProductsByPrice(sortCriteria = null) {
+    function filterProductsByPrice(sortCriteria = null, products = null) {
         const checkboxes = document.querySelectorAll('#price-form input[type="checkbox"]:checked');
         const selectedRanges = Array.from(checkboxes).map(checkbox => ({
             min: parseInt(checkbox.getAttribute('data-min')),
@@ -721,16 +736,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
     
         // Si no hay checkboxes seleccionados, no mostrar ningún producto
-        updateProducts(selectedRanges, sortCriteria);
+        updateProducts(selectedRanges, sortCriteria, products);
     }
 
-    function updateProducts(selectedRanges = [], sortCriteria = null) {
+    function updateProducts(selectedRanges = [], sortCriteria = null, product = null) {
         const urlParams = new URLSearchParams(window.location.search);
         const category = urlParams.get('category');
         const subcategory = urlParams.get('subcategory');
     
         Promise.all([loadJSON(productJson), loadJSON(reviewJson)]).then(([productData, reviewData]) => {
-            let products = Object.values(productData.right.products.list[0]);
+            let products = product || Object.values(productData.right.products.list);
             const reviews = reviewData.right.reviews;
     
             // Filtrar los productos por categoría y subcategoría
@@ -746,11 +761,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // Filtrar los productos según los rangos seleccionados
                 filteredProducts = products.filter(product => {
-                    return selectedRanges.some(range => product[0].price >= range.min && product[0].price <= range.max);
+                    return selectedRanges.some(range => product.price >= range.min && product.price <= range.max);
                 });
             }
     
             displayProducts(filteredProducts, sortCriteria, null, reviews);
+            searchSection(filteredProducts);
         }).catch(error => {
             console.error('Error al cargar y filtrar los productos:', error);
         });
@@ -759,7 +775,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function sortProducts(products, criteria, reviews) {
         switch (criteria) {
             case 'reverse':
-                return isAscending ? products.reverse() : products.reverse().reverse();
+                return products.reverse();
             case 'best_rating':
                 return products.sort((a, b) => {
                     const ratingA = getAverageRating(a, reviews);
@@ -767,24 +783,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     return isAscending ? ratingB - ratingA : ratingA - ratingB;
                 });
             case 'featured':
-                return  products.sort((a, b) => isAscending ? b[0].outstanding - a[0].outstanding : a[0].outstanding - b[0].outstanding);
+                return  products.sort((a, b) => isAscending ? b.outstanding - a.outstanding : a.outstanding - b.outstanding);
             default:
                 return products;
         }
     }
     
     function getAverageRating(product, reviews) {
-        const productReviews = reviews.filter(review => review.product === product[0].title);
+        const productReviews = reviews.filter(review => review.product === product.title);
         if (productReviews.length === 0) return 0;
         const totalStars = productReviews.reduce((sum, review) => sum + review.stars, 0);
         return totalStars / productReviews.length;
     }
 
-    function searchSection() {
+    function searchSection(filteredProducts = null) {
         const searchSectionElement = document.getElementById('searchSectionId');
         loadJSON(generalJson).then(data => {
         const searchSectionHTML = `
-            <!-- searchSection-content.html -->
+            <!-- searchSection-content -->
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <!-- Product Search - Start -->
                 <form action="">
@@ -820,19 +836,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (sortReverseElement) {
             sortReverseElement.addEventListener('click', () => {
-                filterProductsByPrice('reverse');
+                filterProductsByPrice('reverse', filteredProducts);
             });
         }
 
         if (sortBestRatingElement) {
             sortBestRatingElement.addEventListener('click', () => {
-                filterProductsByPrice('best_rating');
+                filterProductsByPrice('best_rating', filteredProducts);
             });
         }
 
         if (sortFeaturedElement) {
             sortFeaturedElement.addEventListener('click', () => {
-                filterProductsByPrice('featured');
+                filterProductsByPrice('featured', filteredProducts);
             });
         }
         });
@@ -841,31 +857,396 @@ document.addEventListener('DOMContentLoaded', () => {
     function filterProductsByCategory(products, category, subcategory) {
         return products.filter(product => {
             if (category && subcategory) {
-                return product[0].category === category && product[0].subcategory === subcategory;
+                return product.category === category && product.subcategory === subcategory;
             } else if (category) {
-                return product[0].category === category;
+                return product.category === category;
             }
             return true;
         });
     }
 
+    function createNavItem(item) {
+        const subItems = item.subItems
+            .filter(subItem => subItem.text) // Filtrar subItems sin text
+            .map(subItem => `
+                <li><a ${subItem.href ? `href="${subItem.href}"` : ''} class="dropdown-item">${subItem.text}</a></li>
+            `).join('');
+    
+        if (!item.text) return ''; // Verificar si el item principal tiene text
+    
+        return `
+            <li class="nav-item dropdown">
+                <a ${item.href ? `href="${item.href}"` : ''} class="nav-link">
+                    ${item.text}<i class="fa-solid fa-angle-down float-right mt-1"></i>
+                </a>
+                <ul class="dropdown-menu bg-secondary border-0 rounded-0 w-100 m-0">
+                    ${subItems}
+                </ul>
+            </li>
+        `;
+    }
+    
+    function createNavSecondaryHTML(data) {
+        const categories = ['shoes', 'clothing', 'accessories', 'equipment'];
+        const navItems = categories.map(category => {
+            const categoryData = data.right.navbar_secondary[category];
+            if (!categoryData) return ''; // Verificar si la categoría existe
+    
+            const subItems = Object.keys(categoryData).map(subCategory => {
+                const subCategoryData = categoryData[subCategory];
+                if (!subCategoryData || !subCategoryData.text) return null; // Verificar si la subcategoría tiene text
+    
+                return {
+                    href: subCategoryData.href || null,
+                    text: subCategoryData.text
+                };
+            }).filter(subItem => subItem !== null); // Filtrar subcategorías nulas
+    
+            return createNavItem({
+                href: categoryData.href || null,
+                text: categoryData.text,
+                subItems
+            });
+        }).join('');
+
+        let className = null;
+        let style = null;
+        if(pathname.endsWith('/index.html') || pathname.endsWith('/')) {
+            className = "show";
+        } else {
+            className = "position-absolute bg-light";
+            style = 'style="width: calc(100% - 30px); z-index: 1;"';
+        }
+    
+        return `
+            <!-- navbarSecondary-content -->
+            <a class="btn shadow-none d-flex align-items-center justify-content-between bg-tertiary w-100" data-toggle="collapse"
+                href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
+                <h6 class="m-0">${data.right.navbar_secondary.title}</h6>
+                <i class="fa-solid fa-angle-down"></i>
+            </a>
+            <nav class="collapse navbar navbar-vertical navbar-primary align-items-start p-0 border border-top-0 border-bottom-0 ${className}"
+                id="navbar-vertical" ${style ? `${style}` : ''}>
+                <ul class="navbar-nav w-100">
+                    ${navItems}
+                </ul>
+            </nav>
+        `;
+    }
+    
+    function navbarSecondary() {
+        const navSecondaryContainer = document.getElementById('nav-secondaryId');
+        loadJSON(generalJson).then(data => {
+            const navSecondaryHTML = createNavSecondaryHTML(data);
+            navSecondaryContainer.innerHTML = navSecondaryHTML;
+        });
+    }
+
+    function head() {
+        const headContainer = document.getElementById('headId');
+        loadJSON(generalJson).then(data => {
+            const metaTags = [
+                { charset: "UTF-8" },
+                { name: "viewport", content: data.right.head.viewport },
+                { name: "description", content: data.right.head.description },
+                { name: "keywords", content: data.right.head.keywords },
+                { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; img-src 'self' data:; connect-src 'self'" }
+            ];
+
+            const linkTags = [
+                { rel: "Icon", href: data.right.store_info.icon.href },
+                { rel: "preconnect", href: "https://fonts.gstatic.com" },
+                { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" },
+                { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" },
+                { rel: "stylesheet", href: "css/styleGeneral.css" },
+                { rel: "stylesheet", href: "css/style.css" }
+            ];
+
+            let headHTML = metaTags.map(tag => {
+                const attributes = Object.entries(tag).map(([key, value]) => `${key}="${value}"`).join(' ');
+                return `<meta ${attributes}>`;
+            }).join('\n');
+
+            headHTML += linkTags.map(tag => {
+                const attributes = Object.entries(tag).map(([key, value]) => `${key}="${value}"`).join(' ');
+                return `<link ${attributes}>`;
+            }).join('\n');
+
+            headContainer.innerHTML += headHTML;
+
+            // Establecer el título de la página
+            let title = '';
+            if (pathname.endsWith('/index.html') || pathname.endsWith('/')) {
+                title = `${data.right.store_info.title_brand} - ${data.right.head.title_data}`;
+            } else if (pathname.endsWith('/shop.html')) {
+                title = `${data.right.store_info.shop.text} - ${data.right.store_info.title_brand}`;
+            } else if (pathname.endsWith('/contact.html')) {
+                title = `${data.right.store_info.contact.text} - ${data.right.store_info.title_brand}`;
+            } else if (pathname.endsWith('/review.html')) {
+                title = `${data.right.store_info.review.text} - ${data.right.store_info.title_brand}`;
+            }
+            if (title)
+                document.title = title;
+        }).catch(error => {
+            console.error('Error al cargar el archivo JSON:', error);
+        });
+    }
+
+    function navbarPrimary() {
+        const navPrimaryContainer = document.getElementById('nav-primaryId');
+        loadJSON(generalJson).then(data => {
+            const navItems = [
+                { href: data.right.store_info.home.href, text: data.right.store_info.home.text },
+                { href: data.right.store_info.shop.href, text: data.right.store_info.shop.text },
+                { href: data.right.store_info.review.href, text: data.right.store_info.review.text },
+                { href: data.right.store_info.contact.href, text: data.right.store_info.contact.text }
+            ];
+    
+            const navLinksHTML = navItems.map(item => `
+                <a class="nav-item nav-link" href="${item.href}">${item.text}</a>
+            `).join('');
+    
+            const navPrimaryHTML = `
+                <!-- navbarPrimary-content.html -->
+                <a class="text-decoration-none d-block d-lg-none" href="${data.right.store_info.home.href}">
+                    <img src="${data.right.store_info.logo.src}" alt="${data.right.store_info.logo.alt}" class="logo">
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse nav-underline justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav mr-auto py-0">
+                        ${navLinksHTML}
+                    </div>
+                </div>
+            `;
+            navPrimaryContainer.innerHTML += navPrimaryHTML;
+        }).catch(error => {
+            console.error('Error al cargar el archivo JSON:', error);
+        });
+    }
+
+    function header() {
+        const headerContainer = document.getElementById('headerId');
+        loadJSON(generalJson).then(data => {
+            const headerElements = [
+                {
+                    type: 'link',
+                    href: data.right.store_info.home.href,
+                    content: `<img src="${data.right.store_info.logo.src}" alt="${data.right.store_info.logo.alt}" class="logo">`,
+                    class: 'text-decoration-none'
+                },
+                {
+                    type: 'form',
+                    content: `
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search Products">
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-transparent text-secondary">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </span>
+                            </div>
+                        </div>
+                    `,
+                    class: 'col-lg-6 col-6 text-right'
+                },
+                {
+                    type: 'cart',
+                    content: `
+                        <div class="elementor-widget-container">
+                            <div class="raven-shopping-cart-wrap">
+                                <a class="raven-shopping-cart btn">
+                                    <span class="raven-shopping-cart-icon fa-solid fa-cart-shopping"></span>
+                                    <span class="raven-shopping-cart-count cart-number">0</span>
+                                </a>
+                            </div>
+                        </div>
+                    `,
+                    class: 'col-lg-3 col-6 text-right elementor-element elementor-element-2 raven-shopping-cart-skin-dark elementor-widget__width-auto raven-shopping-cart-remove-thumbnail-yes raven-shopping-cart-remove-view-cart-yes raven-shopping-quick-view-align-right elementor-widget elementor-widget-raven-shopping-cart'
+                }
+            ];
+    
+            const headerHTML = headerElements.map(element => {
+                if (element.type === 'link') {
+                    return `
+                        <div class="col-lg-3 d-none d-lg-block">
+                            <a class="${element.class}" href="${element.href}">
+                                ${element.content}
+                            </a>
+                        </div>
+                    `;
+                } else if (element.type === 'form') {
+                    return `
+                        <div class="${element.class}">
+                            <form action="">
+                                ${element.content}
+                            </form>
+                        </div>
+                    `;
+                } else if (element.type === 'cart') {
+                    return `
+                        <div class="${element.class}">
+                            ${element.content}
+                        </div>
+                    `;
+                }
+            }).join('');
+    
+            headerContainer.innerHTML += `
+                <!-- header-content.html -->
+                <section class="row align-items-center py-3 px-xl-5">
+                    ${headerHTML}
+                </section>
+            `;
+        }).catch(error => {
+            console.error('Error al cargar el archivo JSON:', error);
+        });
+    }
+
+    function footer() {
+        const footerContainer = document.getElementById('footerId');
+        loadJSON(generalJson).then(data => {
+            const footerSections = [
+                {
+                    class: 'col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5',
+                    content: `
+                        <a class="text-decoration-none" href="${data.right.store_info.home.href}">
+                            <img src="${data.right.store_info.logo.src}" alt="${data.right.store_info.logo.alt}" class="mb-4 display-5 font-weight-semi-bold-2">
+                        </a>
+                        ${generateContactInfo(data.right.data)}
+                    `
+                },
+                {
+                    class: 'col-md-4 mb-5',
+                    title: data.right.store_info.title,
+                    links: [
+                        { href: data.right.store_info.home.href, text: data.right.store_info.home.about_us },
+                        { href: data.right.store_info.shop.href, text: data.right.store_info.shop.our_products },
+                        { href: data.right.store_info.review.href, text: data.right.store_info.review.your_reviews },
+                        { href: data.right.store_info.contact.href, text: data.right.store_info.contact.contact_us }
+                    ]
+                },
+                {
+                    class: 'col-md-4 mb-5',
+                    title: data.right.resources.title,
+                    links: [
+                        { href: data.right.resources.privacy_policy.href, text: data.right.resources.privacy_policy.text },
+                        { href: data.right.resources.terms_conditions.href, text: data.right.resources.terms_conditions.text },
+                        { href: data.right.resources.tracking.href, text: data.right.resources.tracking.text },
+                        { href: data.right.resources.consumer_defense.href, text: data.right.resources.consumer_defense.text },
+                        { href: data.right.resources.faq.href, text: data.right.resources.faq.text }
+                    ]
+                },
+                {
+                    class: 'col-md-4 mb-5',
+                    title: data.right.social_media.title,
+                    socialLinks: [
+                        { href: data.right.social_media.instagram.href, icon: 'fa-brands fa-instagram' },
+                        { href: data.right.social_media.facebook.href, icon: 'fa-brands fa-facebook' },
+                        { href: data.right.social_media.whatsapp.href, icon: 'fa-brands fa-whatsapp' },
+                        { href: data.right.social_media.x.href, icon: 'fa-brands fa-square-x-twitter' }
+                    ]
+                }
+            ];
+    
+            const footerHTML = `
+                <section class="row px-xl-5 pt-3">
+                    ${generateFooterSection(footerSections[0])}
+                    <div class="col-lg-8 col-md-12">
+                        <div class="row">
+                            ${footerSections.slice(1).map(generateFooterSection).join('')}
+                        </div>
+                    </div>
+                </section>
+                <section class="row border-top border-light mx-xl-5 py-4">
+                    <div class="col-md-6 px-xl-0" style="font-size: 0.75rem;">
+                        <p class="mb-md-0 text-center text-md-left text-dark">${data.right.copyright.title}
+                            &copy;<a class="text-dark font-weight-semi-bold" href="${data.right.store_info.home.href}">${data.right.store_info.title_brand}</a>${data.right.copyright.text}
+                        </p>
+                    </div>
+                    <div class="col-md-6 px-xl-0 text-center text-md-right">
+                        <img class="img-fluid" src="${data.right.payment_methods.src}" alt="${data.right.payment_methods.alt}">
+                    </div>
+                </section>
+            `;
+    
+            footerContainer.innerHTML += footerHTML;
+        }).catch(error => {
+            console.error('Error al cargar el archivo JSON:', error);
+        });
+    }
+    
+    function generateContactInfo(data) {
+        return `
+            <a class="text-dark" ${data.address.href ? `href="${data.address.href}"` : ''}>
+                <p class="mb-2">
+                    <i class="fa-solid fa-map text-secondary mr-3"></i>${data.address.text}
+                </p>
+            </a>
+            <a class="text-dark" ${data.email.href ? `href="${data.email.href}"` : ''}>
+                <p class="mb-2">
+                    <i class="fa-solid fa-envelope text-secondary mr-3"></i> ${data.email.text}
+                </p>
+            </a>
+            <a class="text-dark" ${data.phone.href ? `href="${data.phone.href}"` : ''}>
+                <p class="mb-0">
+                    <i class="fa-solid fa-phone text-secondary mr-3"></i>${data.phone.text}
+                </p>
+            </a>
+        `;
+    }
+    
+    function generateFooterSection(section) {
+        if (section.links) {
+            const linksHTML = section.links.map(link => `
+                <a class="text-dark mb-2" ${link.href ? `href="${link.href}"` : ''}>
+                    <i class="fa-solid fa-angle-right mr-2"></i>${link.text}
+                </a>
+            `).join('');
+            return `
+                <div class="${section.class}">
+                    <h5 class="font-weight-bold text-dark mb-4">${section.title}</h5>
+                    <div class="d-flex flex-column justify-content-start">
+                        ${linksHTML}
+                    </div>
+                </div>
+            `;
+        } else if (section.socialLinks) {
+            const socialLinksHTML = section.socialLinks.map(link => `
+                <a class="mb-2" ${link.href ? `href="${link.href}"` : ''}>
+                    <i class="${link.icon} mr-2"></i>
+                </a>
+            `).join('');
+            return `
+                <div class="${section.class}">
+                    <h5 class="font-weight-bold text-dark mb-4">${section.title}</h5>
+                    <div class="social-icons">
+                        ${socialLinksHTML}
+                    </div>
+                </div>
+            `;
+        } else {
+            return `
+                <div class="${section.class}">
+                    ${section.content}
+                </div>
+            `;
+        }
+    }
+
     // Seleccionar los elementos que contienen el contenido de los archivos HTML
-    const headElement = document.getElementById('headId');
-    const headerElement = document.getElementById('headerId');
-    const navSecondaryElement = document.getElementById('nav-secondaryId');
-    const navPrimaryElement = document.getElementById('nav-primaryId');
     const featuredElement = document.getElementById('featuredId');
     const pageNavegationElement = document.getElementById('pageNavegationId');
     const contactElement = document.getElementById('contactId');
     const reviewsElement = document.getElementById('reviewsId');
-    const footerElement = document.getElementById('footerId');
+    
 
     const promises = [
-        loadHTMLContent('general-file/head-content.html', headElement),
-        loadHTMLContent('general-file/header-content.html', headerElement),
-        loadHTMLContent('general-file/navbarSecondary-content.html', navSecondaryElement),
-        loadHTMLContent('general-file/navbarPrimary-content.html', navPrimaryElement),
-        loadHTMLContent('general-file/footer-content.html', footerElement),
+        head(),
+        header(),
+        navbarSecondary(),
+        navbarPrimary(),
+        footer(),
         loadJSON(generalJson),
         loadJSON(productJson)
     ];
@@ -874,14 +1255,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
         promises.push(loadCarouselContent());
         promises.push(loadHTMLContent('general-file/featured-content.html', featuredElement));
-        promises.push(loadAndDisplayProducts(productJson, 'featured', 8)); // Limitar a 8 productos en index
+        promises.push(loadAndDisplayProducts(productJson, null, 8)); // Limitar a 8 productos en index
     } else if (pathname.endsWith("/shop.html")) {
         //promises.push(loadHTMLContent('general-file/searchSection-content.html', searchSectionElement));
         promises.push(loadHTMLContent('general-file/pageNavegation-content.html', pageNavegationElement));
         promises.push(loadFilters());
         promises.push(loadAndDisplayProducts(productJson)); // Cargar todos los productos en otras páginas
         // Manejar los eventos de clic para los elementos del menú desplegable
-        promises.push(searchSection()); // Llamar a searchSection para cargar el contenido y agregar los event listeners
         promises.push(updateProducts()); // Llamar a updateProducts para filtrar los productos al cargar la página
     } else if (pathname.endsWith("/contact.html")) {
         promises.push(loadHTMLContent('general-file/contact-content.html', contactElement));
@@ -953,7 +1333,7 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTranslations(jsonData1, ['data-name', 'data-name-inside']);
         applyTranslations(jsonData2, ['data-product']);
 
-        // Lógica para cambiar las clases del <nav> dependiendo de la URL actual
+        /* Lógica para cambiar las clases del <nav> dependiendo de la URL actual
         const navbar = document.getElementById("navbar-vertical");
         if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
             navbar.classList.add("show");
@@ -965,7 +1345,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navbar.classList.remove("show");
             navbar.style.width = "calc(100% - 30px)";
             navbar.style.zIndex = "1";
-        }
+        } */
         // Seleccionar elementos por clase
         const navLinks = document.querySelectorAll('.nav-link');
         const dropdownMenus = document.querySelectorAll('.dropdown-menu.bg-secondary.border-0.rounded-0.w-100.m-0');

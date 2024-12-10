@@ -3,159 +3,114 @@
         "footer": {
             "copyright": [
                 {
-                    "text": "Copyright"
+                    
                 }
             ]
         }
     },
     "right": {
-        "icon": [
-            {
+        "store_info": {
+            "title": "Información de la tienda",
+            "title_brand": "VolleyballArt",
+            "icon": {
                 "href": "img/brand/LogoConPelota.ico"
-            }
-        ],
-        "logo": {
-            "link": [
-                {
-                    "href": "index.html"
-                }
-            ],
-            "img": [
-                {
-                    "src": "img/brand/VolleyballArt.gif",
-                    "alt": "Logo de brand"
-                }
-            ]
-        },
-        "home": [
-            {
+            },
+            "logo": {
+                "src": "img/brand/VolleyballArt.gif",
+                "alt": "Logo de brand"
+            },
+            "home": {
                 "text": "Home",
+                "about_us": "¿Quiénes somos?",
                 "href": "index.html"
-            }
-        ],
-        "shop": [
-            {
+            },
+            "shop": {
                 "text": "Productos",
+                "our_products": "Nuestros Productos",
                 "href": "shop.html"
-            }
-        ],
-        "reviews": [
-            {
+            },
+            "review": {
                 "text": "Reseñas",
+                "your_reviews": "Sus Reseñas",
                 "href": "review.html"
-            }
-        ],
-        "contact": [
-            {
+            },
+            "contact": {
                 "text": "Contacto",
+                "contact_us": "Contáctenos",
                 "href": "contact.html"
             }
-        ],
+        },
+        "head": {
+            "title_data": "Tienda de Voley",
+            "description": "Tienda de VolleyballArt",
+            "keywords": "Voley, Tienda de Voley, tienda, Indumentaria, Zapatillas, Accesorios, Equipamiento, Pelotas, Redes, Varillas, Bolsos, Mochilas, Manguitas, Medias, Gemeleras, Rodilleras, Otros, Camperas, Buzos, Camisetas de Juegos, Remeras, Musculosas, Calzas, Shorts, Zapatillas de Hombre, Zapatillas de Mujer, VoleyballArt, VolleyballArt, Volleyball, Volley, Volleyball Art, Volley Art, Volleyball Art, Volley camisetas retro, VolleyballArt, Volley",
+            "viewport": "width=device-width, initial-scale=1.0"
+        },
         "navbar_secondary": {
             "title": "Categorias",
             "shoes": {
-                "link": [
-                    {
-                        "text": "Zapatillas",
-                        "href": null
-                    }
-                ],
-                "men": [
-                    {
-                        "text": "Hombre",
-                        "href": null
-                    }
-                ],
-                "women": [
-                    {
-                        "text": "Mujer",
-                        "href": null
-                    }
-                ]
+                "text": "Zapatillas",
+                "href": "shop.html?category=shoes",
+                "men": {
+                    "text": "Hombre",
+                    "href": "shop.html?category=shoes&subcategory=men"
+                },
+                "women": {
+                    "text": "Mujer",
+                    "href": "shop.html?category=shoes&subcategory=women"
+                }
             },
             "clothing": {
-                "link": [
-                    {
-                        "text": "Indumentaria",
-                        "href": null
-                    }
-                ],
-                "jackets_and_hoodies": [
-                    {
-                        "text": "Camperas y Buzos",
-                        "href": null
-                    }
-                ],
-                "game_shirts": [
-                    {
-                        "text": "Camisetas de Juegos",
-                        "href": null
-                    }
-                ],
-                "t_shirts_and_tank_tops": [
-                    {
-                        "text": "Remeras y Musculosas",
-                        "href": null
-                    }
-                ],
-                "leggings_and_shorts": [
-                    {
-                        "text": "Calzas y Shorts",
-                        "href": null
-                    }
-                ]
+                "text": "Indumentaria",
+                "href": null,
+                "jackets_and_hoodies": {
+                    "text": "Camperas y Buzos",
+                    "href": null
+                },
+                "game_shirts": {
+                    "text": "Camisetas de Juegos",
+                    "href": null
+                },
+                "t_shirts_and_tank_tops": {
+                    "text": "Remeras y Musculosas",
+                    "href": null
+                },
+                "leggings_and_shorts": {
+                    "text": "Calzas y Shorts",
+                    "href": null
+                }
             },
             "accessories": {
-                "link": [
-                    {
-                        "text": "Accesorios",
-                        "href": null
-                    }
-                ],
-                "bags_and_backpacks": [
-                    {
-                        "text": "Bolsos y Mochilas",
-                        "href": null
-                    }
-                ],
-                "sleeves": [
-                    {
-                        "text": "Manguitas",
-                        "href": null
-                    }
-                ],
-                "socks_and_calf_sleeves": [
-                    {
-                        "text": "Medias y Gemeleras",
-                        "href": null
-                    }
-                ],
-                "knee_pads": [
-                    {
-                        "text": "Rodilleras",
-                        "href": null
-                    }
-                ]
+                "text": "Accesorios",
+                "href": null,
+                "bags_and_backpacks": {
+                    "text": "Bolsos y Mochilas",
+                    "href": null
+                },
+                "sleeves": {
+                    "text": "Manguitas",
+                    "href": null
+                },
+                "socks_and_calf_sleeves": {
+                    "text": "Medias y Gemeleras",
+                    "href": null
+                },
+                "knee_pads": {
+                    "text": "Rodilleras",
+                    "href": null
+                }
             },
             "equipment": {
-                "link": [
-                    {
-                        "text": "Equipamiento",
-                        "href": null
-                    }
-                ],
-                "balls": [
-                    {
-                        "text": "Pelotas",
-                        "href": null
-                    }
-                ],
-                "nets_and_poles": [
-                    {
-                        "text": "Redes y Varillas",
-                        "href": null
-                    }
-                ]
+                "text": "Equipamiento",
+                "href": null,
+                "balls": {
+                    "text": "Pelotas",
+                    "href": null
+                },
+                "nets_and_poles": {
+                    "text": "Redes y Varillas",
+                    "href": null
+                }
             }
         },
         "featured": {
@@ -208,133 +163,67 @@
                 }
             }
         },
-        "dato": {
+        "data": {
             "address": {
                 "text": "El Palomar, Buenos Aires, Argentina",
-                "link": [
-                    {
-                        "href": "https://maps.app.goo.gl/7MX8x8KwHTCVS8Qs7"
-                    }
-                ]
+                "href": "https://maps.app.goo.gl/7MX8x8KwHTCVS8Qs7"
             },
             "email": {
                 "text": "volleyballart@gmail.com",
-                "link": [
-                    {
-                        "href": "mailto:"
-                    }
-                ]
+                "href": "mailto:"
             },
             "phone": {
                 "text": "+54 011 1234-5678",
                 "medium": "Soporte 24/7",
-                "link": [
-                    {
-                        "href": "tel:"
-                    }
-                ]
+                "href": "tel:"
             }
-        },
-        "store_info": {
-            "title": "Información de la tienda",
-            "about_us": [
-                {
-                    "text": "¿Quiénes somos?",
-                    "href": "index.html"
-                }
-            ],
-            "products": [
-                {
-                    "text": "Nuestros Productos",
-                    "href": "shop.html"
-                }
-            ],
-            "reviews": [
-                {
-                    "text": "Sus Reseñas",
-                    "href": "review.html"
-                }
-            ],
-            "contact_us": [
-                {
-                    "text": "Contáctenos",
-                    "href": "contact"
-                }
-            ]
         },
         "resources": {
             "title": "Recursos",
-            "privacy_policy": [
-                {
+            "privacy_policy": {
                     "text": "Políticas de Privacidad",
                     "href": null
-                }
-            ],
-            "terms_conditions": [
-                {
+                },
+            "terms_conditions": {
                     "text": "Términos y Condiciones",
                     "href": null
-                }
-            ],
+                },
             "tracking": {
                 "text": "Seguimiento Correo Argentino",
                 "text_offer": "Envío Gratis",
-                "link": [
-                    {
-                        "href": "https://www.correoargentino.com.ar/formularios/e_commerce"
-                    }
-                ]
+                "href": "https://www.correoargentino.com.ar/formularios/e_commerce"
             },
-            "consumer_defense": [
-                {
+            "consumer_defense": {
                     "text": "Defensa al Consumidor",
                     "href": "https://autogestion.produccion.gob.ar/consumidores"
-                }
-            ],
-            "faq": [
-                {
+                },
+            "faq": {
                     "text": "Preguntas Frecuentes",
                     "href": null
                 }
-            ]
         },
         "social_media": {
             "title": "Redes Sociales",
-            "instagram": [
-                {
+            "instagram": {
+                    "href": null
+                },
+            "facebook": {
+                    "href": null
+                },
+            "whatsapp": {
+                    "href": null
+                },
+            "x": {
                     "href": null
                 }
-            ],
-            "facebook": [
-                {
-                    "href": null
-                }
-            ],
-            "whatsapp": [
-                {
-                    "href": null
-                }
-            ],
-            "x": [
-                {
-                    "href": null
-                }
-            ]
         },
         "copyright": {
-            "page": [
-                {
-                    "text": "VolleyballArt",
-                    "href": "index.html"
-                }
-            ],
+            "title": "Copyright",
             "text": " - 2024. Todos los derechos reservados."
         },
-        "payment_methods": [
-            {
+        "payment_methods": {
                 "src": "img/general/payments.png",
                 "alt": "Medios de pago"
             }
-        ]
     }
 }
