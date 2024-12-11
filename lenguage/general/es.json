@@ -114,21 +114,13 @@
             }
         },
         "featured": {
-            "1": {
+            "quality_product": {
                 "title": "Producto de Calidad",
-                "link": [
-                    {
-                        "href": null
-                    }
-                ]
+                "href": null
             },
-            "3": {
+            "days_return": {
                 "title": "14 Días de Devolución",
-                "link": [
-                    {
-                        "href": null
-                    }
-                ]
+                "href": null
             }
         },
         "page_contact": {
