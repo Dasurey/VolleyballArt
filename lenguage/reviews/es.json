@@ -1,35 +1,28 @@
 {
-    "left": {
-
-    },
-    "right": {
-        "title": "Reseñas",
-        "general": {
-            "review_product": " reseñas para ",
-            "null_reviews": "<p class=\"text-center\">No hay reseñas para este producto</p>\n<p class=\"text-center\">Sea el primero en dejar una.</p>\n"
+    "reviews": [
+        {
+            "id_product": 4,
+            "product": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
+            "name": "Juan Pérez",
+            "date": "2020-10-10",
+            "stars": 5,
+            "comment": "Excelente servicio, muy recomendable."
         },
-        "reviews": [
-            {
-                "product": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
-                "name": "Juan Pérez",
-                "date": "2020-10-10",
-                "stars": 5,
-                "comment": "Excelente servicio, muy recomendable."
-            },
-            {
-                "product": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
-                "name": "María Gómez",
-                "date": "2020-11-10",
-                "stars": 4,
-                "comment": "Muy buenos precios, volveré a comprar."
-            },
-            {
-                "product": "Zapatilla Asics Metarise Tokyo Men",
-                "name": "Carlos López",
-                "date": "2020-12-10",
-                "stars": 3,
-                "comment": "Buen servicio, pero la entrega fue un poco lenta."
-            }
-        ]
-    }
+        {
+            "id_product": 4,
+            "product": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
+            "name": "María Gómez",
+            "date": "2020-11-10",
+            "stars": 4,
+            "comment": "Muy buenos precios, volveré a comprar."
+        },
+        {
+            "id_product": 1,
+            "product": "Zapatilla Asics Metarise Tokyo Men",
+            "name": "Carlos López",
+            "date": "2020-12-10",
+            "stars": 3,
+            "comment": "Buen servicio, pero la entrega fue un poco lenta."
+        }
+    ]
 }
