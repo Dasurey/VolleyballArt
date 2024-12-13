@@ -1,35 +1,35 @@
 {
     "category": [
         {
-                "id": 1,
-                "title": "Zapatillas",
-                "href": "shop.html?category=shoes",
-                "subcategory": [
-                    {
-                        "id": 1,
-                        "title": "Hombre",
-                        "href": "shop.html?category=shoes&subcategory=men",
-                        "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
-                        "img": [
-                            {
-                                "src": "img/additional_info/shoes_alls.webp",
-                                "alt": "Talles de Zapatillas"
-                            }
-                        ]
-                    },
-                    {
-                        "id": 2,
-                        "title": "Mujer",
-                        "href": "shop.html?category=shoes&subcategory=women",
-                        "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
-                        "img": [
-                            {
-                                "src": "img/additional_info/shoes_alls.webp",
-                                "alt": "Talles de Zapatillas"
-                            }
-                        ]
-                    }
-                ]
+            "id": 1,
+            "title": "Zapatillas",
+            "href": "shop.html?category=Zapatillas",
+            "subcategory": [
+                {
+                    "id": 1,
+                    "title": "Hombre",
+                    "href": "shop.html?category=Zapatillas&subcategory=Hombre",
+                    "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
+                    "img": [
+                        {
+                            "src": "img/additional_info/shoes_alls.webp",
+                            "alt": "Talles de Zapatillas"
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "title": "Mujer",
+                    "href": "shop.html?category=shoes&subcategory=women",
+                    "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
+                    "img": [
+                        {
+                            "src": "img/additional_info/shoes_alls.webp",
+                            "alt": "Talles de Zapatillas"
+                        }
+                    ]
+                }
+            ]
         },
         {
             "id": 2,

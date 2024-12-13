@@ -493,22 +493,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Función para mostrar los productos
-    function displayProducts(products, sortCriteria = null, limit = null, reviews = null, page = 1) {
+    function displayProducts(products, sortCriteria = null, limit = null, reviews = null, page = null, sortedProducts = null) {
         Promise.all([loadJSON(productJson)])
         .then(([productData]) => {
-            if(products === null) {
+            if (products === null) {
                 products = Object.values(productData.products);
             }
             if (!Array.isArray(products)) {
                 products = Object.values(productData);
             }
-            if (sortCriteria) {
+            if (sortCriteria && !sortedProducts) {
                 products = sortProducts(products, sortCriteria, reviews);
                 console.log('Productos ordenados:', products);
-            } else {
+            } else if (!sortedProducts) {
                 products.sort((a, b) => a.outstanding - b.outstanding).sort((a, b) => a.price - b.price);
+            } else {
+                products = sortedProducts;
             }
-            if(pathname.endsWith('/index.html')) {
+            if (pathname.endsWith('/index.html')) {
                 products.sort((a, b) => a.price - b.price);
                 sortCriteria = 'featured';
                 products = sortProducts(products, sortCriteria, reviews);
@@ -555,57 +557,57 @@ document.addEventListener('DOMContentLoaded', () => {
             }
     
             // Crear botones de paginación
-        if (pathname.endsWith('/shop.html')) {
-            const paginationElement = document.getElementById('paginationId');
-            paginationElement.innerHTML = ''; // Limpiar contenido previo
-
-            const totalPages = Math.ceil(products.length / itemsPerPage);
-            const paginationHTML = `
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center mb-3">
-                        <li class="page-item ${page === 1 ? 'disabled' : ''}">
-                            <button class="page-link pagination" aria-label="Previous" ${page === 1 ? 'disabled' : ''}>
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </button>
-                        </li>
-                        ${Array.from({ length: totalPages }, (_, i) => `
-                            <li class="page-item ${page === i + 1 ? 'active' : ''}">
-                                <button class="page-link pagination">${i + 1}</button>
+            if (pathname.endsWith('/shop.html')) {
+                const paginationElement = document.getElementById('paginationId');
+                paginationElement.innerHTML = ''; // Limpiar contenido previo
+    
+                const totalPages = Math.ceil(products.length / itemsPerPage);
+                const paginationHTML = `
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center mb-3">
+                            <li class="page-item ${page === 1 ? 'disabled' : ''}">
+                                <button class="page-link pagination" aria-label="Previous" ${page === 1 ? 'disabled' : ''}>
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </button>
                             </li>
-                        `).join('')}
-                        <li class="page-item ${page === totalPages ? 'disabled' : ''}">
-                            <button class="page-link pagination" aria-label="Next" ${page === totalPages ? 'disabled' : ''}>
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-            `;
-            paginationElement.innerHTML = paginationHTML;
-
-            // Agregar event listeners a los botones de paginación
-            const pageButtons = paginationElement.querySelectorAll('.page-link.pagination');
-            pageButtons.forEach((button, index) => {
-                button.addEventListener('click', () => {
-                    if (button.getAttribute('aria-label') === 'Previous') {
-                        displayProducts(products, sortCriteria, limit, reviews, page - 1);
-                    } else if (button.getAttribute('aria-label') === 'Next') {
-                        displayProducts(products, sortCriteria, limit, reviews, page + 1);
-                    } else {
-                        displayProducts(products, sortCriteria, limit, reviews, index);
-                    }
+                            ${Array.from({ length: totalPages }, (_, i) => `
+                                <li class="page-item ${page === i + 1 ? 'active' : ''}">
+                                    <button class="page-link pagination">${i + 1}</button>
+                                </li>
+                            `).join('')}
+                            <li class="page-item ${page === totalPages ? 'disabled' : ''}">
+                                <button class="page-link pagination" aria-label="Next" ${page === totalPages ? 'disabled' : ''}>
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                `;
+                paginationElement.innerHTML = paginationHTML;
+    
+                // Agregar event listeners a los botones de paginación
+                const pageButtons = paginationElement.querySelectorAll('.page-link.pagination');
+                pageButtons.forEach((button, index) => {
+                    button.addEventListener('click', () => {
+                        if (button.getAttribute('aria-label') === 'Previous') {
+                            displayProducts(products, sortCriteria, limit, reviews, page - 1, products);
+                        } else if (button.getAttribute('aria-label') === 'Next') {
+                            displayProducts(products, sortCriteria, limit, reviews, page + 1, products);
+                        } else {
+                            displayProducts(products, sortCriteria, limit, reviews, index, products);
+                        }
+                    });
                 });
-            });
-        }
+            }
         })
         .catch(error => {
             console.error('Error al cargar los archivos JSON:', error);
         });
     }
     
-    function loadFilters(limit = null) {
+    function loadFilters(limit = null, page = null) {
         Promise.all([loadJSON(productJson), loadJSON(generalJson)])
         .then(([productData, generalData]) => {
             const priceFilters = [
@@ -628,17 +630,17 @@ document.addEventListener('DOMContentLoaded', () => {
             let products = Object.values(productData.products);
             products.sort((a, b) => a.price - b.price);
     
-            createFilterForm(priceFilters, 'price-form', 'price', limit);
+            createFilterForm(priceFilters, 'price-form', 'price', limit, page);
     
             // Aplicar la lógica de filtrado inicial
-            filterProductsByPrice(null, products, limit);
+            filterProductsByPrice(null, products, limit, page);
         })
         .catch(error => {
             console.error('Error al cargar los archivos JSON:', error);
         });
     }
     
-    function createFilterForm(filterData, formId, type, limit = null) {
+    function createFilterForm(filterData, formId, type, limit = null, page = null) {
         const form = document.getElementById(formId);
         form.innerHTML = ''; // Limpiar contenido previo
     
@@ -671,13 +673,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const checkboxes = form.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', () => {
-                    filterProductsByPrice(null, null, limit);
+                    filterProductsByPrice(null, null, limit, page);
                 });
             });
         }
     }
     
-    function filterProductsByPrice(sortCriteria = null, products = null, limit = null) {
+    function filterProductsByPrice(sortCriteria = null, products = null, limit = null, page = null) {
         const checkboxes = document.querySelectorAll('#price-form input[type="checkbox"]:checked');
         const selectedRanges = Array.from(checkboxes).map(checkbox => ({
             min: parseInt(checkbox.getAttribute('data-min')),
@@ -685,10 +687,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
     
         // Si no hay checkboxes seleccionados, no mostrar ningún producto
-        updateProducts(selectedRanges, sortCriteria, products, limit);
+        updateProducts(selectedRanges, sortCriteria, products, limit, page);
     }
     
-    function updateProducts(selectedRanges = [], sortCriteria = null, products = null, limit = null) {
+    function updateProducts(selectedRanges = [], sortCriteria = null, products = null, limit = null, page = null) {
         const urlParams = new URLSearchParams(window.location.search);
         const category = urlParams.get('category');
         const subcategory = urlParams.get('subcategory');
@@ -697,7 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let allProducts = products || Object.values(productData.products);
             const reviews = reviewData.reviews;
     
-            allProducts = filterProductsByCategory(allProducts, category, subcategory);
+            allProducts = filterProductsByCategory(allProducts, category, subcategory, productData);
     
             let filteredProducts;
             if (selectedRanges.length === 0) {
@@ -711,14 +713,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Rangos seleccionados:', filteredProducts);
             }
             
-            displayProducts(filteredProducts, sortCriteria, limit, reviews);
-            searchSection(filteredProducts, limit, reviews); // Llamar a searchSection con los productos filtrados
+            displayProducts(filteredProducts, sortCriteria, limit, reviews, page);
+            searchSection(filteredProducts, limit, reviews, page); // Llamar a searchSection con los productos filtrados
         }).catch(error => {
             console.error('Error al cargar y filtrar los productos:', error);
         });
     }
     
-    function searchSection(filteredProducts, limit, reviews) {
+    function searchSection(filteredProducts, limit, reviews, page = null) {
         const searchSectionElement = document.getElementById('searchSectionId');
         loadJSON(generalJson).then(data => {
             const searchSectionHTML = `
@@ -758,19 +760,19 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (sortReverseElement) {
                 sortReverseElement.addEventListener('click', () => {
-                    displayProducts(filteredProducts, 'reverse', limit, reviews);
+                    displayProducts(filteredProducts, 'reverse', limit, reviews, page);
                 });
             }
         
             if (sortBestRatingElement) {
                 sortBestRatingElement.addEventListener('click', () => {
-                    displayProducts(filteredProducts, 'best_rating', limit, reviews);
+                    displayProducts(filteredProducts, 'best_rating', limit, reviews, page);
                 });
             }
         
             if (sortFeaturedElement) {
                 sortFeaturedElement.addEventListener('click', () => {
-                    displayProducts(filteredProducts, 'featured', limit, reviews);
+                    displayProducts(filteredProducts, 'featured', limit, reviews, page);
                 });
             }
         });
@@ -801,12 +803,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    function filterProductsByCategory(products, category, subcategory) {
+    function filterProductsByCategory(products, categoryName, subcategoryName, dataProducts) {
+        let categoryId = null;
+        let subcategoryId = null;
+    
+        if (categoryName) {
+            const category = dataProducts.category.find(cat => cat.title === categoryName);
+            if (category) {
+                categoryId = category.id;
+            }
+        }
+    
+        if (subcategoryName && categoryId) {
+            const category = dataProducts.category.find(cat => cat.title === categoryName);
+            if (category) {
+                const subcategory = category.subcategory.find(subcat => subcat.title === subcategoryName);
+                if (subcategory) {
+                    subcategoryId = subcategory.id;
+                }
+            }
+        }
+    
         return products.filter(product => {
-            if (category && subcategory) {
-                return product.category === category && product.subcategory === subcategory;
-            } else if (category) {
-                return product.category === category;
+            if (categoryId && subcategoryId) {
+                return product.category === categoryId && product.subcategory === subcategoryId;
+            } else if (categoryId) {
+                return product.category === categoryId;
             }
             return true;
         });
@@ -1394,10 +1416,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Verificar si estamos en la página de inicio
     if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
         promises.push(index());
-        promises.push(displayProducts(null, null, 8, null)); // Limitar a 8 productos en index
+        promises.push(displayProducts(null, null, 8, null, 1)); // Limitar a 8 productos en index
     } else if (pathname.endsWith("/shop.html")) {
         promises.push(pageHeader('shop', 'our_products', 'background-image-shop'));
-        promises.push(loadFilters(4)); // Página 1, 10 elementos por página
+        promises.push(loadFilters(4, 1)); // Página 1, 10 elementos por página
     } else if (pathname.endsWith("/contact.html")) {
         promises.push(pageHeader('contact', 'contact_us', 'background-image-contact'));
         promises.push(loadHTMLContent('general-file/contact-content.html', contactElement));
