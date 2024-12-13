@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Función para mostrar los productos
-    function displayProducts(products, sortCriteria = null, limit = null, reviews = null) {
+    function displayProducts(products, sortCriteria = null, limit = null, reviews = null, page = 1) {
         Promise.all([loadJSON(productJson)])
         .then(([productData]) => {
             if(products === null) {
@@ -503,13 +503,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 products = Object.values(productData);
             }
             if (sortCriteria) {
-                if (currentSortCriteria === sortCriteria) {
-                    isAscending = !isAscending; // Alternar el orden
-                } else {
-                    isAscending = true; // Restablecer a ascendente si se cambia el criterio
-                }
-                currentSortCriteria = sortCriteria;
                 products = sortProducts(products, sortCriteria, reviews);
+                console.log('Productos ordenados:', products);
             } else {
                 products.sort((a, b) => a.outstanding - b.outstanding).sort((a, b) => a.price - b.price);
             }
@@ -521,27 +516,32 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const productsListElement = document.getElementById('productsId');
             productsListElement.innerHTML = ''; // Limpiar contenido previo
+    
+            // Paginación
+            const itemsPerPage = limit || 10;
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedProducts = products.slice(startIndex, endIndex);
+    
             let count = 0;
-            for (const key in products) {
-                if (products.hasOwnProperty(key)) {
-                    if (limit !== null && count >= limit) break; // Detener el bucle después de alcanzar el límite
-                    const product = products[key];
+            for (const key in paginatedProducts) {
+                if (paginatedProducts.hasOwnProperty(key)) {
+                    const product = paginatedProducts[key];
                     const productHTML = `
-                        <a href="${product.href}" class="card product-item border-0 mb-4">
-                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
-                            </div>
-                            <div class="card-body text-center p-0 pt-4 pb-3">
-                                <h6 class="text-cardShop mb-3">${product.title}</h6>
-                                <div class="d-flex justify-content-center" id="priceId-${key}"></div>
-                            </div>
-                        </a>
+                        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                            <a href="${product.href}" class="card product-item border-0 mb-4">
+                                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                    <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
+                                </div>
+                                <div class="card-body text-center p-0 pt-4 pb-3">
+                                    <h6 class="text-cardShop mb-3">${product.title}</h6>
+                                    <div class="d-flex justify-content-center" id="priceId-${key}"></div>
+                                </div>
+                            </a>
+                        </div>
                     `;
-                    const tempDiv = document.createElement('div');
-                    tempDiv.className = 'col-lg-3 col-md-6 col-sm-12 pb-1';
-                    tempDiv.innerHTML = productHTML;
-                    const productElement = tempDiv.firstElementChild;
-                    productsListElement.appendChild(tempDiv);
+                    productsListElement.innerHTML += productHTML;
+    
                     // Actualizar el precio y el precio anterior
                     const priceElement = document.getElementById(`priceId-${key}`);
                     if (product.previous_price) {
@@ -553,6 +553,52 @@ document.addEventListener('DOMContentLoaded', () => {
                     count++; // Incrementar el contador
                 }
             }
+    
+            // Crear botones de paginación
+        if (pathname.endsWith('/shop.html')) {
+            const paginationElement = document.getElementById('paginationId');
+            paginationElement.innerHTML = ''; // Limpiar contenido previo
+
+            const totalPages = Math.ceil(products.length / itemsPerPage);
+            const paginationHTML = `
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mb-3">
+                        <li class="page-item ${page === 1 ? 'disabled' : ''}">
+                            <button class="page-link pagination" aria-label="Previous" ${page === 1 ? 'disabled' : ''}>
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </button>
+                        </li>
+                        ${Array.from({ length: totalPages }, (_, i) => `
+                            <li class="page-item ${page === i + 1 ? 'active' : ''}">
+                                <button class="page-link pagination">${i + 1}</button>
+                            </li>
+                        `).join('')}
+                        <li class="page-item ${page === totalPages ? 'disabled' : ''}">
+                            <button class="page-link pagination" aria-label="Next" ${page === totalPages ? 'disabled' : ''}>
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            `;
+            paginationElement.innerHTML = paginationHTML;
+
+            // Agregar event listeners a los botones de paginación
+            const pageButtons = paginationElement.querySelectorAll('.page-link.pagination');
+            pageButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    if (button.getAttribute('aria-label') === 'Previous') {
+                        displayProducts(products, sortCriteria, limit, reviews, page - 1);
+                    } else if (button.getAttribute('aria-label') === 'Next') {
+                        displayProducts(products, sortCriteria, limit, reviews, page + 1);
+                    } else {
+                        displayProducts(products, sortCriteria, limit, reviews, index);
+                    }
+                });
+            });
+        }
         })
         .catch(error => {
             console.error('Error al cargar los archivos JSON:', error);
@@ -571,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 many_variables.prices.range_5,
                 many_variables.prices.range_6
             ];
-
+    
             const sidebar = document.getElementById('shopSidebarId');
             sidebar.innerHTML = `
                 <div class="border-bottom mb-4 pb-4">
@@ -583,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
             products.sort((a, b) => a.price - b.price);
     
             createFilterForm(priceFilters, 'price-form', 'price', limit);
-
+    
             // Aplicar la lógica de filtrado inicial
             filterProductsByPrice(null, products, limit);
         })
@@ -591,7 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error al cargar los archivos JSON:', error);
         });
     }
-
+    
     function createFilterForm(filterData, formId, type, limit = null) {
         const form = document.getElementById(formId);
         form.innerHTML = ''; // Limpiar contenido previo
@@ -630,7 +676,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
-
+    
     function filterProductsByPrice(sortCriteria = null, products = null, limit = null) {
         const checkboxes = document.querySelectorAll('#price-form input[type="checkbox"]:checked');
         const selectedRanges = Array.from(checkboxes).map(checkbox => ({
@@ -641,7 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Si no hay checkboxes seleccionados, no mostrar ningún producto
         updateProducts(selectedRanges, sortCriteria, products, limit);
     }
-
+    
     function updateProducts(selectedRanges = [], sortCriteria = null, products = null, limit = null) {
         const urlParams = new URLSearchParams(window.location.search);
         const category = urlParams.get('category');
@@ -655,9 +701,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
             let filteredProducts;
             if (selectedRanges.length === 0) {
-                /* Si no hay checkboxes seleccionados, mostrar todos los productos
-                filteredProducts = allProducts; */
-
                 // Si no hay checkboxes seleccionados, no mostrar ningún producto
                 filteredProducts = [];
                 console.log('No hay rangos seleccionados');
@@ -667,15 +710,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 console.log('Rangos seleccionados:', filteredProducts);
             }
-    
+            
             displayProducts(filteredProducts, sortCriteria, limit, reviews);
-            searchSection(limit, filteredProducts);
+            searchSection(filteredProducts, limit, reviews); // Llamar a searchSection con los productos filtrados
         }).catch(error => {
             console.error('Error al cargar y filtrar los productos:', error);
         });
     }
-
-    function searchSection(limit = null, filteredProducts = null) {
+    
+    function searchSection(filteredProducts, limit, reviews) {
         const searchSectionElement = document.getElementById('searchSectionId');
         loadJSON(generalJson).then(data => {
             const searchSectionHTML = `
@@ -698,41 +741,41 @@ document.addEventListener('DOMContentLoaded', () => {
                         <button class="btn border dropdown-toggle" type="button" id="triggerId"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${data.searchSection.btn.text}</button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                            <a class="dropdown-item" id="sort-reverse">${data.searchSection.menu.reverse.text}</a>
-                            <a class="dropdown-item" id="sort-featured">${data.searchSection.menu.featured.text}</a>
-                            <a class="dropdown-item" id="sort-best-rating">${data.searchSection.menu.best_rating.text}</a>
+                            <button class="dropdown-item" id="sort-reverse">${data.searchSection.menu.reverse.text}</button>
+                            <button class="dropdown-item" id="sort-featured">${data.searchSection.menu.featured.text}</button>
+                            <button class="dropdown-item" id="sort-best-rating">${data.searchSection.menu.best_rating.text}</button>
                         </div>
                     </div>
                     <!-- Sort By - End -->
                 </div>
             `;
             searchSectionElement.innerHTML = searchSectionHTML;
-            
-            // Agregar los event listeners después de cargar el contenido HTML
+
             const sortReverseElement = document.getElementById('sort-reverse');
             const sortBestRatingElement = document.getElementById('sort-best-rating');
             const sortFeaturedElement = document.getElementById('sort-featured');
+            console.log('hola', sortFeaturedElement);
             
             if (sortReverseElement) {
                 sortReverseElement.addEventListener('click', () => {
-                    filterProductsByPrice('reverse', filteredProducts, limit);
+                    displayProducts(filteredProducts, 'reverse', limit, reviews);
                 });
             }
         
             if (sortBestRatingElement) {
                 sortBestRatingElement.addEventListener('click', () => {
-                    filterProductsByPrice('best_rating', filteredProducts, limit);
+                    displayProducts(filteredProducts, 'best_rating', limit, reviews);
                 });
             }
         
             if (sortFeaturedElement) {
                 sortFeaturedElement.addEventListener('click', () => {
-                    filterProductsByPrice('featured', filteredProducts, limit);
+                    displayProducts(filteredProducts, 'featured', limit, reviews);
                 });
             }
         });
     }
-
+    
     function sortProducts(products, criteria, reviews) {
         switch (criteria) {
             case 'reverse':
@@ -1315,19 +1358,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center mb-3">
                         <li class="page-item disabled">
-                            <a class="page-link" aria-label="Previous" data-product="pageNavegation.previous.link">
+                            <button class="page-link" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only" data-product="pageNavegation.previous.text"></span>
-                            </a>
+                                <span class="sr-only">Previus</span>
+                            </button>
                         </li>
-                        <li class="page-item active"><a class="page-link" data-product="pageNavegation.pages.page_1"></a></li>
-                        <li class="page-item"><a class="page-link" data-product="pageNavegation.pages.page_2"></a></li>
-                        <li class="page-item"><a class="page-link" data-product="pageNavegation.pages.page_3"></a></li>
+                        <li class="page-item active"><button class="page-link">1</button></li>
                         <li class="page-item">
-                            <a class="page-link" aria-label="Next" data-product="pageNavegation.next.link">
+                            <button class="page-link" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only" data-product="pageNavegation.next.text"></span>
-                            </a>
+                                <span class="sr-only">Next</span>
+                            </button>
                         </li>
                     </ul>
                 </nav>
@@ -1356,7 +1397,7 @@ document.addEventListener('DOMContentLoaded', () => {
         promises.push(displayProducts(null, null, 8, null)); // Limitar a 8 productos en index
     } else if (pathname.endsWith("/shop.html")) {
         promises.push(pageHeader('shop', 'our_products', 'background-image-shop'));
-        promises.push(loadFilters(null)); // Página 1, 10 elementos por página
+        promises.push(loadFilters(4)); // Página 1, 10 elementos por página
     } else if (pathname.endsWith("/contact.html")) {
         promises.push(pageHeader('contact', 'contact_us', 'background-image-contact'));
         promises.push(loadHTMLContent('general-file/contact-content.html', contactElement));
