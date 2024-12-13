@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                     `;
 
-                    document.querySelector('[data-details="related"]').innerHTML = `<span class="px-2" data-product="general.related">${generalData.page_product.related}</span>`;
+                    document.querySelector('[data-details="related"]').innerHTML = `<span class="px-2">${generalData.page_product.related}</span>`;
 
                     if (numberOfReviews > 0) {
                         const totalStars = reviews.reduce((sum, review) => sum + review.stars, 0);
