@@ -59,15 +59,6 @@
             }
         }
     },
-    "page_product": {
-        "btn": {
-            "text": " Añadir al Carrito"
-        },
-        "share": "Compartir en:",
-        "related": "También te puede interesar",
-        "review_product": " reseñas para ",
-        "null_reviews": "<p class=\"text-center\">No hay reseñas para este producto</p>\n<p class=\"text-center\">Sea el primero en dejar una.</p>\n"
-    },
     "tab_pane": {
         "description": {
             "title": "Descripción"
@@ -78,17 +69,6 @@
         },
         "review": {
             "title": "Reseñas"
-        }
-    },
-    "review_product": {
-        "title": "Deja una reseña",
-        "text": "Tu dirección de correo electrónico no será publicada. Los campos obligatorios están branddos con *",
-        "rating": "Tu Rating * :",
-        "form": {
-            "review": "Tu Reseña *:",
-            "name": "Tu Nombre *:",
-            "email": "Tu Email *:",
-            "submit": "Deja tu opinión"
         }
     },
     "featured": {
@@ -104,11 +84,7 @@
     "page_contact": {
         "title": "Contáctenos Para Cualquier Consulta",
         "form": {
-            "btn": [
-                {
-                    "text": "Enviar Mensaje"
-                }
-            ]
+            "btn": "Enviar Mensaje"
         },
         "subtitle_1": "Contáctenos",
         "subtext_1": "Nuestro Centro de Atención al Cliente está a tu disposición para atender todas tus consultas. También podés contactarnos por nuestras redes sociales.",
@@ -116,6 +92,26 @@
     },
     "page_review": {
         "title": "Reseñas de los Clientes"
+    },
+    "page_product": {
+        "btn": {
+            "text": " Añadir al Carrito"
+        },
+        "share": "Compartir en:",
+        "related": "También te puede interesar",
+        "review_product": " reseñas para ",
+        "null_reviews": "<p class=\"text-center\">No hay reseñas para este producto</p>\n<p class=\"text-center\">Sea el primero en dejar una.</p>\n"
+    },
+    "review_product": {
+        "title": "Deja una reseña",
+        "text": "Tu dirección de correo electrónico no será publicada. Los campos obligatorios están branddos con *",
+        "rating": "Tu Rating * :",
+        "form": {
+            "review": "Tu Reseña *:",
+            "name": "Tu Nombre *:",
+            "email": "Tu Email *:",
+            "submit": "Deja tu opinión"
+        }
     },
     "searchSection": {
         "btn": {

@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const generalJson = 'lenguage/general/es.json'; // Ruta del archivo JSON
     const productJson = 'lenguage/products/es.json'; // Ruta del archivo JSON
     const reviewJson = 'lenguage/reviews/es.json'; // Ruta del archivo JSON
-    let currentSortCriteria = null;
     let isAscending = true;
     let many_variables = {
         sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
@@ -24,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             range_5: { min: 200000, max: 250000 },
             range_6: { min: 250000, max: 300000 }
         }
-        /* Color no se pudo cargar desde el JSON despues tratar de buscarle la vuelta */
     };
     
     const sizesCategory = {
@@ -47,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const preloaderElement = document.querySelector('.preloader');
     const pageElement = document.querySelector('.page');
-    const delay = 1900; // Retraso en milisegundos (1.9 segundos)
+    const delay = 800; // Retraso en milisegundos (1.9 segundos)
     // Ya se esta mostrando el indicador de carga
 
     const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
@@ -198,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const product = Object.values(productData.products).find(p => p.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === productTitle);
                 if (product) {
                     // Actualizar el contenido de la página con los datos del producto
-                    document.getElementById('headId').innerHTML += `<title>${product.title} - VolleyballArt</title>`;
+                    document.getElementById('headId').innerHTML += `<title>${product.title} - ${generalData.store_info.title_brand}</title>`;
                     document.querySelector('[data-details="title"]').textContent = product.title;
                     
                     // Filtrar los elementos del array `product.img` que no tienen `carousel` en `true`
@@ -488,10 +486,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
-    //Cosas a modificar
-
-
     // Función para mostrar los productos
     function displayProducts(products, sortCriteria = null, limit = null, reviews = null, page = null, sortedProducts = null) {
         Promise.all([loadJSON(productJson)])
@@ -500,11 +494,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 products = Object.values(productData.products);
             }
             if (!Array.isArray(products)) {
-                products = Object.values(productData);
+                products = Object.values(productData.products);
             }
             if (sortCriteria && !sortedProducts) {
                 products = sortProducts(products, sortCriteria, reviews);
-                console.log('Productos ordenados:', products);
             } else if (!sortedProducts) {
                 products.sort((a, b) => a.outstanding - b.outstanding).sort((a, b) => a.price - b.price);
             } else {
@@ -560,9 +553,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pathname.endsWith('/shop.html')) {
                 const paginationElement = document.getElementById('paginationId');
                 paginationElement.innerHTML = ''; // Limpiar contenido previo
-    
+                            
                 const totalPages = Math.ceil(products.length / itemsPerPage);
-                const paginationHTML = `
+                let paginationHTML = `
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center mb-3">
                             <li class="page-item ${page === 1 ? 'disabled' : ''}">
@@ -571,11 +564,70 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <span class="sr-only">Previous</span>
                                 </button>
                             </li>
-                            ${Array.from({ length: totalPages }, (_, i) => `
-                                <li class="page-item ${page === i + 1 ? 'active' : ''}">
-                                    <button class="page-link pagination">${i + 1}</button>
-                                </li>
-                            `).join('')}
+                `;
+                            
+                if (totalPages <= 4) {
+                    // Mostrar todas las páginas si son 4 o menos
+                    for (let i = 1; i <= totalPages; i++) {
+                        paginationHTML += `
+                            <li class="page-item ${page === i ? 'active' : ''}">
+                                <button class="page-link pagination">${i}</button>
+                            </li>
+                        `;
+                    }
+                } else {
+                    // Mostrar la primera página
+                    paginationHTML += `
+                        <li class="page-item ${page === 1 ? 'active' : ''}">
+                            <button class="page-link pagination">1</button>
+                        </li>
+                    `;
+                
+                    if (page > 4) {
+                        // Mostrar puntos suspensivos si la página actual es mayor que 3
+                        paginationHTML += `
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        `;
+                    }
+                
+                    // Mostrar las páginas alrededor de la página actual
+                    let startPage = Math.max(2, page - 2);
+                    let endPage = Math.min(totalPages - 2, page + 2);
+                
+                    if (page === 1) {
+                        endPage = 3;
+                    } else if (page === totalPages) {
+                        startPage = totalPages - 2;
+                    }
+                
+                    for (let i = startPage; i <= endPage; i++) {
+                        paginationHTML += `
+                            <li class="page-item ${page === i ? 'active' : ''}">
+                                <button class="page-link pagination">${i}</button>
+                            </li>
+                        `;
+                    }
+                
+                    if (page < totalPages - 4) {
+                        // Mostrar puntos suspensivos si la página actual es menor que totalPages - 2
+                        paginationHTML += `
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        `;
+                    }
+                
+                    // Mostrar la última página
+                    paginationHTML += `
+                        <li class="page-item ${page === totalPages ? 'active' : ''}">
+                            <button class="page-link pagination">${totalPages}</button>
+                        </li>
+                    `;
+                }
+                
+                paginationHTML += `
                             <li class="page-item ${page === totalPages ? 'disabled' : ''}">
                                 <button class="page-link pagination" aria-label="Next" ${page === totalPages ? 'disabled' : ''}>
                                     <span aria-hidden="true">&raquo;</span>
@@ -585,8 +637,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         </ul>
                     </nav>
                 `;
+                
                 paginationElement.innerHTML = paginationHTML;
-    
+                
                 // Agregar event listeners a los botones de paginación
                 const pageButtons = paginationElement.querySelectorAll('.page-link.pagination');
                 pageButtons.forEach((button, index) => {
@@ -596,7 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         } else if (button.getAttribute('aria-label') === 'Next') {
                             displayProducts(products, sortCriteria, limit, reviews, page + 1, products);
                         } else {
-                            displayProducts(products, sortCriteria, limit, reviews, index, products);
+                            displayProducts(products, sortCriteria, limit, reviews, parseInt(button.textContent), products);
                         }
                     });
                 });
@@ -705,12 +758,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (selectedRanges.length === 0) {
                 // Si no hay checkboxes seleccionados, no mostrar ningún producto
                 filteredProducts = [];
-                console.log('No hay rangos seleccionados');
             } else {
                 filteredProducts = allProducts.filter(product => {
                     return selectedRanges.some(range => product.price >= range.min && product.price <= range.max);
                 });
-                console.log('Rangos seleccionados:', filteredProducts);
             }
             
             displayProducts(filteredProducts, sortCriteria, limit, reviews, page);
@@ -722,14 +773,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function searchSection(filteredProducts, limit, reviews, page = null) {
         const searchSectionElement = document.getElementById('searchSectionId');
-        loadJSON(generalJson).then(data => {
+        
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
             const searchSectionHTML = `
                 <!-- searchSection-content -->
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <!-- Product Search - Start -->
                     <form id="search-form">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="search-input" placeholder="Search by Name">
+                            <input type="text" class="form-control" id="search-input" placeholder="Buscar por Nombre">
                             <div class="input-group-append">
                                 <span class="input-group-text bg-transparent text-primary">
                                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -741,11 +794,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <!-- Sort By - Start -->
                     <div class="dropdown ml-4">
                         <button class="btn border dropdown-toggle" type="button" id="triggerId"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${data.searchSection.btn.text}</button>
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${generalData.searchSection.btn.text}</button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                            <button class="dropdown-item" id="sort-reverse">${data.searchSection.menu.reverse.text}</button>
-                            <button class="dropdown-item" id="sort-featured">${data.searchSection.menu.featured.text}</button>
-                            <button class="dropdown-item" id="sort-best-rating">${data.searchSection.menu.best_rating.text}</button>
+                            <button class="dropdown-item" id="sort-reverse">${generalData.searchSection.menu.reverse.text}</button>
+                            <button class="dropdown-item" id="sort-featured">${generalData.searchSection.menu.featured.text}</button>
+                            <button class="dropdown-item" id="sort-best-rating">${generalData.searchSection.menu.best_rating.text}</button>
                         </div>
                     </div>
                     <!-- Sort By - End -->
@@ -756,7 +809,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const sortReverseElement = document.getElementById('sort-reverse');
             const sortBestRatingElement = document.getElementById('sort-best-rating');
             const sortFeaturedElement = document.getElementById('sort-featured');
-            console.log('hola', sortFeaturedElement);
             
             if (sortReverseElement) {
                 sortReverseElement.addEventListener('click', () => {
@@ -842,16 +894,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return array.filter(item => !elementsToRemove.includes(item));
     }
 
-    // Función para cargar el contenido del archivo HTML
-    function loadHTMLContent(url, element) {
-        return fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                element.innerHTML += data;
-            })
-            .catch(error => console.error(`Error al cargar el contenido de ${url}:`, error));
-    }
-
     // Función para cargar el archivo JSON
     function loadJSON(url) {
         return fetch(url)
@@ -864,17 +906,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function head() {
         const headContainer = document.getElementById('headId');
-        loadJSON(generalJson).then(data => {
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
             const metaTags = [
                 { charset: "UTF-8" },
-                { name: "viewport", content: data.head.viewport },
-                { name: "description", content: data.head.description },
-                { name: "keywords", content: data.head.keywords },
+                { name: "viewport", content: generalData.head.viewport },
+                { name: "description", content: generalData.head.description },
+                { name: "keywords", content: generalData.head.keywords },
                 { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; img-src 'self' data:; connect-src 'self'" }
             ];
 
             const linkTags = [
-                { rel: "Icon", href: data.store_info.icon.href },
+                { rel: "Icon", href: generalData.store_info.icon.href },
                 { rel: "preconnect", href: "https://fonts.gstatic.com" },
                 { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" },
                 { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" },
@@ -897,13 +940,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Establecer el título de la página
             let title = '';
             if (pathname.endsWith('/index.html') || pathname.endsWith('/')) {
-                title = `${data.store_info.title_brand} - ${data.head.title_data}`;
+                title = `${generalData.store_info.title_brand} - ${generalData.head.title_data}`;
             } else if (pathname.endsWith('/shop.html')) {
-                title = `${data.store_info.shop.text} - ${data.store_info.title_brand}`;
+                title = `${generalData.store_info.shop.text} - ${generalData.store_info.title_brand}`;
             } else if (pathname.endsWith('/contact.html')) {
-                title = `${data.store_info.contact.text} - ${data.store_info.title_brand}`;
+                title = `${generalData.store_info.contact.text} - ${generalData.store_info.title_brand}`;
             } else if (pathname.endsWith('/review.html')) {
-                title = `${data.store_info.review.text} - ${data.store_info.title_brand}`;
+                title = `${generalData.store_info.review.text} - ${generalData.store_info.title_brand}`;
             }
             if (title)
                 document.title = title;
@@ -914,12 +957,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function header() {
         const headerContainer = document.getElementById('headerId');
-        loadJSON(generalJson).then(data => {
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
             const headerElements = [
                 {
                     type: 'link',
-                    href: data.store_info.home.href,
-                    content: `<img src="${data.store_info.logo.src}" alt="${data.store_info.logo.alt}" class="logo">`,
+                    href: generalData.store_info.home.href,
+                    content: `<img src="${generalData.store_info.logo.src}" alt="${generalData.store_info.logo.alt}" class="logo">`,
                     class: 'text-decoration-none'
                 },
                 {
@@ -991,12 +1035,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function navbarPrimary() {
         const navPrimaryContainer = document.getElementById('nav-primaryId');
-        loadJSON(generalJson).then(data => {
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
             const navItems = [
-                { href: data.store_info.home.href, text: data.store_info.home.text },
-                { href: data.store_info.shop.href, text: data.store_info.shop.text },
-                { href: data.store_info.review.href, text: data.store_info.review.text },
-                { href: data.store_info.contact.href, text: data.store_info.contact.text }
+                { href: generalData.store_info.home.href, text: generalData.store_info.home.text },
+                { href: generalData.store_info.shop.href, text: generalData.store_info.shop.text },
+                { href: generalData.store_info.review.href, text: generalData.store_info.review.text },
+                { href: generalData.store_info.contact.href, text: generalData.store_info.contact.text }
             ];
     
             const navLinksHTML = navItems.map(item => `
@@ -1005,8 +1050,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const navPrimaryHTML = `
                 <!-- navbarPrimary-content.html -->
-                <a class="text-decoration-none d-block d-lg-none" href="${data.store_info.home.href}">
-                    <img src="${data.store_info.logo.src}" alt="${data.store_info.logo.alt}" class="logo">
+                <a class="text-decoration-none d-block d-lg-none" href="${generalData.store_info.home.href}">
+                    <img src="${generalData.store_info.logo.src}" alt="${generalData.store_info.logo.alt}" class="logo">
                 </a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -1089,18 +1134,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function navbarSecondary() {
         const navSecondaryContainer = document.getElementById('nav-secondaryId');
         Promise.all([loadJSON(productJson), loadJSON(generalJson)])
-            .then(([productData, generalData]) => {
-                const navSecondaryHTML = createNavSecondaryHTML(productData, generalData);
-                navSecondaryContainer.innerHTML = navSecondaryHTML;
-            })
-            .catch(error => {
-                console.error('Error al cargar los archivos JSON:', error);
-            });
+        .then(([productData, generalData]) => {
+            const navSecondaryHTML = createNavSecondaryHTML(productData, generalData);
+            navSecondaryContainer.innerHTML = navSecondaryHTML;
+        })
+        .catch(error => {
+            console.error('Error al cargar los archivos JSON:', error);
+        });
     }
 
     function footer() {
         const footerContainer = document.getElementById('footerId');
-        loadJSON(generalJson).then(generalData => {
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
             const footerSections = [
                 {
                     class: 'col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5',
@@ -1171,21 +1217,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    function generateContactInfo(data) {
+    function generateContactInfo(generalData) {
         return `
-            <a class="text-dark" ${data.address.href ? `href="${data.address.href}"` : ''}>
+            <a class="text-dark" ${generalData.address.href ? `href="${generalData.address.href}"` : ''}>
                 <p class="mb-2">
-                    <i class="fa-solid fa-map text-secondary mr-3"></i>${data.address.text}
+                    <i class="fa-solid fa-map text-secondary mr-3"></i>${generalData.address.text}
                 </p>
             </a>
-            <a class="text-dark" ${data.email.href ? `href="${data.email.href}"` : ''}>
+            <a class="text-dark" ${generalData.email.href ? `href="${generalData.email.href}"` : ''}>
                 <p class="mb-2">
-                    <i class="fa-solid fa-envelope text-secondary mr-3"></i> ${data.email.text}
+                    <i class="fa-solid fa-envelope text-secondary mr-3"></i> ${generalData.email.text}
                 </p>
             </a>
-            <a class="text-dark" ${data.phone.href ? `href="${data.phone.href}"` : ''}>
+            <a class="text-dark" ${generalData.phone.href ? `href="${generalData.phone.href}"` : ''}>
                 <p class="mb-0">
-                    <i class="fa-solid fa-phone text-secondary mr-3"></i>${data.phone.text}
+                    <i class="fa-solid fa-phone text-secondary mr-3"></i>${generalData.phone.text}
                 </p>
             </a>
         `;
@@ -1233,7 +1279,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function featured() {
         const featuredContainer = document.getElementById('featuredId');
-        loadJSON(generalJson).then(generalData => {
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
             const featuredItems = [
                 {
                     href: generalData.featured.quality_product.href,
@@ -1335,14 +1382,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function pageHeader(page, title, className) {
         const pageHeaderContainer = document.getElementById('pageHeaderId');
         pageHeaderContainer.classList.add(className);
-        loadJSON(generalJson).then(dataGeneral => {
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
             const pageHeaderHTML = `
                 <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-                    <h1 class="font-weight-semi-bold text-light mb-3">${dataGeneral.store_info[page][title]}</h1>
+                    <h1 class="font-weight-semi-bold text-light mb-3">${generalData.store_info[page][title]}</h1>
                     <div class="d-inline-flex">
-                        <p class="m-0"><a href="${dataGeneral.store_info.home.href}">${dataGeneral.store_info.home.text}</a></p>
+                        <p class="m-0"><a href="${generalData.store_info.home.href}">${generalData.store_info.home.text}</a></p>
                         <p class="m-0 px-2">-</p>
-                        <p class="m-0">${dataGeneral.store_info[page].text}</p>
+                        <p class="m-0">${generalData.store_info[page].text}</p>
                     </div>
                 </div>
             `;
@@ -1352,15 +1400,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function productTitle() {
-        const productTitleContainer = document.getElementById('productTitleId');
-        loadJSON(generalJson).then(dataGeneral => {
-            const productTitleHTML = `
-                <span class="px-2">${dataGeneral.store_info.shop.text}</span>
+    function titleDynamic(page = null) {
+        const titleElement = document.getElementById('titleId');
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
+            const titleHTML = `
+                <span class="px-2">${generalData.store_info[page].text}</span>
             `;
-            productTitleContainer.innerHTML = productTitleHTML;
+            titleElement.innerHTML = titleHTML;
         }).catch(error => {
             console.error('Error al cargar el archivo JSON de productos:', error);
+        });
+    }
+
+    function formContact() {
+        const formContainer = document.getElementById('contact_formId');
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
+            const formContactHTML = `
+            <div class="contact-form">
+                <div id="success"></div>
+                <form>
+                    <div class="control-group">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name"
+                            required="required" data-validation-required-message="Please enter your name" />
+                        <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="control-group">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email"
+                            required="required" data-validation-required-message="Please enter your email" />
+                        <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="control-group">
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject"
+                            required="required" data-validation-required-message="Please enter a subject" />
+                        <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="control-group">
+                        <textarea class="form-control" rows="6" id="message" name="message" placeholder="Message"
+                            required="required"></textarea>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary py-2 px-4" type="submit"
+                            data-name="page_contact.form.btn">${generalData.page_contact.form.btn}</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        formContainer.innerHTML = formContactHTML;
+        })
+        .catch(error => {
+            console.error('Error al cargar los archivos JSON:', error);
         });
     }
 
@@ -1368,37 +1459,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function index() {
         loadCarouselContent();
-        productTitle();
+        titleDynamic('shop');
         featured();
     }
 
-    /* function pageNavegation() {
-        const pageNavegationContainer = document.getElementById('pageNavegationId');
-        loadJSON(generalJson).then(data => {
-            const pageNavegationHTML = `
-                <!-- pageNavegation-content.html -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center mb-3">
-                        <li class="page-item disabled">
-                            <button class="page-link" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previus</span>
-                            </button>
-                        </li>
-                        <li class="page-item active"><button class="page-link">1</button></li>
-                        <li class="page-item">
-                            <button class="page-link" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-            `;
-            pageNavegationContainer.innerHTML += pageNavegationHTML;
-        });
-    } */
+    function review() {
+        titleDynamic('review');
+        pageHeader('review', 'your_reviews', 'background-image-review');
+    }
 
+    function contact() {
+        titleDynamic('contact');
+        pageHeader('contact', 'contact_us', 'background-image-contact');
+    }
+    
     // Seleccionar los elementos que contienen el contenido de los archivos HTML
     const contactElement = document.getElementById('contactId');
     const reviewsElement = document.getElementById('reviewsId');
@@ -1419,12 +1493,12 @@ document.addEventListener('DOMContentLoaded', () => {
         promises.push(displayProducts(null, null, 8, null, 1)); // Limitar a 8 productos en index
     } else if (pathname.endsWith("/shop.html")) {
         promises.push(pageHeader('shop', 'our_products', 'background-image-shop'));
-        promises.push(loadFilters(4, 1)); // Página 1, 10 elementos por página
+        promises.push(loadFilters(12, 1)); // Página 1, 10 elementos por página
     } else if (pathname.endsWith("/contact.html")) {
-        promises.push(pageHeader('contact', 'contact_us', 'background-image-contact'));
-        promises.push(loadHTMLContent('general-file/contact-content.html', contactElement));
+        promises.push(contact());
+        //promises.push(loadHTMLContent('general-file/contact-content.html', contactElement));
     } else if (pathname.endsWith("/review.html")) {
-        promises.push(pageHeader('review', 'your_reviews', 'background-image-review'));
+        promises.push(review());
         promises.push(loadHTMLContent('general-file/reviews-content.html', reviewsElement));
     } else if (pathname.endsWith("/product.html")) {
         promises.push(loadProductDetails(4)); // Limitar a 4 productos relacionados
