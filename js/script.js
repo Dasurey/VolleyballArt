@@ -333,54 +333,54 @@ document.addEventListener('DOMContentLoaded', () => {
                     tabPaneContainer.innerHTML = `
                         <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">${generalData.tab_pane.description.title}</a>
                         <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">${generalData.tab_pane.information.title}</a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">${generalData.tab_pane.review.title} (${numberOfReviews})</a>
+                        <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">${generalData.tab_pane.review.title} (${reviews.length})</a>
                     `;
 
                     const containerFormReview = document.querySelector('[data-details="form_review"]');
                     containerFormReview.innerHTML = `
                         <div class="row">
-                                    <div class="col-md-6" data-details="reviews-product"></div>
-                                    <div class="col-md-6">
-                                        <h4 class="mb-4">${generalData.review_product.title}</h4>
-                                        <small>${generalData.review_product.text}</small>
-                                        <div class="d-flex my-3">
-                                            <p class="mb-0 mr-2">${generalData.review_product.rating}</p>
-                                            <div class="text-primary" id="stars">
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="message">${generalData.review_product.form.review}</label>
-                                                <textarea id="message" cols="30" rows="5"
-                                                    class="form-control"></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="name">${generalData.review_product.form.name}</label>
-                                                <input type="text" class="form-control" id="name">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="email">${generalData.review_product.form.email}</label>
-                                                <input type="email" class="form-control" id="email">
-                                            </div>
-                                            <div class="form-group mb-0">
-                                                <input type="submit" value="${generalData.review_product.form.submit}"
-                                                    class="btn btn-primary px-3">
-                                            </div>
-                                        </form>
+                            <div class="col-md-6">
+                                <h4 class="mb-4">${generalData.review_product.title}</h4>
+                                <small>${generalData.review_product.text}</small>
+                                <div class="d-flex my-3">
+                                    <p class="mb-0 mr-2">${generalData.review_product.rating}</p>
+                                    <div class="text-primary" id="stars">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
                                     </div>
                                 </div>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="message">${generalData.review_product.form.review}</label>
+                                        <textarea id="message" cols="30" rows="5"
+                                            class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">${generalData.review_product.form.name}</label>
+                                        <input type="text" class="form-control" id="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">${generalData.review_product.form.email}</label>
+                                        <input type="email" class="form-control" id="email">
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <input type="submit" value="${generalData.review_product.form.submit}"
+                                            class="btn btn-primary px-3">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-6" data-details="reviews-product"></div>
+                        </div>
                     `;
 
                     document.querySelector('[data-details="related"]').innerHTML = `<span class="px-2">${generalData.page_product.related}</span>`;
 
-                    if (numberOfReviews > 0) {
+                    if (reviews.length > 0) {
                         const totalStars = reviews.reduce((sum, review) => sum + review.stars, 0);
-                        const averageStars = numberOfReviews > 0 ? (totalStars / numberOfReviews).toFixed(1) : 0;
+                        const averageStars = reviews.length > 0 ? (totalStars / reviews.length).toFixed(1) : 0;
                         const starsProductHTML = `
                             ${'<i class="fa-solid fa-star"></i>\n'.repeat(Math.ceil(averageStars))}
                             ${'<i class="fa-regular fa-star"></i>\n'.repeat(5 - Math.ceil(averageStars))}
@@ -389,34 +389,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.querySelector('[data-details="stars_product"]').innerHTML = starsProductHTML;
                     }
                     const countsReviewsProductHTML = document.querySelector('[data-details="count_reviews"]');
-                    countsReviewsProductHTML.textContent = "(" + numberOfReviews + " " + generalData.tab_pane.review.title + ")";
+                    countsReviewsProductHTML.textContent = "(" + reviews.length + " " + generalData.tab_pane.review.title + ")";
 
                     // Mostrar las reseñas
                     const reviewsContainer = document.querySelector('[data-details="reviews-product"]');
-                    reviewsContainer.innerHTML = `<h4 class="mb-5 text-center">${numberOfReviews} ${generalData.page_product.review_product} "${product.title}"</h4>`; // Limpiar contenido previo
-
-                    if (numberOfReviews > 0) {
-                        reviews.forEach(review => {
-                            const reviewHTML = `
-                                <div class="media mb-4">
-                                    <div class="media-body">
-                                        <h6>${review.name}<small> - <i>${review.date}</i></small></h6>
-                                        <div class="text-primary mb-2">
-                                            ${'<i class="fa-solid fa-star"></i>\n'.repeat(review.stars)}
-                                            ${'<i class="fa-regular fa-star"></i>\n'.repeat(5 - review.stars)}
-                                        </div>
-                                        <p>${review.comment}</p>
-                                    </div>
-                                </div>
-                            `;
-                            reviewsContainer.innerHTML += reviewHTML;
-                        });
-                    } else {
-                        const noReviews = generalData.page_product.null_reviews;
-                        if (noReviews) {
-                            reviewsContainer.innerHTML += noReviews;
-                        }
-                    }
+                    reviewsContainer.innerHTML = `
+                        <h4 class="mb-5 text-center">${reviews.length} ${generalData.page_product.review_product} "${product.title}"</h4>
+                        <div class="container-review">
+                            ${generateReviewsHTML(reviews, generalData)}
+                        </div>
+                    `; // Limpiar contenido previo
 
                     // Desactivar el botón inicialmente
                     const btnCartFunction = document.querySelector('.btn_cart_function');
@@ -484,6 +466,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error al cargar los archivos JSON:', error);
             });
         }
+    }
+
+    function generateReviewsHTML(reviews, generalData) {
+        let reviewsHTML = '';
+    
+        if (reviews.length > 0) {
+            reviews.forEach(review => {
+                reviewsHTML += `
+                    <div class="mb-4">
+                        <h6>${review.name}<small> - <i>${review.date}</i></small></h6>
+                        <div class="text-primary mb-2">
+                            ${'<i class="fa-solid fa-star"></i>\n'.repeat(review.stars)}
+                            ${'<i class="fa-regular fa-star"></i>\n'.repeat(5 - review.stars)}
+                        </div>
+                        <p>${review.comment}</p>
+                    </div>
+                `;
+            });
+        } else {
+            const noReviews = generalData.page_product.null_reviews;
+            if (noReviews) {
+                reviewsHTML += noReviews;
+            }
+        }
+    
+        return reviewsHTML;
     }
 
     // Función para mostrar los productos
@@ -886,7 +894,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     // Funciones generales
 
     // Función para obtener los elementos de un array que no están en otro array
@@ -900,7 +907,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .catch(error => console.error(`Error al cargar el archivo JSON: ${url}`, error));
     }
-
 
     //Generar el contenido de la página
 
@@ -1154,7 +1160,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <a class="text-decoration-none" href="${generalData.store_info.home.href}">
                             <img src="${generalData.store_info.logo.src}" alt="${generalData.store_info.logo.alt}" class="mb-4 display-5 font-weight-semi-bold-2">
                         </a>
-                        ${generateContactInfo(generalData.data)}
+                        ${generateContactInfo(generalData.data, 'text-dark')}
                     `
                 },
                 {
@@ -1217,19 +1223,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    function generateContactInfo(generalData) {
+    function generateContactInfo(generalData, text) {
         return `
-            <a class="text-dark" ${generalData.address.href ? `href="${generalData.address.href}"` : ''}>
+            <a class="${text}" ${generalData.address.href ? `href="${generalData.address.href}"` : ''}>
                 <p class="mb-2">
                     <i class="fa-solid fa-map text-secondary mr-3"></i>${generalData.address.text}
                 </p>
             </a>
-            <a class="text-dark" ${generalData.email.href ? `href="${generalData.email.href}"` : ''}>
+            <a class="${text}" ${generalData.email.href ? `href="${generalData.email.href}"` : ''}>
                 <p class="mb-2">
                     <i class="fa-solid fa-envelope text-secondary mr-3"></i> ${generalData.email.text}
                 </p>
             </a>
-            <a class="text-dark" ${generalData.phone.href ? `href="${generalData.phone.href}"` : ''}>
+            <a class="${text}" ${generalData.phone.href ? `href="${generalData.phone.href}"` : ''}>
                 <p class="mb-0">
                     <i class="fa-solid fa-phone text-secondary mr-3"></i>${generalData.phone.text}
                 </p>
@@ -1417,38 +1423,63 @@ document.addEventListener('DOMContentLoaded', () => {
         const formContainer = document.getElementById('contact_formId');
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
-            const formContactHTML = `
-            <div class="contact-form">
-                <div id="success"></div>
-                <form>
-                    <div class="control-group">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name"
-                            required="required" data-validation-required-message="Please enter your name" />
-                        <p class="help-block text-danger"></p>
+            const formFields = generalData.page_contact.form.fields;
+            let formContactHTML = `
+                <div class="contact-form">
+                    <div id="success"></div>
+                    <form>
+            `;
+    
+            formFields.forEach(field => {
+                if (field.type === 'textarea') {
+                    formContactHTML += `
+                        <div class="control-group">
+                            <textarea class="form-control" rows="6" id="${field.id}" name="${field.name}" placeholder="${field.placeholder}"
+                                required="required" data-validation-required-message="${field.required_msj}"></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    `;
+                } else {
+                    formContactHTML += `
+                        <div class="control-group">
+                            <input type="${field.type}" class="form-control" id="${field.id}" name="${field.name}" placeholder="${field.placeholder}"
+                                required="required" data-validation-required-message="${field.required_msj}"/>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    `;
+                }
+            });
+    
+            formContactHTML += `
+                        <div>
+                            <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">${generalData.page_contact.form.btn}</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+    
+            formContainer.innerHTML = formContactHTML;
+        })
+        .catch(error => {
+            console.error('Error al cargar los archivos JSON:', error);
+        });
+    }
+
+    function contactInfo() {
+        const contactInfoContainer = document.getElementById('contact_infoId');
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
+            const contactInfoHTML = `
+                <h5 class="font-weight-semi-bold mb-3">${generalData.page_contact.subtitle_1}</h5>
+                <p>${generalData.page_contact.subtext_1}</p>
+                <div class="d-flex flex-column mb-3">
+                    <h5 class="font-weight-semi-bold mb-3">${generalData.page_contact.subtitle_2}</h5>
+                    <div class="d-flex flex-column mb-3">
+                        ${generateContactInfo(generalData.data, 'text-body')}
                     </div>
-                    <div class="control-group">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email"
-                            required="required" data-validation-required-message="Please enter your email" />
-                        <p class="help-block text-danger"></p>
-                    </div>
-                    <div class="control-group">
-                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject"
-                            required="required" data-validation-required-message="Please enter a subject" />
-                        <p class="help-block text-danger"></p>
-                    </div>
-                    <div class="control-group">
-                        <textarea class="form-control" rows="6" id="message" name="message" placeholder="Message"
-                            required="required"></textarea>
-                        <p class="help-block text-danger"></p>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary py-2 px-4" type="submit"
-                            data-name="page_contact.form.btn">${generalData.page_contact.form.btn}</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        formContainer.innerHTML = formContactHTML;
+                </div>
+            `;
+            contactInfoContainer.innerHTML = contactInfoHTML;
         })
         .catch(error => {
             console.error('Error al cargar los archivos JSON:', error);
@@ -1469,15 +1500,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function contact() {
-        titleDynamic('contact');
         pageHeader('contact', 'contact_us', 'background-image-contact');
+        titleDynamic('contact');
+        formContact();
+        contactInfo();
     }
     
-    // Seleccionar los elementos que contienen el contenido de los archivos HTML
-    const contactElement = document.getElementById('contactId');
-    const reviewsElement = document.getElementById('reviewsId');
-    
-
     const promises = [
         head(),
         header(),
@@ -1493,13 +1521,11 @@ document.addEventListener('DOMContentLoaded', () => {
         promises.push(displayProducts(null, null, 8, null, 1)); // Limitar a 8 productos en index
     } else if (pathname.endsWith("/shop.html")) {
         promises.push(pageHeader('shop', 'our_products', 'background-image-shop'));
-        promises.push(loadFilters(12, 1)); // Página 1, 10 elementos por página
+        promises.push(loadFilters(12, 1)); // 12 elementos por página, página 1
     } else if (pathname.endsWith("/contact.html")) {
         promises.push(contact());
-        //promises.push(loadHTMLContent('general-file/contact-content.html', contactElement));
     } else if (pathname.endsWith("/review.html")) {
         promises.push(review());
-        promises.push(loadHTMLContent('general-file/reviews-content.html', reviewsElement));
     } else if (pathname.endsWith("/product.html")) {
         promises.push(loadProductDetails(4)); // Limitar a 4 productos relacionados
 
@@ -1521,7 +1547,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones
-    Promise.all(promises).then((results) => {
+    Promise.all(promises).then(() => {
         console.log('Contenido HTML y JSON cargado completamente');
 
         setTimeout(() => {

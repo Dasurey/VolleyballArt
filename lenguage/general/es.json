@@ -84,7 +84,37 @@
     "page_contact": {
         "title": "Contáctenos Para Cualquier Consulta",
         "form": {
-            "btn": "Enviar Mensaje"
+            "btn": "Enviar Mensaje",
+            "fields": [
+                {
+                    "type": "text",
+                    "id": "name",
+                    "name": "name",
+                    "placeholder": "Tu Nombre",
+                    "required_msj": "Por favor ingresa tu nombre."
+                },
+                {
+                    "type": "email",
+                    "id": "email",
+                    "name": "email",
+                    "placeholder": "Tu Email",
+                    "required_msj": "Por favor ingresa tu email."
+                },
+                {
+                    "type": "text",
+                    "id": "subject",
+                    "name": "subject",
+                    "placeholder": "Asunto",
+                    "required_msj": "Por favor ingresa el asunto."
+                },
+                {
+                    "type": "textarea",
+                    "id": "message",
+                    "name": "message",
+                    "placeholder": "Mensaje",
+                    "required_msj": "Por favor ingresa tu mensaje."
+                }
+            ]
         },
         "subtitle_1": "Contáctenos",
         "subtext_1": "Nuestro Centro de Atención al Cliente está a tu disposición para atender todas tus consultas. También podés contactarnos por nuestras redes sociales.",
