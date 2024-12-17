@@ -91,7 +91,7 @@ img.logo {
     color: #C1C1C1 !important;
 }
 
-.d-flex.flex-column.mb-3 .d-flex.flex-column.mb-3 .text-body:hover {
+.text-body:hover {
     color: #C1C1C1 !important;
 }
 
@@ -141,6 +141,10 @@ img.logo {
 
 .background-image-review {
     background-image: url(../img/details/seleccion-celebrando.jpg);
+}
+
+.background-image-cart {
+    background-image: url(../img/details/ishikawa.jpeg);
 }
 
 /* Review */

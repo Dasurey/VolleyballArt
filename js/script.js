@@ -26,26 +26,27 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const sizesCategory = {
-        shoes: {
-            men: getArrayElements(many_variables.numbers, [36, 37]),
-            women: getArrayElements(many_variables.numbers, [44, 45]),
+        1: {
+            1: getArrayElements(many_variables.numbers, [36, 37]),
+            2: getArrayElements(many_variables.numbers, [44, 45]),
         },
-        clothing: {
-            jackets_and_hoodies: many_variables.sizes,
-            game_shirts: many_variables.sizes,
-            t_shirts_and_tank_tops: many_variables.sizes,
-            leggings_and_shorts: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
+        2: {
+            3: many_variables.sizes,
+            4: many_variables.sizes,
+            5: many_variables.sizes,
+            6: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
+            7: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
         },
-        accessories: {
-            sleeves: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
-            socks_and_calf_sleeves: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
-            knee_pads: getArrayElements(many_variables.sizes, ['XS', 'XXL'])
+        3: {
+            9: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
+            10: getArrayElements(many_variables.sizes, ['XS', 'XXL']),
+            11: getArrayElements(many_variables.sizes, ['XS', 'XXL'])
         }
     };
 
     const preloaderElement = document.querySelector('.preloader');
     const pageElement = document.querySelector('.page');
-    const delay = 800; // Retraso en milisegundos (1.9 segundos)
+    const delay = 100; // Retraso en milisegundos (1.9 segundos)
     // Ya se esta mostrando el indicador de carga
 
     const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
@@ -177,7 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateCart() {
-        let newNumber = Object.values(productsCart).flat().reduce((acc, product) => acc + product.amount, 0);
+        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
+        let newNumber = productsCart.reduce((acc, product) => acc + product.amount, 0);
         const cartNumberElement = document.querySelector('.cart-number');
         if (cartNumberElement) {
             cartNumberElement.textContent = newNumber;
@@ -291,7 +293,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             const tempDiv = document.createElement('div');
                             tempDiv.className = 'col-lg-6 col-md-8 col-sm-12 pb-1';
                             tempDiv.innerHTML = data_info;
-                            const productElement = tempDiv.firstElementChild;
                             additional_info_img.appendChild(tempDiv);
                         }
                     }
@@ -339,6 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const containerFormReview = document.querySelector('[data-details="form_review"]');
                     containerFormReview.innerHTML = `
                         <div class="row">
+                        <div class="col-md-6" data-details="reviews-product"></div>
                             <div class="col-md-6">
                                 <h4 class="mb-4">${generalData.review_product.title}</h4>
                                 <small>${generalData.review_product.text}</small>
@@ -372,7 +374,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-6" data-details="reviews-product"></div>
                         </div>
                     `;
 
@@ -773,46 +774,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             displayProducts(filteredProducts, sortCriteria, limit, reviews, page);
-            searchSection(filteredProducts, limit, reviews, page); // Llamar a searchSection con los productos filtrados
+            orderSection(filteredProducts, limit, reviews, page); // Llamar a orderSection con los productos filtrados
         }).catch(error => {
             console.error('Error al cargar y filtrar los productos:', error);
         });
     }
     
-    function searchSection(filteredProducts, limit, reviews, page = null) {
-        const searchSectionElement = document.getElementById('searchSectionId');
+    function orderSection(filteredProducts, limit, reviews, page = null) {
+        const orderSectionElement = document.getElementById('orderSectionId');
         
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
-            const searchSectionHTML = `
-                <!-- searchSection-content -->
+            const orderSectionHTML = `
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <!-- Product Search - Start -->
-                    <form id="search-form">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="search-input" placeholder="Buscar por Nombre">
-                            <div class="input-group-append">
-                                <span class="input-group-text bg-transparent text-primary">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- Product Search - End -->
+                    <div></div>
                     <!-- Sort By - Start -->
                     <div class="dropdown ml-4">
                         <button class="btn border dropdown-toggle" type="button" id="triggerId"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${generalData.searchSection.btn.text}</button>
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${generalData.orderSection.btn.text}</button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                            <button class="dropdown-item" id="sort-reverse">${generalData.searchSection.menu.reverse.text}</button>
-                            <button class="dropdown-item" id="sort-featured">${generalData.searchSection.menu.featured.text}</button>
-                            <button class="dropdown-item" id="sort-best-rating">${generalData.searchSection.menu.best_rating.text}</button>
+                            <button class="dropdown-item" id="sort-reverse">${generalData.orderSection.menu.reverse.text}</button>
+                            <button class="dropdown-item" id="sort-featured">${generalData.orderSection.menu.featured.text}</button>
+                            <button class="dropdown-item" id="sort-best-rating">${generalData.orderSection.menu.best_rating.text}</button>
                         </div>
                     </div>
                     <!-- Sort By - End -->
                 </div>
             `;
-            searchSectionElement.innerHTML = searchSectionHTML;
+            orderSectionElement.innerHTML = orderSectionHTML;
 
             const sortReverseElement = document.getElementById('sort-reverse');
             const sortBestRatingElement = document.getElementById('sort-best-rating');
@@ -861,7 +850,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalStars = productReviews.reduce((sum, review) => sum + review.stars, 0);
         return totalStars / productReviews.length;
     }
-
 
     function filterProductsByCategory(products, categoryName, subcategoryName, dataProducts) {
         let categoryId = null;
@@ -919,7 +907,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: "viewport", content: generalData.head.viewport },
                 { name: "description", content: generalData.head.description },
                 { name: "keywords", content: generalData.head.keywords },
-                { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; img-src 'self' data:; connect-src 'self'" }
+                { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; img-src 'self' data:; connect-src 'self' https://formspree.io;" }
             ];
 
             const linkTags = [
@@ -976,7 +964,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     type: 'form',
                     content: `
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search Products">
+                            <input type="text" class="form-control" placeholder="Buscar Productos">
                             <div class="input-group-append">
                                 <span class="input-group-text bg-transparent text-secondary">
                                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -991,7 +979,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     content: `
                         <div class="elementor-widget-container">
                             <div class="raven-shopping-cart-wrap">
-                                <a class="raven-shopping-cart btn">
+                                <a href="${generalData.store_info.cart.href}" class="raven-shopping-cart btn">
                                     <span class="raven-shopping-cart-icon fa-solid fa-cart-shopping"></span>
                                     <span class="raven-shopping-cart-count cart-number">0</span>
                                 </a>
@@ -1029,11 +1017,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }).join('');
     
             headerContainer.innerHTML += `
-                <!-- header-content.html -->
                 <section class="row align-items-center py-3 px-xl-5">
                     ${headerHTML}
                 </section>
             `;
+            // Llamar a updateCart después de que el encabezado se haya renderizado
+            updateCart();
         }).catch(error => {
             console.error('Error al cargar el archivo JSON:', error);
         });
@@ -1395,8 +1384,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h1 class="font-weight-semi-bold text-light mb-3">${generalData.store_info[page][title]}</h1>
                     <div class="d-inline-flex">
                         <p class="m-0"><a href="${generalData.store_info.home.href}">${generalData.store_info.home.text}</a></p>
-                        <p class="m-0 px-2">-</p>
-                        <p class="m-0">${generalData.store_info[page].text}</p>
+                        <p class="m-0 px-2 p-white">-</p>
+                        <p class="m-0 p-white">${generalData.store_info[page].text}</p>
                     </div>
                 </div>
             `;
@@ -1427,7 +1416,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let formContactHTML = `
                 <div class="contact-form">
                     <div id="success"></div>
-                    <form>
+                    <form action="https://formspree.io/f/xldeygjz" method="POST" id="contactForm">
             `;
     
             formFields.forEach(field => {
@@ -1435,16 +1424,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     formContactHTML += `
                         <div class="control-group">
                             <textarea class="form-control" rows="6" id="${field.id}" name="${field.name}" placeholder="${field.placeholder}"
-                                required="required" data-validation-required-message="${field.required_msj}"></textarea>
-                            <p class="help-block text-danger"></p>
+                                required data-validation-required-message="${field.required_msj}"></textarea>
+                            <small class="help-block text-danger" id="${field.id}-error"></small>
+                            <p></p>
                         </div>
                     `;
                 } else {
                     formContactHTML += `
                         <div class="control-group">
                             <input type="${field.type}" class="form-control" id="${field.id}" name="${field.name}" placeholder="${field.placeholder}"
-                                required="required" data-validation-required-message="${field.required_msj}"/>
-                            <p class="help-block text-danger"></p>
+                                required data-validation-required-message="${field.required_msj}"/>
+                            <small class="help-block text-danger" id="${field.id}-error"></small>
+                            <p></p>
                         </div>
                     `;
                 }
@@ -1459,6 +1450,64 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
     
             formContainer.innerHTML = formContactHTML;
+    
+            // Añadir validación personalizada
+            const contactForm = document.getElementById('contactForm');
+            const inputs = contactForm.querySelectorAll('input, textarea');
+    
+            inputs.forEach(input => {
+                input.addEventListener('invalid', function(event) {
+                    event.preventDefault(); // Prevenir el mensaje de validación predeterminado
+                    const errorElement = document.getElementById(`${input.id}-error`);
+                    errorElement.textContent = input.getAttribute('data-validation-required-message');
+                });
+    
+                input.addEventListener('input', function() {
+                    const errorElement = document.getElementById(`${input.id}-error`);
+                    errorElement.textContent = '';
+                });
+            });
+    
+            contactForm.addEventListener('submit', function(event) {
+                let formIsValid = true;
+                inputs.forEach(input => {
+                    const errorElement = document.getElementById(`${input.id}-error`);
+                    if (!input.checkValidity()) {
+                        input.setCustomValidity(input.getAttribute('data-validation-required-message'));
+                        errorElement.textContent = input.getAttribute('data-validation-required-message');
+                        formIsValid = false;
+                    } else {
+                        input.setCustomValidity('');
+                        errorElement.textContent = '';
+                    }
+                });
+                if (!formIsValid) {
+                    event.preventDefault(); // Prevenir el envío del formulario si no es válido
+                }
+            });
+            contactForm.addEventListener('submit', handleSubmit);
+
+            async function handleSubmit(event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+                const response = await fetch(this.action, {
+                    method: this.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                if (response.ok) {
+                    Swal.fire({
+                        title: generalData.page_contact.form.title,
+                        text: generalData.page_contact.form.text,
+                        icon: generalData.page_contact.form.icon,
+                        confirmButtonText: generalData.page_contact.form.confirmButtonText,
+                    }).then(() => {
+                        this.reset();
+                    });
+                }
+            }
         })
         .catch(error => {
             console.error('Error al cargar los archivos JSON:', error);
@@ -1486,6 +1535,214 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function cartTable() {
+        const cartTableContainer = document.getElementById('cart_tableId');
+        const cartFormContainer = document.getElementById('cartFormId');
+        const cartItems = JSON.parse(localStorage.getItem('productsCart')) || []; // Obtener los datos del carrito del localStorage
+    
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
+            let cartTableHTML = `
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>${generalData.page_cart.table.product}</th>
+                            <th>${generalData.page_cart.table.price}</th>
+                            <th>${generalData.page_cart.table.quantity}</th>
+                            <th>${generalData.page_cart.table.total}</th>
+                            <th>${generalData.page_cart.table.remove}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+            `;
+    
+            let subtotal = 0;
+    
+            cartItems.forEach(item => {
+                let sizeInfo = '';
+                if (item.size) {
+                    if (!isNaN(item.size)) {
+                        sizeInfo = `Numero: ${item.size}`;
+                    } else {
+                        sizeInfo = `Talle: ${item.size}`;
+                    }
+                }
+    
+                const itemTotal = item.price * item.amount;
+                subtotal += itemTotal;
+    
+                cartTableHTML += `
+                    <tr>
+                        <td class="align-middle"><img src="${item.img[0].src}" alt="${item.img[0].alt}" style="width: 50px;"> ${item.title}${sizeInfo ? ` - ${sizeInfo}` : ''}</td>
+                        <td class="align-middle">$${item.price}</td>
+                        <td class="align-middle">
+                            <div class="input-group quantity mx-auto" style="width: 100px;">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-primary btn-minus" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control form-control-sm bg-secondary text-center" value="${item.amount}">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-primary btn-plus" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle">$${itemTotal}</td>
+                        <td class="align-middle">
+                            <button class="btn btn-sm btn-primary btn-remove" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+    
+            cartTableHTML += `
+                    </tbody>
+                </table>
+            `;
+    
+            cartTableContainer.innerHTML = cartTableHTML;
+    
+            // Añadir event listeners para los botones de incrementar, decrementar y eliminar
+            const btnMinus = document.querySelectorAll('.btn-minus');
+            const btnPlus = document.querySelectorAll('.btn-plus');
+            const btnRemove = document.querySelectorAll('.btn-remove');
+    
+            btnMinus.forEach(button => {
+                button.addEventListener('click', () => updateQuantity(button.dataset.id, button.dataset.size, -1));
+            });
+    
+            btnPlus.forEach(button => {
+                button.addEventListener('click', () => updateQuantity(button.dataset.id, button.dataset.size, 1));
+            });
+    
+            btnRemove.forEach(button => {
+                button.addEventListener('click', () => removeItem(button.dataset.id, button.dataset.size));
+            });
+    
+            // Calcular el total
+            const shippingCost = 0; // Costo de envío fijo
+            let total = subtotal + shippingCost;
+    
+            // Generar el HTML del formulario de pago y el resumen del carrito
+            let cartFormHTML = `
+                <form class="mb-5" id="discountForm">
+                    <div class="input-group">
+                        <input type="text" class="form-control p-4" id="discountCode" placeholder="${generalData.page_cart.cupon.placeholder}">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="applyDiscount">${generalData.page_cart.cupon.btn}</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">${generalData.page_cart.cart.title}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">${generalData.page_cart.cart.table.subtotal}</h6>
+                            <h6 class="font-weight-medium" id="subtotal">$${subtotal}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">${generalData.page_cart.cart.table.shipping_cost}</h6>
+                            <h6 class="font-weight-medium" id="shippingCost">$${shippingCost}</h6>
+                        </div>
+                        <div class="justify-content-between" id="discountSection" style="display: none;">
+                            <h6 class="font-weight-medium">${generalData.page_cart.cart.table.discount}</h6>
+                            <h6 class="font-weight-medium" id="discount"></h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">${generalData.page_cart.cart.table.total}</h5>
+                            <h5 class="font-weight-bold" id="total">$${total}</h5>
+                        </div>
+                        <button class="btn btn-block btn-primary my-3 py-3">${generalData.page_cart.cart.btn}</button>
+                    </div>
+                </div>
+            `;
+            cartFormContainer.innerHTML = cartFormHTML;
+    
+            // Añadir event listener para el botón de aplicar descuento
+            document.getElementById('applyDiscount').addEventListener('click', () => {
+                const discountCode = document.getElementById('discountCode').value;
+                applyDiscount(discountCode, subtotal, shippingCost);
+            });
+
+            // Añadir event listener para el botón de checkout
+            document.getElementById('checkoutButton').addEventListener('click', () => {
+                localStorage.setItem('discountApplied', 'true');
+            });
+            })
+        .catch(error => {
+            console.error('Error al cargar los archivos JSON:', error);
+        });
+    }
+    
+    function applyDiscount(code, subtotal, shippingCost) {
+        let discount = 0;
+        let discountText = "";
+        // Aquí puedes agregar la lógica para verificar el código de descuento
+        // Por ejemplo, si el código es "DESC10", aplicar un 10% de descuento
+        if (code === 'DESC10') {
+            discount = subtotal * 0.10;
+            discountText = "10%";
+        } else if (code === 'DESC20') {
+            discount = subtotal * 0.20;
+            discountText = "20%";
+        }
+
+        const total = subtotal + shippingCost - discount;
+
+        // Actualizar los valores en el HTML
+        document.getElementById('discount').textContent = `${discountText}`;
+        document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+
+        // Mostrar la sección de descuento si hay un descuento aplicado
+        const discountSection = document.getElementById('discountSection');
+        if (discount > 0) {
+            discountSection.style.display = 'flex';
+            discountSection.classList.add('d-flex');
+        } else {
+            discountSection.style.display = 'none';
+        }
+
+        // Guardar el descuento en el localStorage
+        localStorage.setItem('discount', JSON.stringify({ code, discount }));
+    }
+
+    function checkDiscount() {
+        const discountApplied = localStorage.getItem('discountApplied');
+        if (!discountApplied) {
+            localStorage.removeItem('discount');
+        }
+    }
+    
+    function updateQuantity(id, size, change) {
+        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
+        const item = productsCart.find(item => item.id == id && (!size || item.size == size)); // Usar == para comparar id como string y número
+        if (item) {
+            if (item.amount + change >= 1) {
+                item.amount += change;
+                localStorage.setItem('productsCart', JSON.stringify(productsCart));
+                cartTable(); // Actualizar la tabla del carrito
+                updateCart(); // Actualizar el número del carrito
+            }
+        }
+    }
+    
+    function removeItem(id, size) {
+        let productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
+        productsCart = productsCart.filter(item => !(item.id == id && (!size || item.size == size))); // Usar != para comparar id como string y número
+        localStorage.setItem('productsCart', JSON.stringify(productsCart));
+        cartTable(); // Actualizar la tabla del carrito
+        updateCart(); // Actualizar el número del carrito
+    }
+
     // Funciones de Paginas especificas
 
     function index() {
@@ -1504,6 +1761,11 @@ document.addEventListener('DOMContentLoaded', () => {
         titleDynamic('contact');
         formContact();
         contactInfo();
+    }
+
+    function cart() {
+        pageHeader('cart', 'cart', 'background-image-cart');
+        cartTable();
     }
     
     const promises = [
@@ -1544,6 +1806,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentValue = parseInt(quantityInput.value);
             quantityInput.value = currentValue + 1;
         });
+    } else if (pathname.endsWith('/cart.html')) {
+        promises.push(cart());
     }
 
     // Cargar el contenido de los archivos HTML y los archivos JSON, luego aplicar las traducciones

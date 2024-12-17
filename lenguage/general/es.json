@@ -29,6 +29,11 @@
             "text": "Contacto",
             "contact_us": "Contáctenos",
             "href": "contact.html"
+        },
+        "cart": {
+            "href": "cart.html",
+            "text": "Carrito",
+            "cart": "Carrito"
         }
     },
     "head": {
@@ -91,30 +96,34 @@
                     "id": "name",
                     "name": "name",
                     "placeholder": "Tu Nombre",
-                    "required_msj": "Por favor ingresa tu nombre."
+                    "required_msj": "Por favor, ingresa tu nombre."
                 },
                 {
                     "type": "email",
                     "id": "email",
                     "name": "email",
                     "placeholder": "Tu Email",
-                    "required_msj": "Por favor ingresa tu email."
+                    "required_msj": "Por favor, ingresa tu email."
                 },
                 {
                     "type": "text",
                     "id": "subject",
                     "name": "subject",
                     "placeholder": "Asunto",
-                    "required_msj": "Por favor ingresa el asunto."
+                    "required_msj": "Por favor, ingresa el asunto."
                 },
                 {
                     "type": "textarea",
                     "id": "message",
                     "name": "message",
                     "placeholder": "Mensaje",
-                    "required_msj": "Por favor ingresa tu mensaje."
+                    "required_msj": "Por favor, ingresa tu mensaje."
                 }
-            ]
+            ],
+            "title": "Mensaje enviado con éxito",
+            "text": "Gracias por contactarnos. Te responderemos pronto.",
+            "icon": "success",
+            "confirmButtonText": "Cerrar"
         },
         "subtitle_1": "Contáctenos",
         "subtext_1": "Nuestro Centro de Atención al Cliente está a tu disposición para atender todas tus consultas. También podés contactarnos por nuestras redes sociales.",
@@ -130,7 +139,30 @@
         "share": "Compartir en:",
         "related": "También te puede interesar",
         "review_product": " reseñas para ",
-        "null_reviews": "<p class=\"text-center\">No hay reseñas para este producto</p>\n<p class=\"text-center\">Sea el primero en dejar una.</p>\n"
+        "null_reviews": "<p class=\"text-center\">No hay reseñas para este producto\n<br>\nSea el primero en dejar una.</p>\n"
+    },
+    "page_cart": {
+        "table": {
+            "product": "Producto",
+            "price": "Precio",
+            "quantity": "Cantidad",
+            "total": "Total",
+            "remove": "Eliminar"
+        },
+        "cupon": {
+            "btn": "Aplicar Cupón",
+            "placeholder": "Código de cupón"
+        },
+        "cart": {
+            "title": "Resumen del carrito",
+            "btn": "Pasar por la caja",
+            "table": {
+                "discount": "Descuento",
+                "subtotal": "Subtotal",
+                "shipping_cost": "Envío",
+                "total": "Total"
+            }
+        }
     },
     "review_product": {
         "title": "Deja una reseña",
@@ -143,7 +175,7 @@
             "submit": "Deja tu opinión"
         }
     },
-    "searchSection": {
+    "orderSection": {
         "btn": {
             "text": "Ordenar por"
         },
