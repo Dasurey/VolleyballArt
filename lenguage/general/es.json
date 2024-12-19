@@ -20,11 +20,6 @@
             "our_products": "Nuestros Productos",
             "href": "shop.html"
         },
-        "review": {
-            "text": "Reseñas",
-            "your_reviews": "Sus Reseñas",
-            "href": "review.html"
-        },
         "contact": {
             "text": "Contacto",
             "contact_us": "Contáctenos",
@@ -34,6 +29,11 @@
             "href": "cart.html",
             "text": "Carrito",
             "cart": "Carrito"
+        },
+        "checkout": {
+            "text": "Pago",
+            "checkout": "Pago",
+            "href": "checkout.html"
         }
     },
     "head": {
@@ -129,9 +129,6 @@
         "subtext_1": "Nuestro Centro de Atención al Cliente está a tu disposición para atender todas tus consultas. También podés contactarnos por nuestras redes sociales.",
         "subtitle_2": "Tienda VolleyballArt"
     },
-    "page_review": {
-        "title": "Reseñas de los Clientes"
-    },
     "page_product": {
         "btn": {
             "text": " Añadir al Carrito"
@@ -157,6 +154,7 @@
             "title": "Resumen del carrito",
             "btn": "Pasar por la caja",
             "table": {
+                "product": "Productos",
                 "discount": "Descuento",
                 "subtotal": "Subtotal",
                 "shipping_cost": "Envío",

@@ -35,6 +35,7 @@ img.logo {
 .nav-underline .nav-link:hover{
     border-bottom-color:currentcolor;
 }
+
 .nav-underline .nav-link.active,
 .nav-underline .show>.nav-link{
     font-weight:700;
@@ -113,6 +114,7 @@ img.logo {
     margin-right: 8px; /* Ajusta el espacio entre los iconos según sea necesario */
     font-size: 2rem; /* Ajusta el tamaño del icono según sea necesario */
     color: var(--secondary-universal-color);
+    transition: all .4s ease;
 }
 
 .social-icons a:hover {
@@ -136,15 +138,15 @@ img.logo {
 }
 
 .background-image-shop {
-    background-image: url(../img/details/luciano-de-cecco-de-argentina-celebran-un-punto-contra-brasil-durante-un-partido-por-la-medalla-de-b.jpg);
-}
-
-.background-image-review {
-    background-image: url(../img/details/seleccion-celebrando.jpg);
+    background-image: url(../img/details/loser_olimpic.jpg);
 }
 
 .background-image-cart {
     background-image: url(../img/details/ishikawa.jpeg);
+}
+
+.background-image-checkout {
+    background-image: url(../img/details/loser.jpg);
 }
 
 /* Review */
@@ -153,25 +155,6 @@ img.logo {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 10px;
-}
-
-.review {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: var(--font-family-sans-serif);
-}
-
-.review h3 {
-    font-size: 1.1em;
-    margin-bottom: 10px;
-    font-family: var(--font-family-sans-serif);
-}
-
-.stars {
-    color:#FFD231;
 }
 
 .bg-tertiary {
@@ -208,16 +191,18 @@ footer.bg-secondary {
 nav.navbar-vertical ul.navbar-nav ul.dropdown-menu {
     height: 0px;
     overflow: hidden;
-    transition: var(--transition-wait-time);
+    transition: all .8s ease;
     counter-reset: items;
 }
 nav.navbar-vertical ul.navbar-nav ul.dropdown-menu li.dropdown-item {
     counter-increment: items;
+    transition: all .8s ease;
 }
 
 nav.navbar-vertical ul.navbar-nav li.nav-item:hover ul.dropdown-menu {
     display: block; /* Muestra el menú cuando se pasa el cursor sobre el elemento padre */
     height: var(--each-item);
+    transition: all .8s ease;
 }
 
 .text-cardShop {
@@ -326,4 +311,459 @@ nav.navbar-vertical ul.navbar-nav li.nav-item:hover ul.dropdown-menu {
 
 .elementor-widget {
     position: relative;
+}
+
+.shipping-calculator-head.with-form {
+    height: 110px;
+}
+
+.transition-soft {
+    transition: all .3s ease;
+}
+
+.transition-up {
+    top: -8px;
+    -webkit-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+    z-index: 10;
+}
+
+.font-small {
+    font-size: 12px;
+}
+
+.icon-inline.icon-lg {
+    vertical-align: -.225em;
+}
+
+.svg-icon-text {
+    fill: #000;
+}
+
+.align-text-bottom {
+    vertical-align: text-bottom !important;
+}
+
+.mr-2, .mx-2 {
+    margin-right: .5rem !important;
+}
+
+.icon-lg {
+    font-size: 1.33333em;
+    line-height: .75em;
+    vertical-align: -.0667em;
+}
+
+.icon-inline {
+    display: inline-block;
+    font-size: inherit;
+    height: 1em;
+    overflow: visible;
+}
+
+.icon-inline.icon-sm.svg-icon-primary{
+    display: inline-block;
+    height: 1em;
+    overflow: visible;
+    vertical-align: 0.825em;
+}
+
+.form-group .form-label {
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    width: auto;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+    clear: both;
+}
+
+.form-group {
+    position: relative;
+    width: 100%;
+}
+
+.align-items-center {
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+
+.form-label {
+    font-size: 12px;
+}
+
+.col-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    min-height: 1px;
+}
+
+.col-auto.pl-0 {
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+}
+
+.align-middle {
+    vertical-align: middle !important;
+}
+
+.form-group-inline .form-control {
+    border-right: 0;
+    border-radius: 10px 0 0 10px;
+}
+
+.form-group-inline .btn {
+    padding: 13px 12px 12px 12px;
+    border-radius: 0 10px 10px 0;
+}
+
+.btn-block {
+    float: left;
+    width: 100%;
+}
+
+.btn {
+    cursor: pointer;
+    white-space: normal;
+    transition: all .4s ease;
+    border-radius: 40px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.navbar.border {
+    border-radius: 0;
+}
+
+.border {
+    border-radius: 40px;
+}
+
+.align-middle > .input-group > .form-control {
+    position: relative;
+    flex: 0 0 30.25%;
+    width: 30.25%;
+    min-width: 0;
+    margin-bottom: 0;
+    margin-inline: 4.6px;
+    border-radius: 40px;
+}
+
+.align-middle > .input-group > .form-control-sm {
+    height: calc(1.5em + 0.5rem + 2px); /* 32% */
+}
+
+.d-flex > .input-group > .form-control {
+    position: relative;
+    flex: 0 0 30.25%;
+    width: 30.25%;
+    min-width: 0;
+    margin-bottom: 0;
+    margin-inline: 4.6px;
+    border-radius: 40px;
+}
+
+.shipping-calculator-head.with-zip {
+    height: 73%;
+}
+
+.btn-small {
+    display: inline-block;
+    padding: 10px;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.js-shipping-calculator-change-zipcode.btn.btn-primary.btn-small.float-right.py-1.px-2.px-sm-3 {
+    padding: 13px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.col-1.col-md-auto.form-label {
+    -ms-flex: 0 0 8.333333%;
+    flex: 0 0 8.333333%;
+    max-width: 8.333333%;
+}
+
+.col-11.form-label {
+    -ms-flex: 0 0 91.666667%;
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+}
+
+@media (min-width: 768px) {
+    .col-1.col-md-auto.form-label {
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        width: auto;
+        max-width: none;
+    }
+}
+
+.box {
+    float: left;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 8px;
+    -webkit-box-shadow: -2px 3px 7px 3px rgba(0, 0, 0, .04);
+    -ms-box-shadow: -2px 3px 7px 3px rgba(0, 0, 0, .04);
+    -moz-box-shadow: -2px 3px 7px 3px rgba(0, 0, 0, .04);
+    -o-box-shadow: -2px 3px 7px 3px rgba(0, 0, 0, .04);
+    box-shadow: -2px 3px 7px 3px rgba(0, 0, 0, .04);
+}
+
+.card-img, .alert, .form-control, .form-select, .form-quantity, .modal, .btn-default, .box-rounded-small, .box {
+    border-radius: 10px;
+}
+
+.list-unstyled {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.radio-buttons-group .list-unstyled .radio-button-item:last-child .radio-button {
+    margin-bottom: 0;
+}
+
+.radio-button {
+    width: 100%;
+    float: left;
+    clear: both;
+    text-align: left;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+}
+
+.radio-button input[type=radio] {
+    display: none;
+}
+
+.radio-buttons-group .list-unstyled .radio-button-item:only-child .radio-button-content {
+    border-radius: 10px;
+}
+
+.radio-buttons-group .list-unstyled .radio-button-item:last-child .radio-button-content {
+    margin-bottom: 0;
+    border-radius: 0 0 10px 10px;
+}
+
+.radio-buttons-group .list-unstyled .radio-button-item:first-child .radio-button-content {
+    border-radius: 10px 10px 0 0;
+}
+
+.radio-button .radio-button-content {
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-bottom: 1px solid rgba(0, 0, 0, .06);
+}
+
+.radio-button-content {
+    position: relative;
+    padding: 20px;
+}
+
+.radio-button-icons-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 100%;
+}
+
+.radio-button-icons {
+    position: relative;
+    float: left;
+    display: table;
+    width: 20px;
+    margin: 17px 8px;
+    overflow: hidden;
+}
+
+.radio-button input[type=radio]+.radio-button-content .unchecked {
+    float: left;
+}
+
+.radio-button input[type=radio]+.radio-button-content .unchecked {
+    border: 1px solid var(--secondary-universal-color);
+}
+
+.radio-button-icon.unchecked {
+    background-color: #ecf0f1;
+}
+
+.radio-button-icon {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+
+.radio-button input[type=radio]+.radio-button-content .checked {
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    -moz-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s;
+    -moz-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+.transition {
+    transition: all .8s ease;
+}
+
+.radio-button input[type=radio]:checked+.radio-button-content .checked {
+    top: 2px;
+    left: 4px;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+}
+
+.radio-button-label {
+    padding-left: 32px;
+}
+
+.col-9.font-small {
+    -ms-flex: 0 0 75%;
+    flex: 0 0 75%;
+    max-width: 75%;
+}
+
+.col-3.text-right {
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+.divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    clear: both;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+
+.radio-buttons-group .list-unstyled .radio-button-item:only-child .radio-button input[type=radio]:checked+.radio-button-content .radio-button-icons-container {
+    border-radius: 0 0 0 6px;
+}
+
+.radio-buttons-group .list-unstyled .radio-button-item:only-child .radio-button input[type=radio]:checked+.radio-button-content {
+    border-radius: 10px;
+}
+
+.radio-buttons-group .list-unstyled .radio-button-item:last-child .radio-button input[type=radio]:checked+.radio-button-content .radio-button-icons-container {
+    border-radius: 0 0 0 6px;
+}
+
+.radio-buttons-group .list-unstyled .radio-button-item:first-child .radio-button input[type=radio]:checked+.radio-button-content .radio-button-icons-container {
+    border-radius: 6px 0 0 0;
+}
+
+.radio-button input[type=radio]:checked+.radio-button-content .radio-button-icons-container {
+    background-color: var(--primary-universal-color);
+}
+
+.radio-button input[type=radio]:checked+.radio-button-content {
+    border: 2px solid var(--primary-universal-color);
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s;
+    -moz-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+
+.svg-icon-primary {
+    fill: #FFF !important;
+}
+
+.icon-inline.icon-sm.svg-icon-primary {
+    fill: var(--primary-universal-color) !important;
+}
+
+.transition-up-active {
+    top: 0;
+    opacity: 1;
+    z-index: 100;
+    pointer-events: all;
+}
+
+.transition-up {
+    position: relative;
+    top: -8px;
+    -webkit-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.btn.shadow-none.d-flex.align-items-center.justify-content-between.bg-tertiary.w-100 {
+    border-radius: 0;
+}
+
+.opacity-60 {
+    opacity: .6;
+}
+
+label.radio-button.list-item {
+    margin-bottom: 0;
+}
+
+h5.text-primary.mb-0.d-inline-block {
+    font-size: 16px;
+    font-weight: 700;
+    font-family: "Montserrat",Sans-serif;
+}
+
+.col-lg-8.table-responsive.mb-5 .btn.btn-block.btn-primary.my-2.py-2 {
+    width: 25%;
+    margin-inline: 1rem;
+}
+
+.align-middle > .btn.btn-sm.btn-primary.btn-remove {
+    padding: 0.15rem 0.5rem;
+}
+
+.form-control.search {
+    border-radius: 0;
+}
+
+.btn.border.dropdown-toggle.order {
+    border-radius: 0;
 }

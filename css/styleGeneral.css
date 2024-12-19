@@ -153,6 +153,7 @@ a {
   color: var(--primary-universal-color); /* #D19C97 */
   text-decoration: none;
   background-color: transparent;
+  transition: all .3s ease;
 }
 
 a:hover {
