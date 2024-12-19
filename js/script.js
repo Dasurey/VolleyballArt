@@ -1580,7 +1580,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
                 cartTableHTML += `
                     <tr>
-                        <td class="align-middle"><img src="${item.img[0].src}" alt="${item.img[0].alt}" style="width: 50px;"> ${item.title}${sizeInfo ? ` - ${sizeInfo}` : ''}</td>
+                        <td class="align-middle"><a class="text-body" href=${item.href}}><img src="${item.img[0].src}" alt="${item.img[0].alt}" style="width: 50px;">${item.title}${sizeInfo ? ` - ${sizeInfo}` : ''}</a></td>
                         <td class="align-middle">$${item.price}</td>
                         <td class="align-middle">
                             <div class="input-group quantity mx-auto" style="width: 100px;">
