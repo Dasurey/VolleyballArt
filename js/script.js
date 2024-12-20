@@ -1720,235 +1720,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                         ${generalData.page_cart.shipping.js_shipping_calculator_response.home_delivery}
                                     </div>
                                     <ul class="list-unstyled box p-0">
-                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
-                                            <label class="js-shipping-radio radio-button list-item">
-                                                <input id="featured_shipping_1" class="js-shipping-method shipping-method" type="radio" name="option" style="display:none">
-                                                <div class="radio-button-content">
-                                                    <div class="radio-button-icons-container">
-                                                        <span class="radio-button-icons">
-                                                            <span class="radio-button-icon unchecked"></span>
-                                                            <span class="radio-button-icon checked">
-                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                                            </span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="radio-button-label">
-                                                        <div class="radio-button-text row">
-                                                            <div class="col-8 col-md-9 font-small pr-0">
-                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.shipping_motorcycle}<span class="ml-1"></span>
-                                                                </div>
-                                                                <div class="opacity-60">
-                                                                    <span class="d-table float-left">
-                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                                                    </span>
-                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between}</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 text-right">
-                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </li>
-                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
-                                            <label class="js-shipping-radio radio-button list-item">
-                                                <input id="featured_shipping_2" class="js-shipping-method shipping-method" type="radio" name="option" style="display:none">
-                                                <div class="radio-button-content">
-                                                    <div class="radio-button-icons-container">
-                                                        <span class="radio-button-icons">
-                                                            <span class="radio-button-icon unchecked"></span>
-                                                            <span class="radio-button-icon checked">
-                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                                            </span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="radio-button-label">
-                                                        <div class="radio-button-text row">
-                                                            <div class="col-8 col-md-9 font-small pr-0">
-                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_clasic}<span class="ml-1"></span></div>
-                                                                <div class="opacity-60">
-                                                                    <span class="d-table float-left">
-                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                                                    </span>
-                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between}</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 text-right">
-                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </li>
-                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
-                                            <label class="js-shipping-radio radio-button list-item">
-                                                <input id="featured_shipping_3" class="js-shipping-method shipping-method" type="radio" name="option" style="display:none">
-                                                <div class="radio-button-content">
-                                                    <div class="radio-button-icons-container">
-                                                        <span class="radio-button-icons">
-                                                            <span class="radio-button-icon unchecked"></span>
-                                                            <span class="radio-button-icon checked">
-                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                                            </span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="radio-button-label">
-                                                        <div class="radio-button-text row">
-                                                            <div class="col-8 col-md-9 font-small pr-0">
-                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_express}<span class="ml-1"></span></div>
-                                                                <div class="opacity-60">
-                                                                    <span class="d-table float-left">
-                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                                                    </span>
-                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between}</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 text-right">
-                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </li>
+                                        ${createShippingOptions(generalData)}
                                     </ul>
-                                    <div class="form-label my-3 float-left">
-                                        <svg class="icon-inline icon-lg svg-icon-text mr-2 align-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                        ${generalData.page_cart.shipping.js_shipping_calculator_response.withdraw_by}
-                                    </div>
-                                    <ul class="list-unstyled box p-0 ">
-                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
-                                            <label class="js-shipping-radio radio-button list-item">
-                                                <input id="featured_shipping_4" class="js-shipping-method js-pickup-option shipping-method" type="radio" name="option" style="display:none">
-                                                <div class="radio-button-content">
-                                                    <div class="radio-button-icons-container">
-                                                        <span class="radio-button-icons">
-                                                            <span class="radio-button-icon unchecked"></span>
-                                                            <span class="radio-button-icon checked">
-                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                                            </span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="radio-button-label">
-                                                        <div class="radio-button-text row">
-                                                            <div class="col-8 col-md-9 font-small pr-0">
-                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point}<span class="ml-1"></span></div>
-                                                                <div class="opacity-60 mb-2">
-                                                                    <span class="d-table float-left">
-                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                                                    </span>
-                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option}</span>
-                                                                </div>
-                                                                <div>
-                                                                    <div id="pickup_clasic_info">
-                                                                        <div class="js-modal-open btn-link btn-link-primary">
-                                                                            <svg class="icon-inline icon-lg mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                            <span class="align-bottom">${generalData.page_cart.shipping.js_shipping_calculator_response.see_directions}</span>
-                                                                        </div>
-                                                                        <div id="selected_suboption_api_559774_cps-pickup-modal-593798672" class="js-modal  modal modal-bottom modal-centered-small js-modal-shipping-suboptions modal-center transition-slide modal-centered transition-soft modal-zindex-top" style="display: none;">
-                                                                            <div class="js-modal-close modal-header">
-                                                                                <span class="modal-close">
-                                                                                    <svg class="icon-inline modal-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
-                                                                                </span>
-                                                                                Puntos de retiro
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <ul class="list-unstyled py-2">
-                                                                                    <li class="text-capitalize mb-3"><svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                                        <span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_clasic}</span>
-                                                                                    </li>
-                                                                                    <li class="text-capitalize mb-3"><svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                                        <span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_clasic}</span>
-                                                                                    </li>
-                                                                                </ul>
-                                                                                <div class="mt-4"><span class="opacity-50">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.close_zipCode}:</span><span class="text-primary font-weight-bold js_shipping_calculator_current_zip_value"></span></div>
-                                                                                <div class="mt-2 font-small">
-                                                                                    <svg class="icon-inline svg-icon-text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-36 344h12V232h-12c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12h48c6.627 0 12 5.373 12 12v140h12c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12h-72c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12zm36-240c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z"></path></svg>
-                                                                                    <i>${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.options}</i>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="js-modal-overlay modal-overlay modal-zindex-top" style="display: none;"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 text-right">
-                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </li>
-                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
-                                            <label class="js-shipping-radio radio-button list-item">
-                                                <input id="featured_shipping_5" class="js-shipping-method js-pickup-option shipping-method" type="radio" name="option" style="display:none">
-                                                <div class="radio-button-content">
-                                                    <div class="radio-button-icons-container">
-                                                        <span class="radio-button-icons">
-                                                            <span class="radio-button-icon unchecked"></span>
-                                                            <span class="radio-button-icon checked">
-                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                                            </span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="radio-button-label">
-                                                        <div class="radio-button-text row">
-                                                            <div class="col-8 col-md-9 font-small pr-0">
-                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point}<span class="ml-1"></span></div>
-                                                                <div class="opacity-60 mb-2">
-                                                                    <span class="d-table float-left">
-                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                                                    </span>
-                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option}</span>
-                                                                </div>
-                                                                <div>
-                                                                    <div id="pickup_express_info">
-                                                                        <div class="js-modal-open btn-link btn-link-primary">
-                                                                            <svg class="icon-inline icon-lg mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                            <span class="align-bottom">${generalData.page_cart.shipping.js_shipping_calculator_response.see_directions}</span>
-                                                                        </div>
-                                                                        <div id="selected_suboption_api_559774_eps-pickup-modal-1593001242"class="js-modal  modal modal-bottom modal-centered-small js-modal-shipping-suboptions modal-center transition-slide modal-centered transition-soft modal-zindex-top"style="display: none;">
-                                                                            <div class="js-modal-close modal-header">
-                                                                                <span class="modal-close">
-                                                                                    <svg class="icon-inline modal-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
-                                                                                </span>
-                                                                                ${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point}
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <ul class="list-unstyled py-2">
-                                                                                    <li class="text-capitalize mb-3">
-                                                                                        <svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                                        <span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_express}</span>
-                                                                                    </li>
-                                                                                    <li class="text-capitalize mb-3"><svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                                        <span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_express}</span>
-                                                                                    </li>
-                                                                                </ul>
-                                                                                <div class="mt-4"><span class="opacity-50">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.close_zipCode}:</span><span class="text-primary font-weight-bold js_shipping_calculator_current_zip_value"></span></div>
-                                                                                <div class="mt-2 font-small">
-                                                                                    <svg class="icon-inline svg-icon-text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-36 344h12V232h-12c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12h48c6.627 0 12 5.373 12 12v140h12c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12h-72c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12zm36-240c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z"></path></svg>
-                                                                                    <i>${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.options}</i>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="js-modal-overlay modal-overlay modal-zindex-top" style="display: none;"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 col-md-3 text-right">
-                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                    <div class="font-small float-left w-100 mb-3">El tiempo de entrega <strong>no considera feriados</strong>.</div>
+                                    <div class="font-small float-left w-100 mb-3">${generalData.page_cart.shipping.notCosiderHolidays}</div>
                                     <input type="hidden" name="after_calculation">
                                     <input type="hidden" name="zipcode">
                                 </div>
@@ -2000,42 +1774,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            /* document.getElementById('calculateShippingButton').addEventListener('click', () => {
-                const calculatingShippingWording = document.querySelector('.js-calculating-shipping-wording');
-                const calculatorShippingWithZip = document.querySelector('.js-shipping-calculator-with-zipcode');
-                const calculatorShippingForm = document.querySelector('.js-shipping-calculator-form');
-                const calculatingShippingWordingLogo = document.querySelector('.js-calculating-shipping-wording-logo');
-                const calculateShippingWording = document.querySelector('.js-calculate-shipping-wording');
-                const dangerPostal = document.querySelector('.js-danger-postal');
-                const dangerZipcode = document.querySelector('.js-danger-zipcode');
-                const dangerExternal = document.querySelector('.js-danger-external');
-                calculateShippingWording.style.display = 'none';
-                calculatingShippingWordingLogo.style.display = 'inline';
-                calculatingShippingWording.style.display = 'inline';
-                if(document.getElementById('shippingCode').value === "1684") {
-                    calculatingShippingWordingLogo.style.display = 'none';
-                    calculatingShippingWording.style.display = 'none';
-                    calculateShippingWording.style.display = 'inline';
-                    dangerExternal.style.display = 'none';
-                    dangerPostal.style.display = 'none';
-                    dangerZipcode.style.display = 'none';
-                    calculatorShippingForm.style.display = 'none';
-                    calculatorShippingWithZip.style.display = 'block';
-                } else if(document.getElementById('shippingCode').value === "") {
-                    dangerExternal.style.display = 'none';
-                    dangerZipcode.style.display = 'none';
-                    dangerPostal.style.display = 'inline';
-                } else if(document.getElementById('shippingCode').value === "") {
-                    dangerExternal.style.display = 'none';
-                    dangerPostal.style.display = 'none';
-                    dangerZipcode.style.display = 'inline';
-                } else if(document.getElementById('shippingCode').value === "") {
-                    dangerZipcode.style.display = 'none';
-                    dangerPostal.style.display = 'none';
-                    dangerExternal.style.display = 'inline';
-                }
-            }); */
-
             cartFormHTML += `
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
@@ -2064,7 +1802,6 @@ document.addEventListener('DOMContentLoaded', () => {
             cartFormContainer.innerHTML = cartFormHTML;
 
             const js_shipping_calculator_form = document.getElementById('js_shipping_calculator_form');
-
             const js_shipping_calculator_head = document.getElementById('js_shipping_calculator_head');
             js_shipping_calculator_head.style.height = '100px'; // Añadir la clase de posicionamiento
             
@@ -2073,14 +1810,23 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const js_shipping_calculator_response = document.getElementById('js_shipping_calculator_response');
             js_shipping_calculator_response.style.display = 'none';
-
+            
             const js_calculate_shipping_wording = document.getElementById('js_calculate_shipping_wording');
             const js_calculating_shipping_wording = document.getElementById('js_calculating_shipping_wording');
             const js_calculating_shipping_wording_logo = document.getElementById('js_calculating_shipping_wording_logo');
             const js_danger_postal = document.getElementById('js_danger_postal');
             const js_danger_zipcode = document.getElementById('js_danger_zipcode');
             const js_danger_external = document.getElementById('js_danger_external');
-
+            
+            let savedShippingMethod = localStorage.getItem('selectedShippingMethod');
+            if (savedShippingMethod) {
+                savedShippingMethod = JSON.parse(savedShippingMethod);
+                handleCalculateShipping();
+            } else {
+                savedShippingMethod = {};
+                handleChangeZipcode();
+            }
+            
             document.addEventListener('click', (event) => {
                 if (event.target && (event.target.id === 'js_calculate_shipping' || event.target.id === 'js_calculate_shipping_wording')) {
                     js_danger_external.style.display = 'none';
@@ -2096,15 +1842,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     handleShippingMethodSelection(event.target);
                 }
             });
-
+            
             function handleCalculateShipping() {
-                const js_shipping_input = document.getElementById('js_shipping_input').value.trim();
-                if (js_shipping_input.length === 4) {
+                let js_shipping_input = document.getElementById('js_shipping_input').value.trim();
+            
+                if (js_shipping_input.length === 4 || (localStorage.getItem('selectedShippingMethod') && savedShippingMethod.zipCode !== null)) {
+                    if (localStorage.getItem('selectedShippingMethod') && savedShippingMethod.zipCode !== null) {
+                        console.log("hola");
+                        js_shipping_input = savedShippingMethod.zipCode;
+                    }
+                
                     const js_shipping_input_values = document.querySelectorAll('.js_shipping_calculator_current_zip_value');
                     js_shipping_input_values.forEach(element => {
                         element.textContent = js_shipping_input;
                     });
-
+                
                     js_shipping_calculator_head.style.height = '25px'; // Añadir la clase de posicionamiento
                     js_shipping_calculator_form.style.display = 'none';
                     js_cart_saved_zipcode.style.display = 'block'; // Añadir la clase de posicionamiento
@@ -2124,7 +1876,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     js_calculating_shipping_wording.style.display = 'none';
                     js_calculate_shipping_wording.style.display = 'inline';
                     js_danger_external.style.display = 'inline';
-                } else if (js_shipping_input.length !== 4) {
+                } else if (js_shipping_input.length !== 4 && js_shipping_input !== "") {
                     // No encontramos este código postal. ¿Está bien escrito?
                     js_calculating_shipping_wording_logo.style.display = 'none';
                     js_calculating_shipping_wording.style.display = 'none';
@@ -2132,14 +1884,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     js_danger_postal.style.display = 'inline';
                 }
             }
-
+            
             function handleChangeZipcode() {
                 js_shipping_calculator_head.style.height = '100px'; // Añadir la clase de posicionamiento
                 js_cart_saved_zipcode.style.display = 'none'; // Remover la clase de posicionamiento
                 js_shipping_calculator_response.style.display = 'none';
                 js_shipping_calculator_form.style.display = 'block'; // Añadir la clase de posicionamiento
+                localStorage.removeItem('selectedShippingMethod');
             }
-
+            
             function handleShippingMethodSelection(target) {
                 const js_shipping_input = document.getElementById('js_shipping_input').value.trim();
                 const selectedShippingMethod = target.id;
@@ -2158,7 +1911,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Cargar el método de envío guardado al cargar la página
-            const savedShippingMethod = JSON.parse(localStorage.getItem('selectedShippingMethod')) || {};
             if (savedShippingMethod.shippingMethod) {
                 const { shippingMethod, zipCode } = savedShippingMethod;
                 const shippingInput = document.getElementById('js_shipping_input');
@@ -2177,6 +1929,80 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error al cargar los archivos JSON:', error);
         });
     }
+
+    function createShippingOption(id, label, description, price) {
+        return `
+            <li class="js-shipping-list-item radio-button-item float-left w-100">
+                <label class="js-shipping-radio radio-button list-item">
+                    <input id="${id}" class="js-shipping-method shipping-method" type="radio" name="option" style="display:none">
+                    <div class="radio-button-content">
+                        <div class="radio-button-icons-container">
+                            <span class="radio-button-icons">
+                                <span class="radio-button-icon unchecked"></span>
+                                <span class="radio-button-icon checked">
+                                    <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="radio-button-label">
+                            <div class="radio-button-text row">
+                                <div class="col-8 col-md-9 font-small pr-0">
+                                    <div class="mb-2">${label}<span class="ml-1"></span></div>
+                                    <div class="opacity-60">
+                                        <span class="d-table float-left">
+                                            <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
+                                        </span>
+                                        <span class="d-table">${description}</span>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-md-3 text-right">
+                                    <h5 class="text-primary mb-0 d-inline-block">${price}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+            </li>
+        `;
+    }
+    
+    function createShippingOptions(generalData) {
+        const shippingOptions = [
+            {
+                id: 'featured_shipping_1',
+                label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_motorcycle,
+                description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
+                price: generalData.page_cart.shipping.price_shipping
+            },
+            {
+                id: 'featured_shipping_2',
+                label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_clasic,
+                description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
+                price: generalData.page_cart.shipping.price_shipping
+            },
+            {
+                id: 'featured_shipping_3',
+                label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_express,
+                description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
+                price: generalData.page_cart.shipping.price_shipping
+            },
+            {
+                id: 'featured_shipping_4',
+                label: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point,
+                description: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option,
+                price: generalData.page_cart.shipping.price_shipping
+            },
+            {
+                id: 'featured_shipping_5',
+                label: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point,
+                description: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option,
+                price: generalData.page_cart.shipping.price_shipping
+            }
+        ];
+    
+        return shippingOptions.map(option => createShippingOption(option.id, option.label, option.description, option.price)).join('');
+    }
+    
     
     function updateCartInput() {
         const cartItems = JSON.parse(localStorage.getItem('productsCart')) || [];
