@@ -50,8 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ya se esta mostrando el indicador de carga
 
     const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
-    let paises = ["Afganistán","Albania","Alemania","Andorra","Angola","Antigua y Barbuda","Arabia Saudita","Argelia","Argentina","Armenia","Australia","Austria","Azerbaiyán","Bahamas","Bangladés","Barbados","Baréin","Bélgica","Belice","Benín","Bielorrusia","Birmania","Bolivia","Bosnia y Herzegovina","Botsuana","Brasil","Brunéi","Bulgaria","Burkina Faso","Burundi","Bután","Cabo Verde","Camboya","Camerún","Canadá","Catar","Chad","Chile","China","Chipre","Ciudad del Vaticano","Colombia","Comoras","Corea del Norte","Corea del Sur","Costa de Marfil","Costa Rica","Croacia","Cuba","Dinamarca","Dominica","Ecuador","Egipto","El Salvador","Emiratos Árabes Unidos","Eritrea","Eslovaquia","Eslovenia","España","Estados Unidos","Estonia","Etiopía","Filipinas","Finlandia","Fiyi","Francia","Gabón","Gambia","Georgia","Ghana","Granada","Grecia","Guatemala","Guyana","Guinea","Guinea ecuatorial","Guinea-Bisáu","Haití","Honduras","Hungría","India","Indonesia","Irak","Irán","Irlanda","Islandia","Islas Marshall","Islas Salomón","Israel","Italia","Jamaica","Japón","Jordania","Kazajistán","Kenia","Kirguistán","Kiribati","Kuwait","Laos","Lesoto","Letonia","Líbano","Liberia","Libia","Liechtenstein","Lituania","Luxemburgo","Madagascar","Malasia","Malaui","Maldivas","Malí","Malta","Marruecos","Mauricio","Mauritania","México","Micronesia","Moldavia","Mónaco","Mongolia","Montenegro","Mozambique","Namibia","Nauru","Nepal","Nicaragua","Níger","Nigeria","Noruega","Nueva Zelanda","Omán","Países Bajos","Pakistán","Palaos","Palestina","Panamá","Papúa Nueva Guinea","Paraguay","Perú","Polonia","Portugal","Reino Unido","República Centroafricana","República Checa","República de Macedonia","República del Congo","República Democrática del Congo","República Dominicana","República Sudafricana","Ruanda","Rumanía","Rusia","Samoa","San Cristóbal y Nieves","San Marino","San Vicente y las Granadinas","Santa Lucía","Santo Tomé y Príncipe","Senegal","Serbia","Seychelles","Sierra Leona","Singapur","Siria","Somalia","Sri Lanka","Suazilandia","Sudán","Sudán del Sur","Suecia","Suiza","Surinam","Tailandia","Tanzania","Tayikistán","Timor Oriental","Togo","Tonga","Trinidad y Tobago","Túnez","Turkmenistán","Turquía","Tuvalu","Ucrania","Uganda","Uruguay","Uzbekistán","Vanuatu","Venezuela","Vietnam","Yemen","Yibuti","Zambia","Zimbabue"];
-
 
     function displayFilteredProducts(products, category, subcategory, limit, productId) {
         const productsListElement = document.getElementById('productsIds');
@@ -346,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <h4 class="mb-4">${generalData.review_product.title}</h4>
                                 <small>${generalData.review_product.text}</small>
                                 <div class="d-flex my-3">
-                                    <p class="mb-0 mr-2">${generalData.review_product.rating}</p>
+                                    <p class="mb-0 mr-2">${generalData.review_product.rating}<text class="text-red"> *</text> </p>
                                     <div class="text-primary" id="stars">
                                         <i class="fa-regular fa-star"></i>
                                         <i class="fa-regular fa-star"></i>
@@ -357,16 +355,16 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                                 <form>
                                     <div class="form-group">
-                                        <label for="message">${generalData.review_product.form.review}</label>
+                                        <label for="message">${generalData.review_product.form.review}<text class="text-red"> *</text></label>
                                         <textarea id="message" cols="30" rows="5"
                                             class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">${generalData.review_product.form.name}</label>
+                                        <label for="name">${generalData.review_product.form.name}<text class="text-red"> *</text></label>
                                         <input type="text" class="form-control" id="name">
                                     </div>
                                     <div class="form-group">
-                                        <label for="email">${generalData.review_product.form.email}</label>
+                                        <label for="email">${generalData.review_product.form.email}<text class="text-red"> *</text></label>
                                         <input type="email" class="form-control" id="email">
                                     </div>
                                     <div class="form-group mb-0">
@@ -1665,10 +1663,380 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     
             // Calcular el total
-            let total = subtotal;
+            let shippingCost = 0;
+            let total = subtotal + shippingCost;
     
             // Generar el HTML del formulario de pago y el resumen del carrito
+
             let cartFormHTML = `
+                <div class="js-fulfillment-info js-allows-non-shippable">
+                    <div class="js-visible-on-cart-filled js-has-new-shipping js-shipping-calculator-container">
+                        <div id="cart_shipping_container" class="row">
+                            <div class="mb-2 col-12">
+                                <div id="js_shipping_calculator_head" class="shipping-calculator-head position-relative transition-soft with-zip">
+                                    <div id="js_cart_saved_zipcode" class="js-shipping-calculator-with-zipcode mb-4 w-100 transition-up position-absolute transition-up-active">
+                                        <div class="container p-0">
+                                            <div class="row align-items-center">
+                                                <span class="col pr-0">
+                                                    <span class="font-small align-bottom">
+                                                        <span>${generalData.page_cart.shipping.js_cart_saved_zipcode.title}</span>
+                                                        <strong id="js_shipping_calculator_current_zip" class="js_shipping_calculator_current_zip_value"></strong>
+                                                    </span>
+                                                </span>
+                                                <div class="col-auto pl-0">
+                                                    <btn id="js_shipping_calculator_change_zipcode" class="btn btn-primary btn-small float-right py-1 px-2 px-sm-3">${generalData.page_cart.shipping.js_cart_saved_zipcode.change_zip}</btn>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="js_shipping_calculator_form" class="js-shipping-calculator-with-zipcode mb-4 w-100 transition-up position-absolute transition-up-active">
+                                        <div class="form-group form-row form-group-inline align-items-center">
+                                            <div class="form-control-container col-6 col-lg-7 pr-0">
+                                                <input type="tel" id="js_shipping_input" class="form-control form-control-inline p-4" placeholder="${generalData.page_cart.shipping.js_shipping_calculator_form.zipCode}">
+                                            </div>
+                                            <div class="col-6 col-lg-5 pl-0">
+                                                <button id="js_calculate_shipping" class="btn btn-primary btn-block" id="calculateShippingButton">
+                                                    <span id="js_calculate_shipping_wording" style="display: inline;">${generalData.page_cart.shipping.js_shipping_calculator_form.calculate}</span>
+                                                    <span id="js_calculating_shipping_wording" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.calculating}</span>
+                                                    <span id="js_calculating_shipping_wording_logo" class="float-right loading" style="display: none;">
+                                                        <svg class="icon-inline icon-smd icon-spin svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288 24.103v8.169a11.995 11.995 0 0 0 9.698 11.768C396.638 63.425 472 150.461 472 256c0 118.663-96.055 216-216 216-118.663 0-216-96.055-216-216 0-104.534 74.546-192.509 174.297-211.978A11.993 11.993 0 0 0 224 32.253v-8.147c0-7.523-6.845-13.193-14.237-11.798C94.472 34.048 7.364 135.575 8.004 257.332c.72 137.052 111.477 246.956 248.531 246.667C393.255 503.711 504 392.789 504 256c0-121.187-86.924-222.067-201.824-243.704C294.807 10.908 288 16.604 288 24.103z"></path></svg>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <div class="col-12">
+                                                <a class="font-small text-primary mt-2 mb-2 d-block" href="https://www.correoargentino.com.ar/formularios/cpa">${generalData.page_cart.shipping.js_shipping_calculator_form.dontKnowZipCode}</a>
+                                            </div>
+                                            <div class="col-12">
+                                                <small id="js_danger_postal" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.misspelled}</small>	
+                                                <small id="js_danger_zipcode" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.error}</small>
+                                                <small id="js_danger_external" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.external}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="js_shipping_calculator_response" class="mb-3 float-left w-100 transition-soft radio-buttons-group">
+                                    <div class="form-label my-3 float-left">
+                                        <svg class="icon-inline icon-lg svg-icon-text mr-2 align-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M632 384h-24V275.9c0-16.8-6.8-33.3-18.8-45.2l-83.9-83.9c-11.8-12-28.3-18.8-45.2-18.8H416V78.6c0-25.7-22.2-46.6-49.4-46.6H49.4C22.2 32 0 52.9 0 78.6v290.8C0 395.1 22.2 416 49.4 416h16.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16h195.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16H632c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8zM460.1 160c8.4 0 16.7 3.4 22.6 9.4l83.9 83.9c.8.8 1.1 1.9 1.8 2.8H416v-96h44.1zM144 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm63.6-96C193 364.7 170 352 144 352s-49 12.7-63.6 32h-31c-9.6 0-17.4-6.5-17.4-14.6V78.6C32 70.5 39.8 64 49.4 64h317.2c9.6 0 17.4 6.5 17.4 14.6V384H207.6zM496 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-128c-26.1 0-49 12.7-63.6 32H416v-96h160v96h-16.4c-14.6-19.3-37.5-32-63.6-32z"></path></svg>
+                                        ${generalData.page_cart.shipping.js_shipping_calculator_response.home_delivery}
+                                    </div>
+                                    <ul class="list-unstyled box p-0">
+                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
+                                            <label class="js-shipping-radio radio-button list-item">
+                                                <input id="featured_shipping_1" class="js-shipping-method shipping-method" type="radio" name="option" style="display:none">
+                                                <div class="radio-button-content">
+                                                    <div class="radio-button-icons-container">
+                                                        <span class="radio-button-icons">
+                                                            <span class="radio-button-icon unchecked"></span>
+                                                            <span class="radio-button-icon checked">
+                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="radio-button-label">
+                                                        <div class="radio-button-text row">
+                                                            <div class="col-8 col-md-9 font-small pr-0">
+                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.shipping_motorcycle}<span class="ml-1"></span>
+                                                                </div>
+                                                                <div class="opacity-60">
+                                                                    <span class="d-table float-left">
+                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
+                                                                    </span>
+                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 text-right">
+                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
+                                            <label class="js-shipping-radio radio-button list-item">
+                                                <input id="featured_shipping_2" class="js-shipping-method shipping-method" type="radio" name="option" style="display:none">
+                                                <div class="radio-button-content">
+                                                    <div class="radio-button-icons-container">
+                                                        <span class="radio-button-icons">
+                                                            <span class="radio-button-icon unchecked"></span>
+                                                            <span class="radio-button-icon checked">
+                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="radio-button-label">
+                                                        <div class="radio-button-text row">
+                                                            <div class="col-8 col-md-9 font-small pr-0">
+                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_clasic}<span class="ml-1"></span></div>
+                                                                <div class="opacity-60">
+                                                                    <span class="d-table float-left">
+                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
+                                                                    </span>
+                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 text-right">
+                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
+                                            <label class="js-shipping-radio radio-button list-item">
+                                                <input id="featured_shipping_3" class="js-shipping-method shipping-method" type="radio" name="option" style="display:none">
+                                                <div class="radio-button-content">
+                                                    <div class="radio-button-icons-container">
+                                                        <span class="radio-button-icons">
+                                                            <span class="radio-button-icon unchecked"></span>
+                                                            <span class="radio-button-icon checked">
+                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="radio-button-label">
+                                                        <div class="radio-button-text row">
+                                                            <div class="col-8 col-md-9 font-small pr-0">
+                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_express}<span class="ml-1"></span></div>
+                                                                <div class="opacity-60">
+                                                                    <span class="d-table float-left">
+                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
+                                                                    </span>
+                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 text-right">
+                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <div class="form-label my-3 float-left">
+                                        <svg class="icon-inline icon-lg svg-icon-text mr-2 align-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                                        ${generalData.page_cart.shipping.js_shipping_calculator_response.withdraw_by}
+                                    </div>
+                                    <ul class="list-unstyled box p-0 ">
+                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
+                                            <label class="js-shipping-radio radio-button list-item">
+                                                <input id="featured_shipping_4" class="js-shipping-method js-pickup-option shipping-method" type="radio" name="option" style="display:none">
+                                                <div class="radio-button-content">
+                                                    <div class="radio-button-icons-container">
+                                                        <span class="radio-button-icons">
+                                                            <span class="radio-button-icon unchecked"></span>
+                                                            <span class="radio-button-icon checked">
+                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="radio-button-label">
+                                                        <div class="radio-button-text row">
+                                                            <div class="col-8 col-md-9 font-small pr-0">
+                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point}<span class="ml-1"></span></div>
+                                                                <div class="opacity-60 mb-2">
+                                                                    <span class="d-table float-left">
+                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
+                                                                    </span>
+                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option}</span>
+                                                                </div>
+                                                                <div>
+                                                                    <div id="pickup_clasic_info">
+                                                                        <div class="js-modal-open btn-link btn-link-primary">
+                                                                            <svg class="icon-inline icon-lg mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                                                                            <span class="align-bottom">${generalData.page_cart.shipping.js_shipping_calculator_response.see_directions}</span>
+                                                                        </div>
+                                                                        <div id="selected_suboption_api_559774_cps-pickup-modal-593798672" class="js-modal  modal modal-bottom modal-centered-small js-modal-shipping-suboptions modal-center transition-slide modal-centered transition-soft modal-zindex-top" style="display: none;">
+                                                                            <div class="js-modal-close modal-header">
+                                                                                <span class="modal-close">
+                                                                                    <svg class="icon-inline modal-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
+                                                                                </span>
+                                                                                Puntos de retiro
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <ul class="list-unstyled py-2">
+                                                                                    <li class="text-capitalize mb-3"><svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                                                                                        <span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_clasic}</span>
+                                                                                    </li>
+                                                                                    <li class="text-capitalize mb-3"><svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                                                                                        <span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_clasic}</span>
+                                                                                    </li>
+                                                                                </ul>
+                                                                                <div class="mt-4"><span class="opacity-50">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.close_zipCode}:</span><span class="text-primary font-weight-bold js_shipping_calculator_current_zip_value"></span></div>
+                                                                                <div class="mt-2 font-small">
+                                                                                    <svg class="icon-inline svg-icon-text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-36 344h12V232h-12c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12h48c6.627 0 12 5.373 12 12v140h12c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12h-72c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12zm36-240c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z"></path></svg>
+                                                                                    <i>${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.options}</i>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="js-modal-overlay modal-overlay modal-zindex-top" style="display: none;"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 text-right">
+                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li class="js-shipping-list-item radio-button-item float-left w-100">
+                                            <label class="js-shipping-radio radio-button list-item">
+                                                <input id="featured_shipping_5" class="js-shipping-method js-pickup-option shipping-method" type="radio" name="option" style="display:none">
+                                                <div class="radio-button-content">
+                                                    <div class="radio-button-icons-container">
+                                                        <span class="radio-button-icons">
+                                                            <span class="radio-button-icon unchecked"></span>
+                                                            <span class="radio-button-icon checked">
+                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="radio-button-label">
+                                                        <div class="radio-button-text row">
+                                                            <div class="col-8 col-md-9 font-small pr-0">
+                                                                <div class="mb-2">${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point}<span class="ml-1"></span></div>
+                                                                <div class="opacity-60 mb-2">
+                                                                    <span class="d-table float-left">
+                                                                        <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
+                                                                    </span>
+                                                                    <span class="d-table">${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option}</span>
+                                                                </div>
+                                                                <div>
+                                                                    <div id="pickup_express_info">
+                                                                        <div class="js-modal-open btn-link btn-link-primary">
+                                                                            <svg class="icon-inline icon-lg mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                                                                            <span class="align-bottom">${generalData.page_cart.shipping.js_shipping_calculator_response.see_directions}</span>
+                                                                        </div>
+                                                                        <div id="selected_suboption_api_559774_eps-pickup-modal-1593001242"class="js-modal  modal modal-bottom modal-centered-small js-modal-shipping-suboptions modal-center transition-slide modal-centered transition-soft modal-zindex-top"style="display: none;">
+                                                                            <div class="js-modal-close modal-header">
+                                                                                <span class="modal-close">
+                                                                                    <svg class="icon-inline modal-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
+                                                                                </span>
+                                                                                ${generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point}
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <ul class="list-unstyled py-2">
+                                                                                    <li class="text-capitalize mb-3">
+                                                                                        <svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                                                                                        <span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_express}</span>
+                                                                                    </li>
+                                                                                    <li class="text-capitalize mb-3"><svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                                                                                        <span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_express}</span>
+                                                                                    </li>
+                                                                                </ul>
+                                                                                <div class="mt-4"><span class="opacity-50">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.close_zipCode}:</span><span class="text-primary font-weight-bold js_shipping_calculator_current_zip_value"></span></div>
+                                                                                <div class="mt-2 font-small">
+                                                                                    <svg class="icon-inline svg-icon-text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-36 344h12V232h-12c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12h48c6.627 0 12 5.373 12 12v140h12c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12h-72c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12zm36-240c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z"></path></svg>
+                                                                                    <i>${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.options}</i>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="js-modal-overlay modal-overlay modal-zindex-top" style="display: none;"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-3 text-right">
+                                                                <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.price_shipping}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <div class="font-small float-left w-100 mb-3">El tiempo de entrega <strong>no considera feriados</strong>.</div>
+                                    <input type="hidden" name="after_calculation">
+                                    <input type="hidden" name="zipcode">
+                                </div>
+                            </div>
+                            <div class="w-100 container-fluid">
+                                <span class="form-row align-items-end">
+                                    <div class="col-1 col-md-auto form-label">
+                                        <svg class="icon-inline icon-lg svg-icon-text align-text-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M635.7 176.1l-91.4-160C538.6 6.2 528 0 516.5 0h-393C112 0 101.4 6.2 95.7 16.1l-91.4 160C-7.9 197.5 7.4 224 32 224h32v254.5C64 497 78.3 512 96 512h256c17.7 0 32-15 32-33.5V224h160v280c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8V224h32c24.6 0 39.9-26.5 27.7-47.9zM352 478.5c0 .9-.3 1.4-.2 1.5l-255.2.2s-.6-.5-.6-1.7V352h256v126.5zm0-158.5H96v-96h256v96zM32.1 192l91.4-160h393L608 192H32.1z"></path></svg>
+                                    </div>
+                                    <div class="col-11 form-label">
+                                        <div>${generalData.page_cart.shipping.our_local}</div>
+                                    </div>
+                                </span>
+                            </div>
+                            <div id="js_store_branches_container" class="container-fluid">
+                                <div class="box mt-3 p-0">
+                                    <div class="radio-buttons-group">
+                                        <ul class="list-unstyled radio-button-container">
+                                            <li class="radio-button-item">
+                                                <label class="js-shipping-radio js-branch-radio radio-button">
+                                                    <input id="featured_shipping_6" class="js-shipping-method js-branch-method shipping-method js-selected-shipping-method" id="shippingMethod" type="radio" name="option" style="display:none">
+                                                    <div class="shipping-option row-fluid radio-button-content">
+                                                        <div class="radio-button-icons-container">
+                                                            <span class="radio-button-icons">
+                                                            <span class="radio-button-icon unchecked"></span>
+                                                            <span class="radio-button-icon checked">
+                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>                                                </span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="radio-button-label">
+                                                            <div class="row">
+                                                                <div class="col-9 font-small">
+                                                                    <div>${generalData.store_info.title_brand} - ${generalData.data.address.text}</div>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.free}</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            /* document.getElementById('calculateShippingButton').addEventListener('click', () => {
+                const calculatingShippingWording = document.querySelector('.js-calculating-shipping-wording');
+                const calculatorShippingWithZip = document.querySelector('.js-shipping-calculator-with-zipcode');
+                const calculatorShippingForm = document.querySelector('.js-shipping-calculator-form');
+                const calculatingShippingWordingLogo = document.querySelector('.js-calculating-shipping-wording-logo');
+                const calculateShippingWording = document.querySelector('.js-calculate-shipping-wording');
+                const dangerPostal = document.querySelector('.js-danger-postal');
+                const dangerZipcode = document.querySelector('.js-danger-zipcode');
+                const dangerExternal = document.querySelector('.js-danger-external');
+                calculateShippingWording.style.display = 'none';
+                calculatingShippingWordingLogo.style.display = 'inline';
+                calculatingShippingWording.style.display = 'inline';
+                if(document.getElementById('shippingCode').value === "1684") {
+                    calculatingShippingWordingLogo.style.display = 'none';
+                    calculatingShippingWording.style.display = 'none';
+                    calculateShippingWording.style.display = 'inline';
+                    dangerExternal.style.display = 'none';
+                    dangerPostal.style.display = 'none';
+                    dangerZipcode.style.display = 'none';
+                    calculatorShippingForm.style.display = 'none';
+                    calculatorShippingWithZip.style.display = 'block';
+                } else if(document.getElementById('shippingCode').value === "") {
+                    dangerExternal.style.display = 'none';
+                    dangerZipcode.style.display = 'none';
+                    dangerPostal.style.display = 'inline';
+                } else if(document.getElementById('shippingCode').value === "") {
+                    dangerExternal.style.display = 'none';
+                    dangerPostal.style.display = 'none';
+                    dangerZipcode.style.display = 'inline';
+                } else if(document.getElementById('shippingCode').value === "") {
+                    dangerZipcode.style.display = 'none';
+                    dangerPostal.style.display = 'none';
+                    dangerExternal.style.display = 'inline';
+                }
+            }); */
+
+            cartFormHTML += `
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">${generalData.page_cart.cart.title}</h4>
@@ -1677,6 +2045,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">${generalData.page_cart.cart.table.subtotal}</h6>
                             <h6 class="font-weight-medium" id="subtotal">$${subtotal}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">${generalData.page_cart.cart.table.shipping_cost}</h6>
+                            <h6 class="font-weight-medium" id="shippingCost">$&nbsp;${shippingCost}</h6>
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
@@ -1688,7 +2060,118 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
+
             cartFormContainer.innerHTML = cartFormHTML;
+
+            const js_shipping_calculator_form = document.getElementById('js_shipping_calculator_form');
+
+            const js_shipping_calculator_head = document.getElementById('js_shipping_calculator_head');
+            js_shipping_calculator_head.style.height = '100px'; // Añadir la clase de posicionamiento
+            
+            const js_cart_saved_zipcode = document.getElementById('js_cart_saved_zipcode');
+            js_cart_saved_zipcode.style.display = 'none'; // Remover la clase de posicionamiento
+            
+            const js_shipping_calculator_response = document.getElementById('js_shipping_calculator_response');
+            js_shipping_calculator_response.style.display = 'none';
+
+            const js_calculate_shipping_wording = document.getElementById('js_calculate_shipping_wording');
+            const js_calculating_shipping_wording = document.getElementById('js_calculating_shipping_wording');
+            const js_calculating_shipping_wording_logo = document.getElementById('js_calculating_shipping_wording_logo');
+            const js_danger_postal = document.getElementById('js_danger_postal');
+            const js_danger_zipcode = document.getElementById('js_danger_zipcode');
+            const js_danger_external = document.getElementById('js_danger_external');
+
+            document.addEventListener('click', (event) => {
+                if (event.target && (event.target.id === 'js_calculate_shipping' || event.target.id === 'js_calculate_shipping_wording')) {
+                    js_danger_external.style.display = 'none';
+                    js_danger_postal.style.display = 'none';
+                    js_danger_zipcode.style.display = 'none';
+                    js_calculate_shipping_wording.style.display = 'none';
+                    js_calculating_shipping_wording.style.display = 'inline';
+                    js_calculating_shipping_wording_logo.style.display = 'inline';
+                    setTimeout(handleCalculateShipping, 100); // Agregar un retraso de 100ms antes de ejecutar handleCalculateShipping
+                } else if (event.target && event.target.id === 'js_shipping_calculator_change_zipcode') {
+                    handleChangeZipcode();
+                } else if (event.target && event.target.classList.contains('js-shipping-method')) {
+                    handleShippingMethodSelection(event.target);
+                }
+            });
+
+            function handleCalculateShipping() {
+                const js_shipping_input = document.getElementById('js_shipping_input').value.trim();
+                if (js_shipping_input.length === 4) {
+                    const js_shipping_input_values = document.querySelectorAll('.js_shipping_calculator_current_zip_value');
+                    js_shipping_input_values.forEach(element => {
+                        element.textContent = js_shipping_input;
+                    });
+
+                    js_shipping_calculator_head.style.height = '25px'; // Añadir la clase de posicionamiento
+                    js_shipping_calculator_form.style.display = 'none';
+                    js_cart_saved_zipcode.style.display = 'block'; // Añadir la clase de posicionamiento
+                    js_shipping_calculator_response.style.display = 'block';
+                    js_calculating_shipping_wording_logo.style.display = 'none';
+                    js_calculating_shipping_wording.style.display = 'none';
+                    js_calculate_shipping_wording.style.display = 'inline';
+                } else if (js_shipping_input === "404") {
+                    // Ocurrió un error al calcular el envío. Por favor intentá de nuevo en unos segundos.
+                    js_calculating_shipping_wording_logo.style.display = 'none';
+                    js_calculating_shipping_wording.style.display = 'none';
+                    js_calculate_shipping_wording.style.display = 'inline';
+                    js_danger_zipcode.style.display = 'inline';
+                } else if (js_shipping_input === "44") {
+                    // El calculo falló por un problema con el medio de envío. Por favor intentá de nuevo en unos segundos.
+                    js_calculating_shipping_wording_logo.style.display = 'none';
+                    js_calculating_shipping_wording.style.display = 'none';
+                    js_calculate_shipping_wording.style.display = 'inline';
+                    js_danger_external.style.display = 'inline';
+                } else if (js_shipping_input.length !== 4) {
+                    // No encontramos este código postal. ¿Está bien escrito?
+                    js_calculating_shipping_wording_logo.style.display = 'none';
+                    js_calculating_shipping_wording.style.display = 'none';
+                    js_calculate_shipping_wording.style.display = 'inline';
+                    js_danger_postal.style.display = 'inline';
+                }
+            }
+
+            function handleChangeZipcode() {
+                js_shipping_calculator_head.style.height = '100px'; // Añadir la clase de posicionamiento
+                js_cart_saved_zipcode.style.display = 'none'; // Remover la clase de posicionamiento
+                js_shipping_calculator_response.style.display = 'none';
+                js_shipping_calculator_form.style.display = 'block'; // Añadir la clase de posicionamiento
+            }
+
+            function handleShippingMethodSelection(target) {
+                const js_shipping_input = document.getElementById('js_shipping_input').value.trim();
+                const selectedShippingMethod = target.id;
+            
+                if (selectedShippingMethod === 'featured_shipping_6') {
+                    localStorage.setItem('selectedShippingMethod', JSON.stringify({
+                        shippingMethod: selectedShippingMethod,
+                        zipCode: null
+                    }));
+                } else if (js_shipping_input.length === 4) {
+                    localStorage.setItem('selectedShippingMethod', JSON.stringify({
+                        shippingMethod: selectedShippingMethod,
+                        zipCode: js_shipping_input
+                    }));
+                }
+            }
+            
+            // Cargar el método de envío guardado al cargar la página
+            const savedShippingMethod = JSON.parse(localStorage.getItem('selectedShippingMethod')) || {};
+            if (savedShippingMethod.shippingMethod) {
+                const { shippingMethod, zipCode } = savedShippingMethod;
+                const shippingInput = document.getElementById('js_shipping_input');
+                const shippingMethodInput = document.getElementById(shippingMethod);
+            
+                if (shippingInput && shippingMethodInput) {
+                    if (zipCode) {
+                        shippingInput.value = zipCode;
+                    }
+                    shippingMethodInput.checked = true;
+                }
+            }
+
         })
         .catch(error => {
             console.error('Error al cargar los archivos JSON:', error);
@@ -1752,121 +2235,111 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function checkoutForm() {
         const checkoutFormContainer = document.getElementById('checkoutFormId');
+        let countries = ["Afganistán","Albania","Alemania","Andorra","Angola","Antigua y Barbuda","Arabia Saudita","Argelia","Argentina","Armenia","Australia","Austria","Azerbaiyán","Bahamas","Bangladés","Barbados","Baréin","Bélgica","Belice","Benín","Bielorrusia","Birmania","Bolivia","Bosnia y Herzegovina","Botsuana","Brasil","Brunéi","Bulgaria","Burkina Faso","Burundi","Bután","Cabo Verde","Camboya","Camerún","Canadá","Catar","Chad","Chile","China","Chipre","Ciudad del Vaticano","Colombia","Comoras","Corea del Norte","Corea del Sur","Costa de Marfil","Costa Rica","Croacia","Cuba","Dinamarca","Dominica","Ecuador","Egipto","El Salvador","Emiratos Árabes Unidos","Eritrea","Eslovaquia","Eslovenia","España","Estados Unidos","Estonia","Etiopía","Filipinas","Finlandia","Fiyi","Francia","Gabón","Gambia","Georgia","Ghana","Granada","Grecia","Guatemala","Guyana","Guinea","Guinea ecuatorial","Guinea-Bisáu","Haití","Honduras","Hungría","India","Indonesia","Irak","Irán","Irlanda","Islandia","Islas Marshall","Islas Salomón","Israel","Italia","Jamaica","Japón","Jordania","Kazajistán","Kenia","Kirguistán","Kiribati","Kuwait","Laos","Lesoto","Letonia","Líbano","Liberia","Libia","Liechtenstein","Lituania","Luxemburgo","Madagascar","Malasia","Malaui","Maldivas","Malí","Malta","Marruecos","Mauricio","Mauritania","México","Micronesia","Moldavia","Mónaco","Mongolia","Montenegro","Mozambique","Namibia","Nauru","Nepal","Nicaragua","Níger","Nigeria","Noruega","Nueva Zelanda","Omán","Países Bajos","Pakistán","Palaos","Palestina","Panamá","Papúa Nueva Guinea","Paraguay","Perú","Polonia","Portugal","Reino Unido","República Centroafricana","República Checa","República de Macedonia","República del Congo","República Democrática del Congo","República Dominicana","República Sudafricana","Ruanda","Rumanía","Rusia","Samoa","San Cristóbal y Nieves","San Marino","San Vicente y las Granadinas","Santa Lucía","Santo Tomé y Príncipe","Senegal","Serbia","Seychelles","Sierra Leona","Singapur","Siria","Somalia","Sri Lanka","Suazilandia","Sudán","Sudán del Sur","Suecia","Suiza","Surinam","Tailandia","Tanzania","Tayikistán","Timor Oriental","Togo","Tonga","Trinidad y Tobago","Túnez","Turkmenistán","Turquía","Tuvalu","Ucrania","Uganda","Uruguay","Uzbekistán","Vanuatu","Venezuela","Vietnam","Yemen","Yibuti","Zambia","Zimbabue"];
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
             const checkoutFormHTML = `
                 <div class="row px-xl-5">
                     <div class="col-lg-8">
                         <div class="mb-4">
-                            <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
+                            <h4 class="font-weight-semi-bold mb-4">${generalData.checkout.datos.title}</h4>
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                    <label>First Name</label>
-                                    <input class="form-control" type="text" placeholder="John">
+                                    <label>${generalData.checkout.datos.firstname.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.firstname.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>Last Name</label>
-                                    <input class="form-control" type="text" placeholder="Doe">
+                                    <label>${generalData.checkout.datos.lastname.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.lastname.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>E-mail</label>
-                                    <input class="form-control" type="text" placeholder="example@email.com">
+                                    <label>${generalData.checkout.datos.email.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.email.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>Mobile No</label>
-                                    <input class="form-control" type="text" placeholder="+123 456 789">
+                                    <label>${generalData.checkout.datos.phone.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.phone.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>Address Line 1</label>
-                                    <input class="form-control" type="text" placeholder="123 Street">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Address Line 2</label>
-                                    <input class="form-control" type="text" placeholder="123 Street">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Country</label>
+                                    <label>${generalData.checkout.datos.country.text}<text class="text-red"> *</text></label>
                                     <select class="custom-select">
-                                        <option selected>United States</option>
-                                        <option>Afghanistan</option>
-                                        <option>Albania</option>
-                                        <option>Algeria</option>
+                                        <option selected>${generalData.checkout.datos.country.selected}</option>
+                                        ${arrayCountries(countries)}
                                     </select>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>City</label>
-                                    <input class="form-control" type="text" placeholder="New York">
+                                    <label>${generalData.checkout.datos.province.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.province.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>State</label>
-                                    <input class="form-control" type="text" placeholder="New York">
+                                    <label>${generalData.checkout.datos.city.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.city.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>ZIP Code</label>
-                                    <input class="form-control" type="text" placeholder="123">
+                                    <label>${generalData.checkout.datos.address.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.address.placeholder}">
                                 </div>
-                                <div class="col-md-12 form-group">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="newaccount">
-                                        <label class="custom-control-label" for="newaccount">Create an account</label>
-                                    </div>
+                                <div class="col-md-6 form-group">
+                                    <label>${generalData.checkout.datos.additional.text}</label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.additional.placeholder}">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>${generalData.checkout.datos.postal_code.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.postal_code.placeholder}">
                                 </div>
                                 <div class="col-md-12 form-group">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="shipto">
                                         <label class="custom-control-label" for="shipto" data-toggle="collapse"
-                                            data-target="#shipping-address">Ship to different address</label>
+                                            data-target="#shipping-address">${generalData.checkout.datos.skipAddress.text}</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="collapse mb-4" id="shipping-address">
-                            <h4 class="font-weight-semi-bold mb-4">Shipping Address</h4>
+                            <h4 class="font-weight-semi-bold mb-4">${generalData.checkout.datos.skipAddress.title}</h4>
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                    <label>First Name</label>
-                                    <input class="form-control" type="text" placeholder="John">
+                                    <label>${generalData.checkout.datos.firstname.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.firstname.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>Last Name</label>
-                                    <input class="form-control" type="text" placeholder="Doe">
+                                    <label>${generalData.checkout.datos.lastname.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.lastname.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>E-mail</label>
-                                    <input class="form-control" type="text" placeholder="example@email.com">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Mobile No</label>
-                                    <input class="form-control" type="text" placeholder="+123 456 789">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Address Line 1</label>
-                                    <input class="form-control" type="text" placeholder="123 Street">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Address Line 2</label>
-                                    <input class="form-control" type="text" placeholder="123 Street">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Country</label>
+                                    <label>${generalData.checkout.datos.country.text}<text class="text-red"> *</text></label>
                                     <select class="custom-select">
-                                        <option selected>United States</option>
-                                        <option>Afghanistan</option>
-                                        <option>Albania</option>
-                                        <option>Algeria</option>
+                                        <option selected>${generalData.checkout.datos.country.selected}</option>
+                                        ${arrayCountries(countries)}
                                     </select>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>City</label>
-                                    <input class="form-control" type="text" placeholder="New York">
+                                    <label>${generalData.checkout.datos.province.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.province.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>State</label>
-                                    <input class="form-control" type="text" placeholder="New York">
+                                    <label>${generalData.checkout.datos.city.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.city.placeholder}">
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>ZIP Code</label>
-                                    <input class="form-control" type="text" placeholder="123">
+                                    <label>${generalData.checkout.datos.address.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.address.placeholder}">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>${generalData.checkout.datos.additional.text}</label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.additional.placeholder}">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>${generalData.checkout.datos.postal_code.text}<text class="text-red"> *</text></label>
+                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.postal_code.placeholder}">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="shipto">
+                                        <label class="custom-control-label" for="shipto" data-toggle="collapse"
+                                            data-target="#shipping-address">${generalData.checkout.datos.skipAddress.text}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1874,10 +2347,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="col-lg-4">
                         <div class="card border-secondary mb-5">
                             <div class="card-header bg-secondary border-0">
-                                <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                                <h4 class="font-weight-semi-bold m-0">${generalData.checkout.bill.title}</h4>
                             </div>
                             <div class="card-body">
-                                <h5 class="font-weight-medium mb-3">Products</h5>
+                                <h5 class="font-weight-medium mb-3">${generalData.checkout.bill.table.product}</h5>
                                 <div class="d-flex justify-content-between">
                                     <p>Colorful Stylish Shirt 1</p>
                                     <p>$150</p>
@@ -1909,27 +2382,48 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                         <div class="card border-secondary mb-5">
                             <div class="card-header bg-secondary border-0">
-                                <h4 class="font-weight-semi-bold m-0">Payment</h4>
+                                <h4 class="font-weight-semi-bold m-0">${generalData.checkout.payment.title}</h4>
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                                        <label class="custom-control-label" for="paypal">Paypal</label>
+                                        <input type="radio" class="custom-control-input" name="payment"
+                                            id="directcheck">
+                                        <label class="custom-control-label" for="directcheck">${generalData.checkout.payment.table.directcheck}</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="custom-control custom-radio">
                                         <input type="radio" class="custom-control-input" name="payment"
-                                            id="directcheck">
-                                        <label class="custom-control-label" for="directcheck">Direct Check</label>
+                                            id="banktransfer">
+                                        <label class="custom-control-label" for="banktransfer">${generalData.checkout.payment.table.banktransfer}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="payment"
+                                            id="mercadopago">
+                                        <label class="custom-control-label" for="mercadopago">${generalData.checkout.payment.table.mercadopago}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="payment" id="paypal">
+                                        <label class="custom-control-label" for="paypal">${generalData.checkout.payment.table.paypal}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="payment"
+                                            id="debitcard">
+                                        <label class="custom-control-label" for="debitcard">${generalData.checkout.payment.table.debitcard}</label>
                                     </div>
                                 </div>
                                 <div class="">
                                     <div class="custom-control custom-radio">
                                         <input type="radio" class="custom-control-input" name="payment"
-                                            id="banktransfer">
-                                        <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
+                                            id="creditcard">
+                                        <label class="custom-control-label" for="creditcard">${generalData.checkout.payment.table.creditcard}</label>
                                     </div>
                                 </div>
                             </div>
@@ -1948,388 +2442,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function arrayCountries(countries) {
+        let options = '';
+        countries.forEach(country => {
+            options += `<option value="${country}">${country}</option>`;
+        });
+        return options;
+    }
+
     /* 
-    <div class="d-flex justify-content-between">
-        <h6 class="font-weight-medium">${generalData.page_cart.cart.table.shipping_cost}</h6>
-        <h6 class="font-weight-medium" id="shippingCost">$&nbsp;${shippingCost}</h6>
+    <div class="col-md-12 form-group">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="newaccount">
+            <label class="custom-control-label" for="newaccount">Create an account</label>
+        </div>
     </div>
+
+    
     <div class="justify-content-between" id="discountSection" style="display: none;">
         <h6 class="font-weight-medium">${generalData.page_cart.cart.table.discount}</h6>
         <h6 class="font-weight-medium" id="discount"></h6>
     </div>
-
-    <div class="js-shipping-calculator-head shipping-calculator-head position-relative transition-soft with-zip">
-        <div class="js-shipping-calculator-with-zipcode js-cart-saved-zipcode mb-4 w-100 transition-up" style="display: none;">
-			<div class="container p-0">
-                <div class="row align-items-center">
-                    <span class="col pr-0">
-                        <span class="font-small align-bottom">
-                            <span>Entregas para el CP:</span>
-                            <strong class="js-shipping-calculator-current-zip">1684</strong>
-                        </span>
-                    </span>
-                    <div class="col-auto pl-0">
-                        <a class="js-shipping-calculator-change-zipcode btn btn-primary btn-small float-right py-1 px-2 px-sm-3" href="#">Cambiar CP</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="js-shipping-calculator-form shipping-calculator-form transition-up transition-up-active">
-            <div class="form-group form-row form-group-inline align-items-center mb-3">
-                <div class="col-12 mb-2 form-label">
-                    <svg class="icon-inline icon-lg svg-icon-text mr-2 align-text-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M632 384h-24V275.9c0-16.8-6.8-33.3-18.8-45.2l-83.9-83.9c-11.8-12-28.3-18.8-45.2-18.8H416V78.6c0-25.7-22.2-46.6-49.4-46.6H49.4C22.2 32 0 52.9 0 78.6v290.8C0 395.1 22.2 416 49.4 416h16.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16h195.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16H632c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8zM460.1 160c8.4 0 16.7 3.4 22.6 9.4l83.9 83.9c.8.8 1.1 1.9 1.8 2.8H416v-96h44.1zM144 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm63.6-96C193 364.7 170 352 144 352s-49 12.7-63.6 32h-31c-9.6 0-17.4-6.5-17.4-14.6V78.6C32 70.5 39.8 64 49.4 64h317.2c9.6 0 17.4 6.5 17.4 14.6V384H207.6zM496 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-128c-26.1 0-49 12.7-63.6 32H416v-96h160v96h-16.4c-14.6-19.3-37.5-32-63.6-32z"></path></svg>
-                    <span class="align-middle">
-                        <span class="" style="display: none;">
-                            <strong class="text-accent">Envío gratis</strong> superando los <span>$60.000,00</span>
-                        </span>
-                        <span class=" text-accent" style="display: none;">¡Genial! Tenés envío gratis</span>
-                        <span class="">Medios de envío</span>
-                    </span>
-                </div>
-                <div class="form-control-container col-6 col-lg-7 pr-0">
-                    <input type="tel" class="form-control js-shipping-input form-control-inline p-4" placeholder="Tu código postal" id="shippingCode">
-                </div>
-                <div class="col-6 col-lg-5 pl-0">
-                    <button class="js-calculate-shipping btn btn-primary btn-block" id="calculateShippingButton">
-                        <span class="js-calculate-shipping-wording" style="display: inline;">Calcular</span>
-                        <span class="js-calculating-shipping-wording" style="display: none;">Calculando</span>
-                        <span class="js-calculating-shipping-wording-logo float-right loading" style="display: none;">
-                            <svg class="icon-inline icon-smd icon-spin svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288 24.103v8.169a11.995 11.995 0 0 0 9.698 11.768C396.638 63.425 472 150.461 472 256c0 118.663-96.055 216-216 216-118.663 0-216-96.055-216-216 0-104.534 74.546-192.509 174.297-211.978A11.993 11.993 0 0 0 224 32.253v-8.147c0-7.523-6.845-13.193-14.237-11.798C94.472 34.048 7.364 135.575 8.004 257.332c.72 137.052 111.477 246.956 248.531 246.667C393.255 503.711 504 392.789 504 256c0-121.187-86.924-222.067-201.824-243.704C294.807 10.908 288 16.604 288 24.103z"></path></svg>
-                        </span>
-                    </button>
-                </div>
-                <div class="col-12">
-                    <a class="font-small text-primary mt-2 mb-2 d-block " href="https://www.correoargentino.com.ar/formularios/cpa" target="_blank">No sé mi código postal</a>
-                </div>
-                <div class="col-12">
-                    <small class="help-block text-danger js-danger-postal" style="display: none;">No encontramos este código postal. ¿Está bien escrito?</small>
-                    <small class="help-block text-danger js-danger-zipcode" style="display: none;">Ocurrió un error al calcular el envío. Por favor intentá de nuevo en unos segundos.</small>
-                    <small class="help-block text-danger js-danger-external" style="display: none;">El calculo falló por un problema con el medio de envío. Por favor intentá de nuevo en unos segundos.</small>
-                </div>
-            </div>
-        </div>
-        <div class="js-shipping-calculator-response mb-3 float-left w-100 transition-soft radio-buttons-group" style="">
-            <div class="form-label my-3 float-left">
-                <svg class="icon-inline icon-lg svg-icon-text mr-2 align-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M632 384h-24V275.9c0-16.8-6.8-33.3-18.8-45.2l-83.9-83.9c-11.8-12-28.3-18.8-45.2-18.8H416V78.6c0-25.7-22.2-46.6-49.4-46.6H49.4C22.2 32 0 52.9 0 78.6v290.8C0 395.1 22.2 416 49.4 416h16.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16h195.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16H632c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8zM460.1 160c8.4 0 16.7 3.4 22.6 9.4l83.9 83.9c.8.8 1.1 1.9 1.8 2.8H416v-96h44.1zM144 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm63.6-96C193 364.7 170 352 144 352s-49 12.7-63.6 32h-31c-9.6 0-17.4-6.5-17.4-14.6V78.6C32 70.5 39.8 64 49.4 64h317.2c9.6 0 17.4 6.5 17.4 14.6V384H207.6zM496 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-128c-26.1 0-49 12.7-63.6 32H416v-96h160v96h-16.4c-14.6-19.3-37.5-32-63.6-32z"></path></svg>
-                Envío a domicilio
-            </div>
-            <ul class="list-unstyled box p-0 ">
-                <li class="js-shipping-list-item radio-button-item float-left w-100" data-store="shipping-calculator-item-table_6347141">
-                    <label class="js-shipping-radio radio-button list-item" data-loop="shipping-radio-1" data-shipping-type="delivery" data-component="shipping.option">
-                        <input id="featured-shipping-1" class="js-shipping-method shipping-method" data-price="5900" data-code="table_6347141" data-name="Envío por Moto - Llega entre hoy  y el jueves 19/12" data-cost=" $5.900,00" type="radio" value="table_6347141" checked="checked" name="option" style="display:none">
-                        <div class="radio-button-content">
-                            <div class="radio-button-icons-container">
-                                <span class="radio-button-icons">
-                                    <span class="radio-button-icon unchecked"></span>
-                                    <span class="radio-button-icon checked">
-                                        <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="radio-button-label">
-                                <div class="radio-button-text row">
-                                    <div class="col-8 col-md-9 font-small pr-0">
-                                        <div class="mb-2" data-component="option.name">Envío por Moto<span class="ml-1"></span>
-                                        </div>
-                                        <div class="opacity-60 " data-component="option.date">
-                                            <span class="d-table float-left">
-                                                <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                            </span>
-                                            <span class="d-table">Llega entre hoy y el jueves 19/12</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-md-3 text-right" data-component="option.price">
-                                        <h5 class="text-primary mb-0 d-inline-block">$5.900,00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-                <li class="js-shipping-list-item radio-button-item float-left w-100" data-store="shipping-calculator-item-api_559774_CPD">
-                    <label class="js-shipping-radio radio-button list-item" data-loop="shipping-radio-2" data-shipping-type="delivery" data-component="shipping.option">
-                        <input id="featured-shipping-2" class="js-shipping-method shipping-method" data-price="7199" data-code="api_559774_CPD" data-name="Correo Argentino Clasico - Envio a domicilio - Llega entre el viernes 20/12 y el lunes 23/12" data-cost=" $7.199,00" type="radio" value="api_559774_CPD" name="option" style="display:none">
-                        <div class="radio-button-content">
-                            <div class="radio-button-icons-container">
-                                <span class="radio-button-icons">
-                                    <span class="radio-button-icon unchecked"></span>
-                                    <span class="radio-button-icon checked">
-                                        <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="radio-button-label">
-                                <div class="radio-button-text row">
-                                    <div class="col-8 col-md-9 font-small pr-0">
-                                        <div class="mb-2" data-component="option.name">Correo Argentino Clasico - Envio a domicilio <span class="ml-1"></span></div>
-                                        <div class="opacity-60 " data-component="option.date">
-                                            <span class="d-table float-left">
-                                                <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                            </span>
-                                            <span class="d-table">Llega entre el viernes 20/12 y el lunes 23/12</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-md-3 text-right" data-component="option.price">
-                                        <h5 class="text-primary mb-0 d-inline-block">$7.199,00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-                <li class="js-shipping-list-item radio-button-item float-left w-100" data-store="shipping-calculator-item-api_559774_EPD">
-                    <label class="js-shipping-radio radio-button list-item" data-loop="shipping-radio-3" data-shipping-type="delivery" data-component="shipping.option">
-                        <input id="featured-shipping-3" class="js-shipping-method shipping-method" data-price="7869" data-code="api_559774_EPD" data-name="Correo Argentino Expreso - Envio a domicilio - Llega entre el jueves 19/12 y el lunes 23/12" data-cost=" $7.869,00" type="radio" value="api_559774_EPD" name="option" style="display:none">
-                        <div class="radio-button-content">
-                            <div class="radio-button-icons-container">
-                                <span class="radio-button-icons">
-                                    <span class="radio-button-icon unchecked"></span>
-                                    <span class="radio-button-icon checked">
-                                        <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="radio-button-label">
-                                <div class="radio-button-text row">
-                                    <div class="col-8 col-md-9 font-small pr-0">
-                                        <div class="mb-2" data-component="option.name">Correo Argentino Expreso - Envio a domicilio<span class="ml-1"></span>
-                                        </div>
-                                        <div class="opacity-60" data-component="option.date">
-                                            <span class="d-table float-left">
-                                                <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                            </span>
-                                            <span class="d-table">Llega entre el jueves 19/12 y el lunes 23/12</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-md-3 text-right" data-component="option.price">
-                                        <h5 class="text-primary mb-0 d-inline-block">$7.869,00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-            </ul>
-            <div class="form-label my-3 float-left">
-                <svg class="icon-inline icon-lg svg-icon-text mr-2 align-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                Retirar por
-            </div>
-            <ul class="list-unstyled box p-0 ">
-                <li class="js-shipping-list-item radio-button-item float-left w-100" data-store="shipping-calculator-item-api_559774_CPS">
-                    <label class="js-shipping-radio radio-button list-item" data-loop="shipping-radio-1" data-shipping-type="pickup" data-component="shipping.option">
-                        <input id="featured-shipping-1" class="js-shipping-method js-pickup-option shipping-method" data-price="4574" data-code="api_559774_CPS" data-name="Punto de retiro - Retiras entre el viernes 20/12 y el lunes 23/12" data-cost=" $4.574,00" type="radio" value="api_559774_CPS" name="option" style="display:none" data-gtm-form-interact-field-id="2">
-                        <div class="radio-button-content">
-                            <div class="radio-button-icons-container">
-                                <span class="radio-button-icons">
-                                    <span class="radio-button-icon unchecked"></span>
-                                    <span class="radio-button-icon checked">
-                                        <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="radio-button-label">
-                                <div class="radio-button-text row">
-                                    <div class="col-8 col-md-9 font-small pr-0">
-                                        <div class="mb-2" data-component="option.name">Punto de retiro<span class="ml-1"></span>
-                                        </div>
-                                        <div class="opacity-60 mb-2" data-component="option.date">
-                                            <span class="d-table float-left">
-                                                <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                            </span>
-                                            <span class="d-table"> Retiras entre el viernes 20/12 y el lunes 23/12</span>
-                                        </div>
-                                        <div>
-                                            <div class="js-shipping-suboption selected_suboption_api_559774_CPS">
-                                                <div data-toggle="#selected_suboption_api_559774_cps-pickup-modal-593798672" class="js-modal-open btn-link btn-link-primary">
-                                                    <svg class="icon-inline icon-lg mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                    <span class="align-bottom">Ver direcciones</span>
-                                                </div>
-                                                <div id="selected_suboption_api_559774_cps-pickup-modal-593798672" class="js-modal  modal modal-bottom modal-centered-small js-modal-shipping-suboptions modal-center transition-slide modal-centered transition-soft modal-zindex-top" style="display: none;">
-                                                    <div class="js-modal-close  modal-header">
-                                                        <span class="modal-close ">
-                                                            <svg class="icon-inline modal-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
-                                                        </span>
-                                                        Puntos de retiro
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <ul class="list-unstyled py-2">
-                                                            <li class="text-capitalize mb-3"><svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                <span class="d-flex">correo argentino clasico - el palomar el aviador - av tte avdor benjamin matienzo 2238, ciudad jardin del palomar - tres de febrero</span>
-                                                            </li>
-                                                            <li class="text-capitalize mb-3"><svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                <span class="d-flex">correo argentino clasico - ciudad jardin legi store - av dr ricardo balbin 2625, ciudad jardin del palomar - tres de febrero</span>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="mt-4"><span class="opacity-50">Cercanos al código postal:</span><span class="text-primary font-weight-bold">1684</span></div>
-                                                        <div class="mt-2 font-small">
-                                                            <svg class="icon-inline svg-icon-text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-36 344h12V232h-12c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12h48c6.627 0 12 5.373 12 12v140h12c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12h-72c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12zm36-240c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z"></path></svg>
-                                                            <i>Vas a poder elegir estas opciones antes de finalizar tu compra</i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="js-modal-overlay modal-overlay modal-zindex-top" data-modal-id="#selected_suboption_api_559774_cps-pickup-modal-593798672" style="display: none;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-md-3 text-right" data-component="option.price">
-                                        <h5 class="text-primary mb-0 d-inline-block">$4.574,00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-                <li class="js-shipping-list-item radio-button-item float-left w-100" data-store="shipping-calculator-item-api_559774_EPS">
-                    <label class="js-shipping-radio radio-button list-item" data-loop="shipping-radio-2" data-shipping-type="pickup" data-component="shipping.option">
-                        <input id="featured-shipping-2" class="js-shipping-method js-pickup-option shipping-method" data-price="4985" data-code="api_559774_EPS" data-name="Punto de retiro - Retiras entre el jueves 19/12 y el lunes 23/12" data-cost=" $4.985,00" type="radio" value="api_559774_EPS" name="option" style="display:none" data-gtm-form-interact-field-id="0">
-                        <div class="radio-button-content">
-                            <div class="radio-button-icons-container">
-                                <span class="radio-button-icons">
-                                    <span class="radio-button-icon unchecked"></span>
-                                    <span class="radio-button-icon checked">
-                                        <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="radio-button-label">
-                                <div class="radio-button-text row">
-                                    <div class="col-8 col-md-9 font-small pr-0">
-                                        <div class="mb-2" data-component="option.name">
-                                            Punto de retiro <span class="ml-1"></span>
-                                        </div>
-                                        <div class="opacity-60 mb-2" data-component="option.date">
-                                            <span class="d-table float-left">
-                                                <svg class="icon-inline icon-sm svg-icon-text mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M20 24h10c6.627 0 12 5.373 12 12v94.625C85.196 57.047 165.239 7.715 256.793 8.001 393.18 8.428 504.213 120.009 504 256.396 503.786 393.181 392.834 504 256 504c-63.926 0-122.202-24.187-166.178-63.908-5.113-4.618-5.354-12.561-.482-17.433l7.069-7.069c4.503-4.503 11.749-4.714 16.482-.454C150.782 449.238 200.935 470 256 470c117.744 0 214-95.331 214-214 0-117.744-95.331-214-214-214-82.862 0-154.737 47.077-190.289 116H164c6.627 0 12 5.373 12 12v10c0 6.627-5.373 12-12 12H20c-6.627 0-12-5.373-12-12V36c0-6.627 5.373-12 12-12zm321.647 315.235l4.706-6.47c3.898-5.36 2.713-12.865-2.647-16.763L272 263.853V116c0-6.627-5.373-12-12-12h-8c-6.627 0-12 5.373-12 12v164.147l84.884 61.734c5.36 3.899 12.865 2.714 16.763-2.646z"></path></svg>
-                                            </span>
-                                            <span class="d-table">Retiras entre el jueves 19/12 y el lunes 23/12</span>
-                                        </div>
-                                        <div>
-                                            <div class="js-shipping-suboption selected_suboption_api_559774_EPS">
-                                                <div data-toggle="#selected_suboption_api_559774_eps-pickup-modal-1593001242" class="js-modal-open btn-link btn-link-primary">
-                                                    <svg class="icon-inline icon-lg mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                    <span class="align-bottom">Ver direcciones</span>
-                                                </div>
-                                                <div id="selected_suboption_api_559774_eps-pickup-modal-1593001242"class="js-modal  modal modal-bottom modal-centered-small js-modal-shipping-suboptions modal-center transition-slide modal-centered transition-soft modal-zindex-top"style="display: none;">
-                                                    <div class="js-modal-close  modal-header">
-                                                        <span class="modal-close ">
-                                                            <svg class="icon-inline modal-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
-                                                        </span>
-                                                        Puntos de retiro
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <ul class="list-unstyled py-2">
-                                                            <li class="text-capitalize mb-3">
-                                                                <svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                <span class="d-flex">correo argentino expreso - el palomar el aviador - av tte avdor benjamin matienzo 2238, ciudad jardin del palomar - tres de febrero</span>
-                                                            </li>
-                                                            <li class="text-capitalize mb-3"><svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                                                <span class="d-flex">correo argentino expreso - ciudad jardin legi store - av dr ricardo balbin 2625, ciudad jardin del palomar - tres de febrero</span>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="mt-4"><span class="opacity-50">Cercanos al código postal:</span> <span class="text-primary font-weight-bold">1684</span></div>
-                                                        <div class="mt-2 font-small">
-                                                            <svg class="icon-inline svg-icon-text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-36 344h12V232h-12c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12h48c6.627 0 12 5.373 12 12v140h12c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12h-72c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12zm36-240c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z"></path></svg>
-                                                            <i>Vas a poder elegir estas opciones antes de finalizar tu compra</i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="js-modal-overlay modal-overlay modal-zindex-top" data-modal-id="#selected_suboption_api_559774_eps-pickup-modal-1593001242" style="display: none;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-md-3 text-right" data-component="option.price">
-                                        <h5 class="text-primary mb-0 d-inline-block">$4.985,00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-            </ul>
-            <div class="font-small float-left w-100 mb-3">El tiempo de entrega <strong>no considera feriados</strong>.</div>
-            <input type="hidden" name="after_calculation" value="1">
-            <input type="hidden" name="zipcode" value="1684">
-        </div>
-        <div class="w-100 container-fluid" data-store="branches">
-            <span class="form-row align-items-end">
-                <div class="col-1 col-md-auto form-label">
-                    <svg class="icon-inline icon-lg svg-icon-text align-text-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M635.7 176.1l-91.4-160C538.6 6.2 528 0 516.5 0h-393C112 0 101.4 6.2 95.7 16.1l-91.4 160C-7.9 197.5 7.4 224 32 224h32v254.5C64 497 78.3 512 96 512h256c17.7 0 32-15 32-33.5V224h160v280c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8V224h32c24.6 0 39.9-26.5 27.7-47.9zM352 478.5c0 .9-.3 1.4-.2 1.5l-255.2.2s-.6-.5-.6-1.7V352h256v126.5zm0-158.5H96v-96h256v96zM32.1 192l91.4-160h393L608 192H32.1z"></path></svg>
-                </div>
-                <div class="col-11 form-label">
-                    <div>Nuestro local</div>
-                </div>
-            </span>
-        </div>
-        <div class="js-store-branches-container container-fluid">
-            <div class="box mt-0 p-0">
-                <div class="radio-buttons-group">
-                    <ul class="list-unstyled radio-button-container">
-                        <li class="radio-button-item">
-                            <label class="js-shipping-radio js-branch-radio radio-button">
-                                <input class="js-branch-method shipping-method js-selected-shipping-method" id="shippingMethod" type="radio" value="branch_239381" data-name="ViduComics - Av. Santa Fe 2653 local 6, Recoleta, CABA - Atención de Lun. a Sab. de 11 a 19:30 hs." data-code="branch_239381" data-cost="Gratis" name="option" style="display:none">
-                                <div class="shipping-option row-fluid radio-button-content">
-                                    <div class="radio-button-icons-container">
-                                        <span class="radio-button-icons">
-                                        <span class="radio-button-icon unchecked"></span>
-                                        <span class="radio-button-icon checked">
-                                            <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>                                                </span>
-                                        </span>
-                                    </div>
-                                    <div class="radio-button-label">
-                                        <div class="row">
-                                            <div class="col-9 font-small">
-                                                <div>ViduComics - Av. Santa Fe 2653 local 6, Recoleta, CABA - Atención de Lun. a Sab. de 11 a 19:30 hs.</div>
-                                            </div>
-                                            <div class="col-3 text-right">
-                                                <h5 class="text-primary mb-0 d-inline-block">Gratis</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="js-visible-on-cart-filled divider"></div>
-
-    document.getElementById('calculateShippingButton').addEventListener('click', () => {
-        const calculatingShippingWording = document.querySelector('.js-calculating-shipping-wording');
-        const calculatorShippingWithZip = document.querySelector('.js-shipping-calculator-with-zipcode');
-        const calculatorShippingForm = document.querySelector('.js-shipping-calculator-form');
-        const calculatingShippingWordingLogo = document.querySelector('.js-calculating-shipping-wording-logo');
-        const calculateShippingWording = document.querySelector('.js-calculate-shipping-wording');
-        const dangerPostal = document.querySelector('.js-danger-postal');
-        const dangerZipcode = document.querySelector('.js-danger-zipcode');
-        const dangerExternal = document.querySelector('.js-danger-external');
-        calculateShippingWording.style.display = 'none';
-        calculatingShippingWordingLogo.style.display = 'inline';
-        calculatingShippingWording.style.display = 'inline';
-        if(document.getElementById('shippingCode').value === "1684") {
-            calculatingShippingWordingLogo.style.display = 'none';
-            calculatingShippingWording.style.display = 'none';
-            calculateShippingWording.style.display = 'inline';
-            dangerExternal.style.display = 'none';
-            dangerPostal.style.display = 'none';
-            dangerZipcode.style.display = 'none';
-            calculatorShippingForm.style.display = 'none';
-            calculatorShippingWithZip.style.display = 'block';
-        } else if(document.getElementById('shippingCode').value === "") {
-            dangerExternal.style.display = 'none';
-            dangerZipcode.style.display = 'none';
-            dangerPostal.style.display = 'inline';
-        } else if(document.getElementById('shippingCode').value === "") {
-            dangerExternal.style.display = 'none';
-            dangerPostal.style.display = 'none';
-            dangerZipcode.style.display = 'inline';
-        } else if(document.getElementById('shippingCode').value === "") {
-            dangerZipcode.style.display = 'none';
-            dangerPostal.style.display = 'none';
-            dangerExternal.style.display = 'inline';
-        }
-    });
 
     <form class="mb-5" id="discountForm">
         <div class="input-group">

@@ -150,9 +150,108 @@
             "btn": "Aplicar Cupón",
             "placeholder": "Código de cupón"
         },
+        "shipping": {
+            "price_shipping": "Precio de envío",
+            "free": "Gratis",
+            "our_local": "Nuestro local",
+            "js_cart_saved_zipcode": {
+                "title": "Entregas para el CP:",
+                "change_zip": "Cambiar CP"
+            },
+            "js_shipping_calculator_form": {
+                "zipCode": "Tu Código postal",
+                "calculate": "Calcular",
+                "calculating": "Calculando",
+                "dontKnowZipCode": "No sé mi código postal",
+                "misspelled": "No encontramos este código postal. ¿Está bien escrito?",
+                "error": "Ocurrió un error al calcular el envío. Por favor intentá de nuevo en unos segundos.",
+                "external": "El calculo falló por un problema con el medio de envío. Por favor intentá de nuevo en unos segundos."
+            },
+            "js_shipping_calculator_response": {
+                "home_delivery": "Envio a domicilio",
+                "withdraw_by": "Retirar por",
+                "arrives_between": "Llega entre (día fecha) y el (día fecha)",
+                "shipping_motorcycle": "Envío por Moto",
+                "shipping_company_clasic": "(Empresa) Clasico - Envio a domicilio",
+                "shipping_company_express": "(Empresa) Express - Envio a domicilio",
+                "shipping_company": "Empresa",
+                "pickup_point": "Punto de retiro",
+                "pickup_point_option": "Retiras entre el (día fecha) y el (día fecha)",
+                "see_directions": "Ver direcciones",
+                "table_pickup_points": {
+                    "title": "Puntos de retiro",
+                    "close_zipCode": "Cercanos al código postal",
+                    "pickup_clasic": "(Empresa) clasico - (Lugar) - (dirrección, localidad) - (Partido, provincia)",
+                    "pickup_express": "(Empresa) express - (Lugar) - (dirrección, localidad) - (Partido, provincia)",
+                    "options": "Vas a poder elegir estas opciones antes de finalizar tu compra"
+                }
+            }
+        },
         "cart": {
             "title": "Resumen del carrito",
             "btn": "Pasar por la caja",
+            "table": {
+                "product": "Productos",
+                "subtotal": "Subtotal",
+                "shipping_cost": "Envío",
+                "total": "Total"
+            }
+        }
+    },
+    "checkout": {
+        "datos": {
+            "title": "Dirección de Envio",
+            "firstname": {
+                "text": "Nombre",
+                "placeholder": "Emiliano"
+            },
+            "lastname": {
+                "text": "Apellido",
+                "placeholder": "Perez"
+            },
+            "email": {
+                "text": "Correo Electrónico",
+                "placeholder": "ejemplo@email.com"
+            },
+            "country": {
+                "text": "País",
+                "selected": "Seleccione el País"
+            },
+            "province": {
+                "text": "Provincia/Estado",
+                "placeholder": "Buenos Aires"
+            },
+            "city": {
+                "text": "Ciudad",
+                "placeholder": "Ramos Mejía"
+            },            
+            "address": {
+                "text": "Dirección",
+                "placeholder": "Calle de la República, 123"
+            },
+            "additional": {
+                "text": "Adicional",
+                "placeholder": "Nro. de Apartamento, Piso, etc."
+            },
+            "postal_code": {
+                "text": "Código Postal",
+                "placeholder": "1234"
+            },
+            "phone": {
+                "text": "Celular",
+                "placeholder": "+54 011 1234-5678"
+            },
+            "payment": {
+                "text": "Forma de Pago",
+                "placeholder": "Forma de Pago"
+            },
+            "skipAddress": {
+                "text": "Enviar a una dirección diferente",
+                "title": "Dirección diferente de envío"
+            }
+        },
+        "bill": {
+            "title": "Total del pedido",
             "table": {
                 "product": "Productos",
                 "discount": "Descuento",
@@ -160,16 +259,28 @@
                 "shipping_cost": "Envío",
                 "total": "Total"
             }
+        },
+        "payment": {
+            "title": "Pago",
+            "table": {
+                "paypal": "Paypal",
+                "directcheck": "Cheque directo",
+                "banktransfer": "Transferencia bancaria",
+                "mercadopago": "Mercado Pago",
+                "debitcard": "Tarjeta de débito",
+                "creditcard": "Tarjeta de crédito"
+            },
+            "btn": "Realizar pedido"
         }
     },
     "review_product": {
         "title": "Deja una reseña",
         "text": "Tu dirección de correo electrónico no será publicada. Los campos obligatorios están branddos con *",
-        "rating": "Tu Rating * :",
+        "rating": "Tu Rating",
         "form": {
-            "review": "Tu Reseña *:",
-            "name": "Tu Nombre *:",
-            "email": "Tu Email *:",
+            "review": "Tu Reseña",
+            "name": "Tu Nombre",
+            "email": "Tu Email",
             "submit": "Deja tu opinión"
         }
     },
@@ -191,7 +302,7 @@
     },
     "data": {
         "address": {
-            "text": "El Palomar, Buenos Aires, Argentina",
+            "text": "Dirrección, Localidad, Provincia, País estamos de (Día) a (Día) de (Horario)hs a (Horario)hs.",
             "href": "https://maps.app.goo.gl/7MX8x8KwHTCVS8Qs7"
         },
         "email": {

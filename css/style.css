@@ -347,6 +347,10 @@ nav.navbar-vertical ul.navbar-nav li.nav-item:hover ul.dropdown-menu {
     vertical-align: text-bottom !important;
 }
 
+.shipping-calculator-head.with-zip {
+    height: 100px;
+}
+
 .mr-2, .mx-2 {
     margin-right: .5rem !important;
 }
@@ -377,18 +381,8 @@ nav.navbar-vertical ul.navbar-nav li.nav-item:hover ul.dropdown-menu {
     margin-bottom: 10px;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-row {
-    width: auto;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: -5px;
-    margin-left: -5px;
-    clear: both;
+.form-group.form-row.form-group-inline.align-items-center {
+    margin-bottom: 0;
 }
 
 .form-group {
@@ -484,10 +478,6 @@ button {
     border-radius: 40px;
 }
 
-.shipping-calculator-head.with-zip {
-    height: 73%;
-}
-
 .btn-small {
     display: inline-block;
     padding: 10px;
@@ -495,7 +485,7 @@ button {
     letter-spacing: 1px;
 }
 
-.js-shipping-calculator-change-zipcode.btn.btn-primary.btn-small.float-right.py-1.px-2.px-sm-3 {
+.btn.btn-primary.btn-small.float-right.py-1.px-2.px-sm-3 {
     padding: 13px;
     letter-spacing: 2px;
     font-weight: bold;
@@ -718,7 +708,6 @@ button {
     top: 0;
     opacity: 1;
     z-index: 100;
-    pointer-events: all;
 }
 
 .transition-up {
@@ -730,7 +719,6 @@ button {
     -o-transition: all .5s ease;
     transition: all .5s ease;
     z-index: 10;
-    pointer-events: none;
 }
 
 .btn.shadow-none.d-flex.align-items-center.justify-content-between.bg-tertiary.w-100 {
@@ -766,4 +754,270 @@ h5.text-primary.mb-0.d-inline-block {
 
 .btn.border.dropdown-toggle.order {
     border-radius: 0;
+}
+
+.text-red {
+    color: red;
+}
+
+.hidden {
+    display: none;
+}
+
+.price-compare {
+    margin-right: 10px;
+    text-decoration: line-through;
+}
+
+.opacity-50 {
+    opacity: .5;
+}
+
+.modal-overlay.modal-zindex-top {
+    z-index: 20000;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .2784313725);
+    z-index: 10000;
+    cursor: pointer;
+}
+
+.modal-zindex-top {
+    z-index: 20001;
+}
+
+.modal-top.modal-show.modal-centered-small, .modal-bottom.modal-show.modal-centered-small {
+    top: 50%;
+}
+.modal-top.modal-show, .modal-bottom.modal-show {
+    top: 0;
+}
+.modal.modal-show {
+    opacity: 1;
+}
+@media (min-width: 768px) {
+    .modal-centered-small {
+        left: 50%;
+        width: 40%;
+        height: auto;
+        max-height: 80%;
+        margin: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .modal-centered {
+        left: 10%;
+        height: 80%;
+        width: 80%;
+        margin: 5% auto;
+    }
+}
+
+.modal-centered-small {
+    width: 80%;
+    height: auto;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.modal-centered {
+    height: 100%;
+    width: 100%;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 80%;
+    height: 100%;
+    padding: 20px;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    -webkit-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    z-index: 20000;
+}
+
+.modal {
+    color: #000;
+    background-color: #ecf0f1;
+}
+
+.card-img, .alert, .form-control, .form-select, .form-quantity, .modal, .btn-default, .box-rounded-small, .box {
+    border-radius: 10px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 80%;
+    height: 100%;
+    padding: 20px;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    -webkit-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    z-index: 20000
+}
+
+.modal-zindex-top {
+    z-index: 20001
+}
+
+.modal-img-full {
+    width: calc(100% + 40px);
+    margin: -20px 0 0 -20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover
+}
+
+.modal-header {
+    width: calc(100% + 40px);
+    margin: -20px 0px 15px -20px;
+    padding: 15px;
+    font-size: 20px;
+    cursor: pointer
+}
+
+.modal-footer {
+    padding: 10px;
+    clear: both
+}
+
+.modal-with-fixed-footer {
+    display: flex;
+    flex-direction: column;
+    height: 100%
+}
+
+.modal-with-fixed-footer .modal-scrollable-area {
+    height: 100%;
+    overflow: auto
+}
+
+.modal-full {
+    width: 100%
+}
+
+.modal-docked-md {
+    width: 100%
+}
+
+.modal-docked-small {
+    width: 80%
+}
+
+.modal-top {
+    top: -100%
+}
+
+.modal-fade {
+    top: initial;
+    bottom: -5%;
+    opacity: 0
+}
+
+.modal-bottom {
+    top: 100%;
+    left: 0;
+    opacity: 0
+}
+
+.modal-left {
+    left: -100%
+}
+
+.modal-right {
+    right: -100%;
+    border-radius: 0
+}
+
+.modal-centered {
+    height: 100%;
+    width: 100%
+}
+
+.modal-centered-small {
+    width: 80%;
+    height: auto;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%)
+}
+
+.modal-centered-small .modal-body {
+    min-height: 150px;
+    max-height: 400px
+}
+
+.modal.modal-show {
+    opacity: 1
+}
+
+.modal-top.modal-show,.modal-bottom.modal-show {
+    top: 0
+}
+
+.modal-top.modal-show.modal-centered-small,.modal-bottom.modal-show.modal-centered-small {
+    top: 50%
+}
+
+.modal-left.modal-show,.modal-left-xs.modal-show {
+    left: 0
+}
+
+.modal-right.modal-show {
+    right: 0
+}
+
+.modal-fade.modal-show {
+    bottom: 0;
+    opacity: 1
+}
+
+.modal-close {
+    margin-right: 10px;
+    cursor: pointer
+}
+
+.modal .tab-group {
+    margin: 0 -10px 15px 0
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.2784313725);
+    z-index: 10000;
+    cursor: pointer
+}
+
+.modal-overlay.modal-zindex-top {
+    z-index: 20000
 }
