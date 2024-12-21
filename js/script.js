@@ -1674,45 +1674,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div id="cart_shipping_container" class="row">
                             <div class="mb-2 col-12">
                                 <div id="js_shipping_calculator_head" class="shipping-calculator-head position-relative transition-soft with-zip">
-                                    <div id="js_cart_saved_zipcode" class="js-shipping-calculator-with-zipcode mb-4 w-100 transition-up position-absolute transition-up-active">
-                                        <div class="container p-0">
-                                            <div class="row align-items-center">
-                                                <span class="col pr-0">
-                                                    <span class="font-small align-bottom">
-                                                        <span>${generalData.page_cart.shipping.js_cart_saved_zipcode.title}</span>
-                                                        <strong id="js_shipping_calculator_current_zip" class="js_shipping_calculator_current_zip_value"></strong>
-                                                    </span>
-                                                </span>
-                                                <div class="col-auto pl-0">
-                                                    <btn id="js_shipping_calculator_change_zipcode" class="btn btn-primary btn-small float-right py-1 px-2 px-sm-3">${generalData.page_cart.shipping.js_cart_saved_zipcode.change_zip}</btn>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="js_shipping_calculator_form" class="js-shipping-calculator-with-zipcode mb-4 w-100 transition-up position-absolute transition-up-active">
-                                        <div class="form-group form-row form-group-inline align-items-center">
-                                            <div class="form-control-container col-6 col-lg-7 pr-0">
-                                                <input type="tel" id="js_shipping_input" class="form-control form-control-inline p-4" placeholder="${generalData.page_cart.shipping.js_shipping_calculator_form.zipCode}">
-                                            </div>
-                                            <div class="col-6 col-lg-5 pl-0">
-                                                <button id="js_calculate_shipping" class="btn btn-primary btn-block" id="calculateShippingButton">
-                                                    <span id="js_calculate_shipping_wording" style="display: inline;">${generalData.page_cart.shipping.js_shipping_calculator_form.calculate}</span>
-                                                    <span id="js_calculating_shipping_wording" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.calculating}</span>
-                                                    <span id="js_calculating_shipping_wording_logo" class="float-right loading" style="display: none;">
-                                                        <svg class="icon-inline icon-smd icon-spin svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288 24.103v8.169a11.995 11.995 0 0 0 9.698 11.768C396.638 63.425 472 150.461 472 256c0 118.663-96.055 216-216 216-118.663 0-216-96.055-216-216 0-104.534 74.546-192.509 174.297-211.978A11.993 11.993 0 0 0 224 32.253v-8.147c0-7.523-6.845-13.193-14.237-11.798C94.472 34.048 7.364 135.575 8.004 257.332c.72 137.052 111.477 246.956 248.531 246.667C393.255 503.711 504 392.789 504 256c0-121.187-86.924-222.067-201.824-243.704C294.807 10.908 288 16.604 288 24.103z"></path></svg>
-                                                    </span>
-                                                </button>
-                                            </div>
-                                            <div class="col-12">
-                                                <a class="font-small text-primary mt-2 mb-2 d-block" href="https://www.correoargentino.com.ar/formularios/cpa">${generalData.page_cart.shipping.js_shipping_calculator_form.dontKnowZipCode}</a>
-                                            </div>
-                                            <div class="col-12">
-                                                <small id="js_danger_postal" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.misspelled}</small>	
-                                                <small id="js_danger_zipcode" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.error}</small>
-                                                <small id="js_danger_external" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.external}</small>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    ${createZipcodeSection(generalData)}
+                                    ${createShippingCalculatorForm(generalData)}
                                 </div>
                                 <div id="js_shipping_calculator_response" class="mb-3 float-left w-100 transition-soft radio-buttons-group">
                                     <div class="form-label my-3 float-left">
@@ -1741,30 +1704,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="box mt-3 p-0">
                                     <div class="radio-buttons-group">
                                         <ul class="list-unstyled radio-button-container">
-                                            <li class="radio-button-item">
-                                                <label class="js-shipping-radio js-branch-radio radio-button">
-                                                    <input id="featured_shipping_6" class="js-shipping-method js-branch-method shipping-method js-selected-shipping-method" id="shippingMethod" type="radio" name="option" style="display:none">
-                                                    <div class="shipping-option row-fluid radio-button-content">
-                                                        <div class="radio-button-icons-container">
-                                                            <span class="radio-button-icons">
-                                                            <span class="radio-button-icon unchecked"></span>
-                                                            <span class="radio-button-icon checked">
-                                                                <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>                                                </span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="radio-button-label">
-                                                            <div class="row">
-                                                                <div class="col-9 font-small">
-                                                                    <div>${generalData.store_info.title_brand} - ${generalData.data.address.text}</div>
-                                                                </div>
-                                                                <div class="col-3 text-right">
-                                                                    <h5 class="text-primary mb-0 d-inline-block">${generalData.page_cart.shipping.free}</h5>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </li>
+                                            ${createBranchOptions(generalData)}
                                         </ul>
                                     </div>
                                 </div>
@@ -2002,7 +1942,98 @@ document.addEventListener('DOMContentLoaded', () => {
     
         return shippingOptions.map(option => createShippingOption(option.id, option.label, option.description, option.price)).join('');
     }
+
+    function createBranchOption(id, title, address, price) {
+        return `
+            <li class="radio-button-item">
+                <label class="js-shipping-radio js-branch-radio radio-button">
+                    <input id="${id}" class="js-shipping-method js-branch-method shipping-method js-selected-shipping-method" type="radio" name="option" style="display:none">
+                    <div class="shipping-option row-fluid radio-button-content">
+                        <div class="radio-button-icons-container">
+                            <span class="radio-button-icons">
+                                <span class="radio-button-icon unchecked"></span>
+                                <span class="radio-button-icon checked">
+                                    <svg class="icon-inline icon-sm svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="radio-button-label">
+                            <div class="row">
+                                <div class="col-9 font-small">
+                                    <div>${title} - ${address}</div>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h5 class="text-primary mb-0 d-inline-block">${price}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+            </li>
+        `;
+    }
+
+    function createBranchOptions(generalData) {
+        const branches = [
+            {
+                id: 'featured_shipping_6',
+                title: generalData.store_info.title_brand,
+                address: generalData.data.address.text,
+                price: generalData.page_cart.shipping.free
+            }
+        ];
     
+        return branches.map(branch => createBranchOption(branch.id, branch.title, branch.address, branch.price)).join('');
+    }
+    
+    function createZipcodeSection(generalData) {
+        return `
+            <div id="js_cart_saved_zipcode" class="js-shipping-calculator-with-zipcode mb-4 w-100 transition-up position-absolute transition-up-active">
+                <div class="container p-0">
+                    <div class="row align-items-center">
+                        <span class="col pr-0">
+                            <span class="font-small align-bottom">
+                                <span>${generalData.page_cart.shipping.js_cart_saved_zipcode.title}</span>
+                                <strong id="js_shipping_calculator_current_zip" class="js_shipping_calculator_current_zip_value"></strong>
+                            </span>
+                        </span>
+                        <div class="col-auto pl-0">
+                            <btn id="js_shipping_calculator_change_zipcode" class="btn btn-primary btn-small float-right py-1 px-2 px-sm-3">${generalData.page_cart.shipping.js_cart_saved_zipcode.change_zip}</btn>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    function createShippingCalculatorForm(generalData) {
+        return `
+            <div id="js_shipping_calculator_form" class="js-shipping-calculator-with-zipcode mb-4 w-100 transition-up position-absolute transition-up-active">
+                <div class="form-group form-row form-group-inline align-items-center">
+                    <div class="form-control-container col-6 col-lg-7 pr-0">
+                        <input type="tel" id="js_shipping_input" class="form-control form-control-inline p-4" placeholder="${generalData.page_cart.shipping.js_shipping_calculator_form.zipCode}">
+                    </div>
+                    <div class="col-6 col-lg-5 pl-0">
+                        <button id="js_calculate_shipping" class="btn btn-primary btn-block" id="calculateShippingButton">
+                            <span id="js_calculate_shipping_wording" style="display: inline;">${generalData.page_cart.shipping.js_shipping_calculator_form.calculate}</span>
+                            <span id="js_calculating_shipping_wording" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.calculating}</span>
+                            <span id="js_calculating_shipping_wording_logo" class="float-right loading" style="display: none;">
+                                <svg class="icon-inline icon-smd icon-spin svg-icon-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288 24.103v8.169a11.995 11.995 0 0 0 9.698 11.768C396.638 63.425 472 150.461 472 256c0 118.663-96.055 216-216 216-118.663 0-216-96.055-216-216 0-104.534 74.546-192.509 174.297-211.978A11.993 11.993 0 0 0 224 32.253v-8.147c0-7.523-6.845-13.193-14.237-11.798C94.472 34.048 7.364 135.575 8.004 257.332c.72 137.052 111.477 246.956 248.531 246.667C393.255 503.711 504 392.789 504 256c0-121.187-86.924-222.067-201.824-243.704C294.807 10.908 288 16.604 288 24.103z"></path></svg>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <a class="font-small text-primary mt-2 mb-2 d-block" href="https://www.correoargentino.com.ar/formularios/cpa">${generalData.page_cart.shipping.js_shipping_calculator_form.dontKnowZipCode}</a>
+                    </div>
+                    <div class="col-12">
+                        <small id="js_danger_postal" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.misspelled}</small>	
+                        <small id="js_danger_zipcode" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.error}</small>
+                        <small id="js_danger_external" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.external}</small>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
     
     function updateCartInput() {
         const cartItems = JSON.parse(localStorage.getItem('productsCart')) || [];
