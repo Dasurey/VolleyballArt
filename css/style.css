@@ -1021,3 +1021,108 @@ h5.text-primary.mb-0.d-inline-block {
 .modal-overlay.modal-zindex-top {
     z-index: 20000
 }
+
+.bar-progress {
+    position: relative;
+    height: 15px;
+    border-radius: 15px;
+}
+
+.bar-progress {
+    background: rgba(0, 0, 0, .1);
+}
+
+.bar-progress .bar-progress-active {
+    height: 15px;
+    width: 0%;
+    border-radius: 15px;
+}
+
+.bar-progress-active {
+    background-image: linear-gradient(-90deg, var(--secondary-universal-color), var(--quaternary-universal-color));
+}
+
+.bar-progress .bar-progress-check {
+    position: absolute;
+    top: -10px;
+    right: -3px;
+    width: 38px;
+    padding: 3px;
+    line-height: 16px;
+    text-align: center;
+    border-radius: 50%;
+    transform: scale(0.5);
+    opacity: 0;
+}
+
+.bar-progress-check {
+    background-color: var(--quaternary-universal-color);
+    fill: var(--secondary-universal-color);
+}
+
+.icon-2x {
+    font-size: 2em;
+}
+
+.ship-free-rest-message {
+    position: relative;
+    height: 42px;
+    margin: 10px 0;
+}
+
+.ship-free-rest-message .ship-free-rest-text {
+    position: absolute;
+    top: -5px;
+    width: 100%;
+    text-align: center;
+    line-height: 36px;
+    opacity: 0;
+}
+
+.text-accent, .cart-installments.installment-no-interest {
+    color: var(--primary-universal-color);
+}
+
+.ship-free-rest-message.condition .bar-progress-condition {
+    top: 0;
+    opacity: 1;
+}
+
+.ship-free-rest-message .ship-free-rest-text {
+    position: absolute;
+    top: -5px;
+    width: 100%;
+    text-align: center;
+    line-height: 36px;
+    opacity: 0;
+}
+
+.ship-free-rest-message.amount .bar-progress-amount {
+    top: 0;
+    opacity: 1;
+}
+
+.ship-free-rest-message.success .bar-progress-success {
+    top: 0;
+    opacity: 1;
+}
+
+.bar-progress .bar-progress-check.active {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.ship-free-rest-text.bar-progress-success.h4.text-accent.transition-soft {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.js-ship-free-dif.h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-universal-color);
+}
+
+.price-compare.text-foreground.font-small.opacity-50.mr-0 {
+    color: var(--secondary-universal-color);
+}

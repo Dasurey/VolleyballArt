@@ -1663,12 +1663,29 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     
             // Calcular el total
-            let shippingCost = 0;
-            let total = subtotal + shippingCost;
+            let total = subtotal;
     
             // Generar el HTML del formulario de pago y el resumen del carrito
+            let shipping_free = 100000;
 
             let cartFormHTML = `
+                <div class="js-fulfillment-info js-allows-non-shippable">
+                    <div class="js-ship-free-rest mt-2 mb-3">
+                        <div class="js-bar-progress bar-progress">
+                            <div id="js_bar_progress_active" class="bar-progress-active transition-soft" style="width: 0%;"></div>
+                            <div id="js_bar_progress_check" class="bar-progress-check transition-soft">
+                                <svg class="icon-inline icon-2x" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 48c110.532 0 200 89.451 200 200 0 110.532-89.451 200-200 200-110.532 0-200-89.451-200-200 0-110.532 89.451-200 200-200m140.204 130.267l-22.536-22.718c-4.667-4.705-12.265-4.736-16.97-.068L215.346 303.697l-59.792-60.277c-4.667-4.705-12.265-4.736-16.97-.069l-22.719 22.536c-4.705 4.667-4.736 12.265-.068 16.971l90.781 91.516c4.667 4.705 12.265 4.736 16.97.068l172.589-171.204c4.704-4.668 4.734-12.266.067-16.971z"></path></svg>
+                            </div>
+                        </div>
+                        <div id="js_ship_free_rest_message" class="ship-free-rest-message condition">
+                            <div class="ship-free-rest-text bar-progress-success h4 text-accent transition-soft">${generalData.page_cart.shipping.shipping_free}</div>
+                            <div class="ship-free-rest-text bar-progress-amount h6 transition-soft">${generalData.page_cart.shipping.js_ship_free_dif}</div>
+                            <div class="ship-free-rest-text bar-progress-condition transition-soft">
+                                <strong class="text-accent">${generalData.page_cart.shipping.overcoming_the}</strong> <span>$${shipping_free}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="js-fulfillment-info js-allows-non-shippable">
                     <div class="js-visible-on-cart-filled js-has-new-shipping js-shipping-calculator-container">
                         <div id="cart_shipping_container" class="row">
@@ -1682,8 +1699,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <svg class="icon-inline icon-lg svg-icon-text mr-2 align-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M632 384h-24V275.9c0-16.8-6.8-33.3-18.8-45.2l-83.9-83.9c-11.8-12-28.3-18.8-45.2-18.8H416V78.6c0-25.7-22.2-46.6-49.4-46.6H49.4C22.2 32 0 52.9 0 78.6v290.8C0 395.1 22.2 416 49.4 416h16.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16h195.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16H632c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8zM460.1 160c8.4 0 16.7 3.4 22.6 9.4l83.9 83.9c.8.8 1.1 1.9 1.8 2.8H416v-96h44.1zM144 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm63.6-96C193 364.7 170 352 144 352s-49 12.7-63.6 32h-31c-9.6 0-17.4-6.5-17.4-14.6V78.6C32 70.5 39.8 64 49.4 64h317.2c9.6 0 17.4 6.5 17.4 14.6V384H207.6zM496 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-128c-26.1 0-49 12.7-63.6 32H416v-96h160v96h-16.4c-14.6-19.3-37.5-32-63.6-32z"></path></svg>
                                         ${generalData.page_cart.shipping.js_shipping_calculator_response.home_delivery}
                                     </div>
-                                    <ul class="list-unstyled box p-0">
-                                        ${createShippingOptions(generalData)}
+                                    <ul id="shipping_options" class="list-unstyled box p-0">
+                                        ${createShippingOptions(generalData, subtotal, shipping_free)}
                                     </ul>
                                     <div class="font-small float-left w-100 mb-3">${generalData.page_cart.shipping.notCosiderHolidays}</div>
                                     <input type="hidden" name="after_calculation">
@@ -1722,17 +1739,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">${generalData.page_cart.cart.table.subtotal}</h6>
-                            <h6 class="font-weight-medium" id="subtotal">$${subtotal}</h6>
+                            <h6 class="font-weight-medium" id="subtotal">$&nbsp;${subtotal}</h6>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">${generalData.page_cart.cart.table.shipping_cost}</h6>
-                            <h6 class="font-weight-medium" id="shippingCost">$&nbsp;${shippingCost}</h6>
+                        <div id="shippingCostSection" class="d-flex justify-content-between">
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
+                        <div id="totalSection" class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">${generalData.page_cart.cart.table.total}</h5>
-                            <h5 class="font-weight-bold" id="total">$${total}</h5>
+                            <h5 class="font-weight-bold" id="total">$&nbsp;${total}</h5>
                         </div>
                         <a class="text-white" href="${generalData.store_info.checkout.href}"><button id="checkoutButton" class="btn btn-block btn-primary my-3 py-3">${generalData.page_cart.cart.btn}</button></a>
                     </div>
@@ -1740,6 +1755,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             cartFormContainer.innerHTML = cartFormHTML;
+
+            updateBarProgress(subtotal, shipping_free);
 
             const js_shipping_calculator_form = document.getElementById('js_shipping_calculator_form');
             const js_shipping_calculator_head = document.getElementById('js_shipping_calculator_head');
@@ -1779,7 +1796,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (event.target && event.target.id === 'js_shipping_calculator_change_zipcode') {
                     handleChangeZipcode();
                 } else if (event.target && event.target.classList.contains('js-shipping-method')) {
-                    handleShippingMethodSelection(event.target);
+                    handleShippingMethodSelection(event.target, subtotal, generalData);
                 }
             });
             
@@ -1788,7 +1805,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
                 if (js_shipping_input.length === 4 || (localStorage.getItem('selectedShippingMethod') && savedShippingMethod.zipCode !== null)) {
                     if (localStorage.getItem('selectedShippingMethod') && savedShippingMethod.zipCode !== null) {
-                        console.log("hola");
                         js_shipping_input = savedShippingMethod.zipCode;
                     }
                 
@@ -1830,24 +1846,62 @@ document.addEventListener('DOMContentLoaded', () => {
                 js_cart_saved_zipcode.style.display = 'none'; // Remover la clase de posicionamiento
                 js_shipping_calculator_response.style.display = 'none';
                 js_shipping_calculator_form.style.display = 'block'; // Añadir la clase de posicionamiento
-                localStorage.removeItem('selectedShippingMethod');
+                if (isFeaturedShippingMethod()) {
+                    updateSelectedShippingMethod('zipCode', null);
+                } else {
+                    if(localStorage.getItem('selectedShippingMethod')) {
+                        updateSelectedShippingMethod('zipCode', null);
+                        updateSelectedShippingMethod('shippingMethod', null);
+                    }
+                }
             }
             
-            function handleShippingMethodSelection(target) {
+            function handleShippingMethodSelection(target, subtotal, generalData) {
                 const js_shipping_input = document.getElementById('js_shipping_input').value.trim();
-                const selectedShippingMethod = target.id;
-            
-                if (selectedShippingMethod === 'featured_shipping_6') {
-                    localStorage.setItem('selectedShippingMethod', JSON.stringify({
-                        shippingMethod: selectedShippingMethod,
-                        zipCode: null
-                    }));
-                } else if (js_shipping_input.length === 4) {
-                    localStorage.setItem('selectedShippingMethod', JSON.stringify({
-                        shippingMethod: selectedShippingMethod,
-                        zipCode: js_shipping_input
-                    }));
+                const shippingCostSection = document.getElementById('shippingCostSection');
+                const totalSection = document.getElementById('totalSection');
+
+                let selectedShippingMethod = null;
+                let price = null;
+
+                if (target !== null) {
+                    selectedShippingMethod = target.id;
+                    price = target.dataset.price;
                 }
+
+                price = Number(price);
+            
+                if (selectedShippingMethod === 'featured_shipping_6' && selectedShippingMethod != null) {
+                    localStorage.setItem('selectedShippingMethod', JSON.stringify({
+                        shippingMethod: selectedShippingMethod,
+                        zipCode: null,
+                        amount: price
+                    }));
+                } else if (js_shipping_input.length === 4 && selectedShippingMethod != null) {
+                    localStorage.setItem('selectedShippingMethod', JSON.stringify({
+                        shippingMethod: selectedShippingMethod,
+                        zipCode: js_shipping_input,
+                        amount: price
+                    }));
+                } else if (js_shipping_input.length === 4 && selectedShippingMethod == null) {
+                    updateSelectedShippingMethod('zipCode', js_shipping_input);
+                } 
+
+                const total = subtotal + price;
+
+                if(price === 0) {
+                    price = generalData.page_cart.shipping.free;
+                }
+
+                shippingCostSection.innerHTML = `
+                    <h6 class="font-weight-medium">${generalData.page_cart.cart.table.shipping_cost}</h6>
+                    <h6 class="font-weight-medium" id="shippingCost">${!isNaN(price) ? `$&nbsp;${price}` : price}</h6>
+                `;
+
+                totalSection.innerHTML = `
+                    <h5 class="font-weight-bold">${generalData.page_cart.cart.table.total}</h5>
+                    <h5 class="font-weight-bold" id="total">$&nbsp;${total}</h5>
+                `;
             }
             
             // Cargar el método de envío guardado al cargar la página
@@ -1870,11 +1924,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function createShippingOption(id, label, description, price) {
+    function isFeaturedShippingMethod() {
+        // Obtener el objeto actual de localStorage
+        let selectedShippingMethod = localStorage.getItem('selectedShippingMethod');
+        
+        if (selectedShippingMethod) {
+            // Parsear el objeto JSON
+            selectedShippingMethod = JSON.parse(selectedShippingMethod);
+            
+            // Verificar si el shippingMethod es 'featured_shipping_6'
+            if (selectedShippingMethod.shippingMethod === 'featured_shipping_6') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function updateSelectedShippingMethod(key, value) {
+        // Obtener el objeto actual de localStorage
+        let selectedShippingMethod = localStorage.getItem('selectedShippingMethod');
+        
+        if (selectedShippingMethod) {
+            // Parsear el objeto JSON
+            selectedShippingMethod = JSON.parse(selectedShippingMethod);
+            
+            // Actualizar el valor deseado
+            selectedShippingMethod[key] = value;
+            
+            // Guardar el objeto modificado de nuevo en localStorage
+            localStorage.setItem('selectedShippingMethod', JSON.stringify(selectedShippingMethod));
+        } else {
+            console.error('No se encontró el objeto selectedShippingMethod en localStorage.');
+        }
+    }
+
+    function updateBarProgress(amount, shipping_free) {
+        const barProgress = document.getElementById('js_bar_progress_active');
+        const barProgressCheck = document.getElementById('js_bar_progress_check');
+        const shipFreeRestMessage = document.getElementById('js_ship_free_rest_message');
+        const shipFreeRestAmount = document.getElementById('js_ship_free_dif');
+
+        if (amount >= shipping_free) {
+            barProgress.style.width = '100%';
+            barProgressCheck.classList.add('active');
+            shipFreeRestMessage.classList.remove('condition');
+            shipFreeRestMessage.classList.remove('amount');
+            shipFreeRestMessage.classList.add('success');
+        } else {
+            barProgress.style.width = `${amount / shipping_free * 100}%`;
+            barProgressCheck.classList.remove('active');
+            shipFreeRestMessage.classList.remove('success');
+            shipFreeRestMessage.classList.remove('amount');
+            shipFreeRestMessage.classList.add('condition');
+            if(amount > (shipping_free * 0.75)) {
+                shipFreeRestMessage.classList.remove('condition');
+                shipFreeRestMessage.classList.add('amount');
+                shipFreeRestAmount.textContent = `$${shipping_free - amount}`;
+            }
+        }
+    }
+
+    function createShippingOption(id, label, description, price, amount, shipping_free, generalData) {
+        if(id === 'featured_shipping_1') {
+            if(amount >= shipping_free) {
+                shipping_freeHTML = `
+                    <h5 class="text-accent mb-0 d-inline-block">${generalData.page_cart.shipping.free} <span class="price-compare text-foreground font-small opacity-50 mr-0">$${price}</span></h5>
+                `;
+                price = 0;
+            }
+        }
+
         return `
             <li class="js-shipping-list-item radio-button-item float-left w-100">
                 <label class="js-shipping-radio radio-button list-item">
-                    <input id="${id}" class="js-shipping-method shipping-method" type="radio" name="option" style="display:none">
+                    <input id="${id}" class="js-shipping-method shipping-method" data-price="${price}" type="radio" name="option" style="display:none">
                     <div class="radio-button-content">
                         <div class="radio-button-icons-container">
                             <span class="radio-button-icons">
@@ -1896,7 +2019,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     </div>
                                 </div>
                                 <div class="col-4 col-md-3 text-right">
-                                    <h5 class="text-primary mb-0 d-inline-block">${price}</h5>
+                                    <h5 class="text-primary mb-0 d-inline-block">${price == 0 ? shipping_freeHTML : `$&nbsp;${price}`}</h5>
                                 </div>
                             </div>
                         </div>
@@ -1906,48 +2029,52 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
     
-    function createShippingOptions(generalData) {
+    function createShippingOptions(generalData, amount, shipping_free) {
         const shippingOptions = [
             {
                 id: 'featured_shipping_1',
                 label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_motorcycle,
                 description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
-                price: generalData.page_cart.shipping.price_shipping
+                price: 5900
             },
             {
                 id: 'featured_shipping_2',
                 label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_clasic,
                 description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
-                price: generalData.page_cart.shipping.price_shipping
+                price: 7199
             },
             {
                 id: 'featured_shipping_3',
                 label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_express,
                 description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
-                price: generalData.page_cart.shipping.price_shipping
+                price: 7899
             },
             {
                 id: 'featured_shipping_4',
                 label: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point,
                 description: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option,
-                price: generalData.page_cart.shipping.price_shipping
+                price: 4500
             },
             {
                 id: 'featured_shipping_5',
                 label: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point,
                 description: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option,
-                price: generalData.page_cart.shipping.price_shipping
+                price: 4999
             }
         ];
     
-        return shippingOptions.map(option => createShippingOption(option.id, option.label, option.description, option.price)).join('');
+        return shippingOptions.map(option => createShippingOption(option.id, option.label, option.description, option.price, amount, shipping_free, generalData)).join('');
     }
 
-    function createBranchOption(id, title, address, price) {
+    function createBranchOption(id, title, address, price, generalData) {
+        if(price === 0) {
+            shipping_freeHTML = generalData.page_cart.shipping.free;
+        }
+
         return `
             <li class="radio-button-item">
                 <label class="js-shipping-radio js-branch-radio radio-button">
-                    <input id="${id}" class="js-shipping-method js-branch-method shipping-method js-selected-shipping-method" type="radio" name="option" style="display:none">
+                    <input id="${id}" data-price="${price}" class="js-shipping-method js-branch-method shipping-method js-selected-shipping-method" type="radio" name="option" style="display:none">
                     <div class="shipping-option row-fluid radio-button-content">
                         <div class="radio-button-icons-container">
                             <span class="radio-button-icons">
@@ -1963,7 +2090,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <div>${title} - ${address}</div>
                                 </div>
                                 <div class="col-3 text-right">
-                                    <h5 class="text-primary mb-0 d-inline-block">${price}</h5>
+                                    <h5 class="text-primary mb-0 d-inline-block">${price == 0 ? shipping_freeHTML : `$&nbsp;${price}`}</h5>
                                 </div>
                             </div>
                         </div>
@@ -1979,11 +2106,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 id: 'featured_shipping_6',
                 title: generalData.store_info.title_brand,
                 address: generalData.data.address.text,
-                price: generalData.page_cart.shipping.free
+                price: 0
             }
         ];
     
-        return branches.map(branch => createBranchOption(branch.id, branch.title, branch.address, branch.price)).join('');
+        return branches.map(branch => createBranchOption(branch.id, branch.title, branch.address, branch.price, generalData)).join('');
     }
     
     function createZipcodeSection(generalData) {

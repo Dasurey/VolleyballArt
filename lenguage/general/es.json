@@ -155,6 +155,9 @@
             "free": "Gratis",
             "our_local": "Nuestro local",
             "notCosiderHolidays": "El tiempo de entrega <strong>no considera feriados</strong>.",
+            "js_ship_free_dif": "¡Estás a <strong id=\"js_ship_free_dif\" class=\"js-ship-free-dif h4\"></strong> de tener <strong class=\"text-accent\">envío gratis</strong>!",
+            "overcoming_the": "Envío gratis</strong> superando los",
+            "shipping_free": "¡Genial! Tenés envío gratis",
             "js_cart_saved_zipcode": {
                 "title": "Entregas para el CP:",
                 "change_zip": "Cambiar CP"
