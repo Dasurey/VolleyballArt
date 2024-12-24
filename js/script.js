@@ -1967,8 +1967,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function rechargeShippingMethod(savedShippingMethod) {
-        if(savedShippingMethod) {
+    function rechargeShippingMethod(savedShippingMethod = null) {
+        if(!savedShippingMethod) {
+               savedShippingMethod = localStorage.getItem('selectedShippingMethod');
+                if (savedShippingMethod) {
+                    savedShippingMethod = JSON.parse(savedShippingMethod);
+}
+}
             if (savedShippingMethod.shippingMethod) {
                 const { shippingMethod, zipCode } = savedShippingMethod;
                 const shippingInput = document.getElementById('js_shipping_input');
@@ -1986,7 +1991,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             }
-        }
     }
 
     function updateShippingMethod(selectedShippingMethod, subtotal, shipping_free, shippingOptions, generalData) {
