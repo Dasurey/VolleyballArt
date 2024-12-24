@@ -1929,9 +1929,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 setInterval(() => {
                     if (!localStorage.getItem('selectedShippingMethod')) {
                         initializeSelectedShippingMethod();
-                        rechargeShippingMethod();
-                        checkShippingMethodSelection();
+                        
+                        
                     }
+rechargeShippingMethod();
+checkShippingMethodSelection();
                 }, 1); // Verificar cada segundo
             } else {
                 cartContainer.style.justifyContent = 'center';
