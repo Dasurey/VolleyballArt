@@ -1126,3 +1126,17 @@ h5.text-primary.mb-0.d-inline-block {
 .price-compare.text-foreground.font-small.opacity-50.mr-0 {
     color: var(--secondary-universal-color);
 }
+
+.alert {
+    clear: both;
+    padding: 8px;
+    border: 1px solid;
+    text-align: center;
+}
+
+.alert.alert-info {
+    margin-bottom: 35px;
+    font-size: larger;
+    color: var(--secondary-universal-color);
+    border-color: var(--secondary-universal-color);
+}

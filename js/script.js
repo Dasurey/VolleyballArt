@@ -51,6 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
 
+    // Inicializar el objeto selectedShippingMethod si no existe
+    initializeSelectedShippingMethod();
+
     function displayFilteredProducts(products, category, subcategory, limit, productId) {
         const productsListElement = document.getElementById('productsIds');
         let selectedProducts = [];
@@ -1540,388 +1543,559 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function cartTable() {
+        const cartContainer = document.getElementById('cart_container');
         const cartTableContainer = document.getElementById('cart_tableId');
         const cartFormContainer = document.getElementById('cartFormId');
+        const cart_empty = document.getElementById('cart_empty');
         const cartItems = JSON.parse(localStorage.getItem('productsCart')) || []; // Obtener los datos del carrito del localStorage
     
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
-            let cartTableHTML = `
-                <form id="cartForm">
-                    <table class="table table-bordered text-center mb-0">
-                        <thead class="bg-secondary text-dark">
-                            <tr>
-                                <th>${generalData.page_cart.table.product}</th>
-                                <th>${generalData.page_cart.table.price}</th>
-                                <th>${generalData.page_cart.table.quantity}</th>
-                                <th>${generalData.page_cart.table.total}</th>
-                                <th>${generalData.page_cart.table.remove}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="align-middle">
-            `;
-    
-            let subtotal = 0;
-    
-            cartItems.forEach(item => {
-                let sizeInfo = '';
-                if (item.size) {
-                    if (!isNaN(item.size)) {
-                        sizeInfo = `Numero: ${item.size}`;
-                    } else {
-                        sizeInfo = `Talle: ${item.size}`;
-                    }
-                }
-    
-                const itemTotal = item.price * item.amount;
-                subtotal += itemTotal;
-    
-                cartTableHTML += `
-                    <tr>
-                        <td class="align-middle"><a class="text-body" href=${item.href}}><img src="${item.img[0].src}" alt="${item.img[0].alt}" style="width: 50px;">${item.title}${sizeInfo ? ` - ${sizeInfo}` : ''}</a></td>
-                        <td class="align-middle">$${item.price}</td>
-                        <td class="align-middle">
-                            <div class="input-group quantity mx-auto" style="width: 100px;">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-minus" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control form-control-sm bg-secondary text-center cart-quantity-input" value="${item.amount}" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-plus" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">$${itemTotal}</td>
-                        <td class="align-middle">
-                            <button class="btn btn-sm btn-primary btn-remove" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
-                                <i class="fa fa-times"></i>
-                            </button>
-                        </td>
-                    </tr>
+            if (cartItems.length > 0) {
+                cartContainer.style.justifyContent = '';
+                cart_empty.style.display = 'none';
+                cartTableContainer.style.display = 'block';
+                cartFormContainer.style.display = 'block';
+                let cartTableHTML = `
+                    <form id="cartForm">
+                        <table class="table table-bordered text-center mb-0">
+                            <thead class="bg-secondary text-dark">
+                                <tr>
+                                    <th>${generalData.page_cart.table.product}</th>
+                                    <th>${generalData.page_cart.table.price}</th>
+                                    <th>${generalData.page_cart.table.quantity}</th>
+                                    <th>${generalData.page_cart.table.total}</th>
+                                    <th>${generalData.page_cart.table.remove}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="align-middle">
                 `;
-            });
-    
-            cartTableHTML += `
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-end">
-                        <button id="updateCartButton" class="btn btn-block btn-primary my-2 py-2">Actualizar Carrito</button>
-                        <button id="clearCartButton" class="btn btn-block btn-primary my-2 py-2">Borrar Todo</button>
-                    </div>
-                </form>
-            `;
-    
-            cartTableContainer.innerHTML = cartTableHTML;
-    
-            // Añadir event listeners para los botones de incrementar, decrementar y eliminar
-            const btnMinus = document.querySelectorAll('.btn-minus');
-            const btnPlus = document.querySelectorAll('.btn-plus');
-            const btnRemove = document.querySelectorAll('.btn-remove');
-            document.getElementById('updateCartButton').addEventListener('click', updateCartInput);
-            document.getElementById('clearCartButton').addEventListener('click', clearCart);
-    
-            btnMinus.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
-                    updateQuantity(button.dataset.id, button.dataset.size, -1);
-                });
-            });
-    
-            btnPlus.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
-                    updateQuantity(button.dataset.id, button.dataset.size, 1);
-                });
-            });
-    
-            btnRemove.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
-                    removeItem(button.dataset.id, button.dataset.size);
-                });
-            });
-    
-            // Interceptar el evento submit del formulario
-            document.getElementById('cartForm').addEventListener('submit', (event) => {
-                event.preventDefault(); // Prevenir el comportamiento predeterminado de recargar la página
-                updateCartInput(); // Actualizar el carrito manualmente
-            });
-    
-            // Interceptar el evento keydown en los inputs de cantidad
-            const quantityInputs = document.querySelectorAll('.cart-quantity-input');
-            quantityInputs.forEach(input => {
-                input.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter') {
-                        event.preventDefault(); // Prevenir el comportamiento predeterminado de recargar la página
-                        updateCartInput(); // Actualizar el carrito manualmente
-                    }
-                });
-            });
-    
-            // Calcular el total
-            let total = subtotal;
-    
-            // Generar el HTML del formulario de pago y el resumen del carrito
-            let shipping_free = 100000;
-
-            let cartFormHTML = `
-                <div class="js-fulfillment-info js-allows-non-shippable">
-                    <div class="js-ship-free-rest mt-2 mb-3">
-                        <div class="js-bar-progress bar-progress">
-                            <div id="js_bar_progress_active" class="bar-progress-active transition-soft" style="width: 0%;"></div>
-                            <div id="js_bar_progress_check" class="bar-progress-check transition-soft">
-                                <svg class="icon-inline icon-2x" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 48c110.532 0 200 89.451 200 200 0 110.532-89.451 200-200 200-110.532 0-200-89.451-200-200 0-110.532 89.451-200 200-200m140.204 130.267l-22.536-22.718c-4.667-4.705-12.265-4.736-16.97-.068L215.346 303.697l-59.792-60.277c-4.667-4.705-12.265-4.736-16.97-.069l-22.719 22.536c-4.705 4.667-4.736 12.265-.068 16.971l90.781 91.516c4.667 4.705 12.265 4.736 16.97.068l172.589-171.204c4.704-4.668 4.734-12.266.067-16.971z"></path></svg>
-                            </div>
-                        </div>
-                        <div id="js_ship_free_rest_message" class="ship-free-rest-message condition">
-                            <div class="ship-free-rest-text bar-progress-success h4 text-accent transition-soft">${generalData.page_cart.shipping.shipping_free}</div>
-                            <div class="ship-free-rest-text bar-progress-amount h6 transition-soft">${generalData.page_cart.shipping.js_ship_free_dif}</div>
-                            <div class="ship-free-rest-text bar-progress-condition transition-soft">
-                                <strong class="text-accent">${generalData.page_cart.shipping.overcoming_the}</strong> <span>$${shipping_free}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="js-fulfillment-info js-allows-non-shippable">
-                    <div class="js-visible-on-cart-filled js-has-new-shipping js-shipping-calculator-container">
-                        <div id="cart_shipping_container" class="row">
-                            <div class="mb-2 col-12">
-                                <div id="js_shipping_calculator_head" class="shipping-calculator-head position-relative transition-soft with-zip">
-                                    ${createZipcodeSection(generalData)}
-                                    ${createShippingCalculatorForm(generalData)}
-                                </div>
-                                <div id="js_shipping_calculator_response" class="mb-3 float-left w-100 transition-soft radio-buttons-group">
-                                    <div class="form-label my-3 float-left">
-                                        <svg class="icon-inline icon-lg svg-icon-text mr-2 align-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M632 384h-24V275.9c0-16.8-6.8-33.3-18.8-45.2l-83.9-83.9c-11.8-12-28.3-18.8-45.2-18.8H416V78.6c0-25.7-22.2-46.6-49.4-46.6H49.4C22.2 32 0 52.9 0 78.6v290.8C0 395.1 22.2 416 49.4 416h16.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16h195.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16H632c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8zM460.1 160c8.4 0 16.7 3.4 22.6 9.4l83.9 83.9c.8.8 1.1 1.9 1.8 2.8H416v-96h44.1zM144 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm63.6-96C193 364.7 170 352 144 352s-49 12.7-63.6 32h-31c-9.6 0-17.4-6.5-17.4-14.6V78.6C32 70.5 39.8 64 49.4 64h317.2c9.6 0 17.4 6.5 17.4 14.6V384H207.6zM496 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-128c-26.1 0-49 12.7-63.6 32H416v-96h160v96h-16.4c-14.6-19.3-37.5-32-63.6-32z"></path></svg>
-                                        ${generalData.page_cart.shipping.js_shipping_calculator_response.home_delivery}
-                                    </div>
-                                    <ul id="shipping_options" class="list-unstyled box p-0">
-                                        ${createShippingOptions(generalData, subtotal, shipping_free)}
-                                    </ul>
-                                    <div class="font-small float-left w-100 mb-3">${generalData.page_cart.shipping.notCosiderHolidays}</div>
-                                    <input type="hidden" name="after_calculation">
-                                    <input type="hidden" name="zipcode">
-                                </div>
-                            </div>
-                            <div class="w-100 container-fluid">
-                                <span class="form-row align-items-end">
-                                    <div class="col-1 col-md-auto form-label">
-                                        <svg class="icon-inline icon-lg svg-icon-text align-text-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M635.7 176.1l-91.4-160C538.6 6.2 528 0 516.5 0h-393C112 0 101.4 6.2 95.7 16.1l-91.4 160C-7.9 197.5 7.4 224 32 224h32v254.5C64 497 78.3 512 96 512h256c17.7 0 32-15 32-33.5V224h160v280c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8V224h32c24.6 0 39.9-26.5 27.7-47.9zM352 478.5c0 .9-.3 1.4-.2 1.5l-255.2.2s-.6-.5-.6-1.7V352h256v126.5zm0-158.5H96v-96h256v96zM32.1 192l91.4-160h393L608 192H32.1z"></path></svg>
-                                    </div>
-                                    <div class="col-11 form-label">
-                                        <div>${generalData.page_cart.shipping.our_local}</div>
-                                    </div>
-                                </span>
-                            </div>
-                            <div id="js_store_branches_container" class="container-fluid">
-                                <div class="box mt-3 p-0">
-                                    <div class="radio-buttons-group">
-                                        <ul class="list-unstyled radio-button-container">
-                                            ${createBranchOptions(generalData)}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            cartFormHTML += `
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">${generalData.page_cart.cart.title}</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">${generalData.page_cart.cart.table.subtotal}</h6>
-                            <h6 class="font-weight-medium" id="subtotal">$&nbsp;${subtotal}</h6>
-                        </div>
-                        <div id="shippingCostSection" class="d-flex justify-content-between">
-                        </div>
-                    </div>
-                    <div class="card-footer border-secondary bg-transparent">
-                        <div id="totalSection" class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">${generalData.page_cart.cart.table.total}</h5>
-                            <h5 class="font-weight-bold" id="total">$&nbsp;${total}</h5>
-                        </div>
-                        <a class="text-white" href="${generalData.store_info.checkout.href}"><button id="checkoutButton" class="btn btn-block btn-primary my-3 py-3">${generalData.page_cart.cart.btn}</button></a>
-                    </div>
-                </div>
-            `;
-
-            cartFormContainer.innerHTML = cartFormHTML;
-
-            updateBarProgress(subtotal, shipping_free);
-
-            const js_shipping_calculator_form = document.getElementById('js_shipping_calculator_form');
-            const js_shipping_calculator_head = document.getElementById('js_shipping_calculator_head');
-            js_shipping_calculator_head.style.height = '100px'; // Añadir la clase de posicionamiento
-            
-            const js_cart_saved_zipcode = document.getElementById('js_cart_saved_zipcode');
-            js_cart_saved_zipcode.style.display = 'none'; // Remover la clase de posicionamiento
-            
-            const js_shipping_calculator_response = document.getElementById('js_shipping_calculator_response');
-            js_shipping_calculator_response.style.display = 'none';
-            
-            const js_calculate_shipping_wording = document.getElementById('js_calculate_shipping_wording');
-            const js_calculating_shipping_wording = document.getElementById('js_calculating_shipping_wording');
-            const js_calculating_shipping_wording_logo = document.getElementById('js_calculating_shipping_wording_logo');
-            const js_danger_postal = document.getElementById('js_danger_postal');
-            const js_danger_zipcode = document.getElementById('js_danger_zipcode');
-            const js_danger_external = document.getElementById('js_danger_external');
-            
-            let savedShippingMethod = localStorage.getItem('selectedShippingMethod');
-            if (savedShippingMethod) {
-                savedShippingMethod = JSON.parse(savedShippingMethod);
-                handleCalculateShipping();
-            } else {
-                savedShippingMethod = {};
-                handleChangeZipcode();
-            }
-            
-            document.addEventListener('click', (event) => {
-                if (event.target && (event.target.id === 'js_calculate_shipping' || event.target.id === 'js_calculate_shipping_wording')) {
-                    js_danger_external.style.display = 'none';
-                    js_danger_postal.style.display = 'none';
-                    js_danger_zipcode.style.display = 'none';
-                    js_calculate_shipping_wording.style.display = 'none';
-                    js_calculating_shipping_wording.style.display = 'inline';
-                    js_calculating_shipping_wording_logo.style.display = 'inline';
-                    setTimeout(handleCalculateShipping, 100); // Agregar un retraso de 100ms antes de ejecutar handleCalculateShipping
-                } else if (event.target && event.target.id === 'js_shipping_calculator_change_zipcode') {
-                    handleChangeZipcode();
-                } else if (event.target && event.target.classList.contains('js-shipping-method')) {
-                    handleShippingMethodSelection(event.target, subtotal, generalData);
-                }
-            });
-            
-            function handleCalculateShipping() {
-                let js_shipping_input = document.getElementById('js_shipping_input').value.trim();
-            
-                if (js_shipping_input.length === 4 || (localStorage.getItem('selectedShippingMethod') && savedShippingMethod.zipCode !== null)) {
-                    if (localStorage.getItem('selectedShippingMethod') && savedShippingMethod.zipCode !== null) {
-                        js_shipping_input = savedShippingMethod.zipCode;
+                
+                let subtotal = 0;
+                
+                cartItems.forEach(item => {
+                    let sizeInfo = '';
+                    if (item.size) {
+                        if (!isNaN(item.size)) {
+                            sizeInfo = `Numero: ${item.size}`;
+                        } else {
+                            sizeInfo = `Talle: ${item.size}`;
+                        }
                     }
                 
-                    const js_shipping_input_values = document.querySelectorAll('.js_shipping_calculator_current_zip_value');
-                    js_shipping_input_values.forEach(element => {
-                        element.textContent = js_shipping_input;
+                    const itemTotal = item.price * item.amount;
+                    subtotal += itemTotal;
+                
+                    cartTableHTML += `
+                        <tr>
+                            <td class="align-middle"><a class="text-body" href=${item.href}><img src="${item.img[0].src}" alt="${item.img[0].alt}" style="width: 50px;">${item.title}${sizeInfo ? ` - ${sizeInfo}` : ''}</a></td>
+                            <td class="align-middle">$${item.price}</td>
+                            <td class="align-middle">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-minus" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control form-control-sm bg-secondary text-center cart-quantity-input" value="${item.amount}" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-plus" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle">$${itemTotal}</td>
+                            <td class="align-middle">
+                                <button class="btn btn-sm btn-primary btn-remove" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            
+                cartTableHTML += `
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-end">
+                            <button id="updateCartButton" class="btn btn-block btn-primary my-2 py-2">Actualizar Carrito</button>
+                            <button id="clearCartButton" class="btn btn-block btn-primary my-2 py-2">Borrar Todo</button>
+                        </div>
+                    </form>
+                `;
+            
+                cartTableContainer.innerHTML = cartTableHTML;
+            
+                // Añadir event listeners para los botones de incrementar, decrementar y eliminar
+                const btnMinus = document.querySelectorAll('.btn-minus');
+                const btnPlus = document.querySelectorAll('.btn-plus');
+                const btnRemove = document.querySelectorAll('.btn-remove');
+                document.getElementById('updateCartButton').addEventListener('click', updateCartInput);
+                document.getElementById('clearCartButton').addEventListener('click', clearCart);
+            
+                btnMinus.forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+                        updateQuantity(button.dataset.id, button.dataset.size, -1);
                     });
-                
-                    js_shipping_calculator_head.style.height = '25px'; // Añadir la clase de posicionamiento
-                    js_shipping_calculator_form.style.display = 'none';
-                    js_cart_saved_zipcode.style.display = 'block'; // Añadir la clase de posicionamiento
-                    js_shipping_calculator_response.style.display = 'block';
-                    js_calculating_shipping_wording_logo.style.display = 'none';
-                    js_calculating_shipping_wording.style.display = 'none';
-                    js_calculate_shipping_wording.style.display = 'inline';
-                } else if (js_shipping_input === "404") {
-                    // Ocurrió un error al calcular el envío. Por favor intentá de nuevo en unos segundos.
-                    js_calculating_shipping_wording_logo.style.display = 'none';
-                    js_calculating_shipping_wording.style.display = 'none';
-                    js_calculate_shipping_wording.style.display = 'inline';
-                    js_danger_zipcode.style.display = 'inline';
-                } else if (js_shipping_input === "44") {
-                    // El calculo falló por un problema con el medio de envío. Por favor intentá de nuevo en unos segundos.
-                    js_calculating_shipping_wording_logo.style.display = 'none';
-                    js_calculating_shipping_wording.style.display = 'none';
-                    js_calculate_shipping_wording.style.display = 'inline';
-                    js_danger_external.style.display = 'inline';
-                } else if (js_shipping_input.length !== 4 && js_shipping_input !== "") {
-                    // No encontramos este código postal. ¿Está bien escrito?
-                    js_calculating_shipping_wording_logo.style.display = 'none';
-                    js_calculating_shipping_wording.style.display = 'none';
-                    js_calculate_shipping_wording.style.display = 'inline';
-                    js_danger_postal.style.display = 'inline';
-                }
-            }
+                });
             
-            function handleChangeZipcode() {
+                btnPlus.forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+                        updateQuantity(button.dataset.id, button.dataset.size, 1);
+                    });
+                });
+            
+                btnRemove.forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+                        removeItem(button.dataset.id, button.dataset.size);
+                    });
+                });
+            
+                // Interceptar el evento submit del formulario
+                document.getElementById('cartForm').addEventListener('submit', (event) => {
+                    event.preventDefault(); // Prevenir el comportamiento predeterminado de recargar la página
+                    updateCartInput(); // Actualizar el carrito manualmente
+                });
+            
+                // Interceptar el evento keydown en los inputs de cantidad
+                const quantityInputs = document.querySelectorAll('.cart-quantity-input');
+                quantityInputs.forEach(input => {
+                    input.addEventListener('keydown', (event) => {
+                        if (event.key === 'Enter') {
+                            event.preventDefault(); // Prevenir el comportamiento predeterminado de recargar la página
+                            updateCartInput(); // Actualizar el carrito manualmente
+                        }
+                    });
+                });
+            
+                // Calcular el total
+                let total = subtotal;
+            
+                // Generar el HTML del formulario de pago y el resumen del carrito
+                let shipping_free = 100000;
+
+                const shippingOptions = [
+                    {
+                        id: 'featured_shipping_1',
+                        label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_motorcycle,
+                        description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
+                        price: 5900
+                    },
+                    {
+                        id: 'featured_shipping_2',
+                        label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_clasic,
+                        description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
+                        price: 7199
+                    },
+                    {
+                        id: 'featured_shipping_3',
+                        label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_express,
+                        description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
+                        price: 7899
+                    },
+                    {
+                        id: 'featured_shipping_4',
+                        label: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_slow,
+                        description: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option_slow,
+                        price: 4500
+                    },
+                    {
+                        id: 'featured_shipping_5',
+                        label: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_fast,
+                        description: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option_fast,
+                        price: 4999
+                    }
+                ];
+
+                let cartFormHTML = `
+                    <div class="js-fulfillment-info js-allows-non-shippable">
+                        <div class="js-ship-free-rest mt-2 mb-3">
+                            <div class="js-bar-progress bar-progress">
+                                <div id="js_bar_progress_active" class="bar-progress-active transition-soft" style="width: 0%;"></div>
+                                <div id="js_bar_progress_check" class="bar-progress-check transition-soft">
+                                    <svg class="icon-inline icon-2x" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 48c110.532 0 200 89.451 200 200 0 110.532-89.451 200-200 200-110.532 0-200-89.451-200-200 0-110.532 89.451-200 200-200m140.204 130.267l-22.536-22.718c-4.667-4.705-12.265-4.736-16.97-.068L215.346 303.697l-59.792-60.277c-4.667-4.705-12.265-4.736-16.97-.069l-22.719 22.536c-4.705 4.667-4.736 12.265-.068 16.971l90.781 91.516c4.667 4.705 12.265 4.736 16.97.068l172.589-171.204c4.704-4.668 4.734-12.266.067-16.971z"></path></svg>
+                                </div>
+                            </div>
+                            <div id="js_ship_free_rest_message" class="ship-free-rest-message condition">
+                                <div class="ship-free-rest-text bar-progress-success h4 text-accent transition-soft">${generalData.page_cart.shipping.shipping_free}</div>
+                                <div class="ship-free-rest-text bar-progress-amount h6 transition-soft">${generalData.page_cart.shipping.js_ship_free_dif}</div>
+                                <div class="ship-free-rest-text bar-progress-condition transition-soft">
+                                    <strong class="text-accent">${generalData.page_cart.shipping.overcoming_the}</strong> <span>$${shipping_free}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="js-fulfillment-info js-allows-non-shippable">
+                        <div class="js-visible-on-cart-filled js-has-new-shipping js-shipping-calculator-container">
+                            <div id="cart_shipping_container" class="row">
+                                <div class="mb-2 col-12">
+                                    <div id="js_shipping_calculator_head" class="shipping-calculator-head position-relative transition-soft with-zip">
+                                        ${createZipcodeSection(generalData)}
+                                        ${createShippingCalculatorForm(generalData)}
+                                    </div>
+                                    <div id="js_shipping_calculator_response" class="mb-3 float-left w-100 transition-soft radio-buttons-group">
+                                        <div class="form-label my-3 float-left">
+                                            <svg class="icon-inline icon-lg svg-icon-text mr-2 align-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M632 384h-24V275.9c0-16.8-6.8-33.3-18.8-45.2l-83.9-83.9c-11.8-12-28.3-18.8-45.2-18.8H416V78.6c0-25.7-22.2-46.6-49.4-46.6H49.4C22.2 32 0 52.9 0 78.6v290.8C0 395.1 22.2 416 49.4 416h16.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16h195.2c-1.1 5.2-1.6 10.5-1.6 16 0 44.2 35.8 80 80 80s80-35.8 80-80c0-5.5-.6-10.8-1.6-16H632c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8zM460.1 160c8.4 0 16.7 3.4 22.6 9.4l83.9 83.9c.8.8 1.1 1.9 1.8 2.8H416v-96h44.1zM144 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm63.6-96C193 364.7 170 352 144 352s-49 12.7-63.6 32h-31c-9.6 0-17.4-6.5-17.4-14.6V78.6C32 70.5 39.8 64 49.4 64h317.2c9.6 0 17.4 6.5 17.4 14.6V384H207.6zM496 480c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-128c-26.1 0-49 12.7-63.6 32H416v-96h160v96h-16.4c-14.6-19.3-37.5-32-63.6-32z"></path></svg>
+                                            ${generalData.page_cart.shipping.js_shipping_calculator_response.home_delivery}
+                                        </div>
+                                        <ul id="shipping_options" class="list-unstyled box p-0">
+                                            ${shippingOptions.map(option => createShippingOption(option.id, option.label, option.description, option.price, subtotal, shipping_free, generalData)).join('')}
+                                        </ul>
+                                        <div class="font-small float-left w-100 mb-3">${generalData.page_cart.shipping.notCosiderHolidays}</div>
+                                        <input type="hidden" name="after_calculation">
+                                        <input type="hidden" name="zipcode">
+                                    </div>
+                                </div>
+                                <div class="w-100 container-fluid">
+                                    <span class="form-row align-items-end">
+                                        <div class="col-1 col-md-auto form-label">
+                                            <svg class="icon-inline icon-lg svg-icon-text align-text-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M635.7 176.1l-91.4-160C538.6 6.2 528 0 516.5 0h-393C112 0 101.4 6.2 95.7 16.1l-91.4 160C-7.9 197.5 7.4 224 32 224h32v254.5C64 497 78.3 512 96 512h256c17.7 0 32-15 32-33.5V224h160v280c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8V224h32c24.6 0 39.9-26.5 27.7-47.9zM352 478.5c0 .9-.3 1.4-.2 1.5l-255.2.2s-.6-.5-.6-1.7V352h256v126.5zm0-158.5H96v-96h256v96zM32.1 192l91.4-160h393L608 192H32.1z"></path></svg>
+                                        </div>
+                                        <div class="col-11 form-label">
+                                            <div>${generalData.page_cart.shipping.our_local}</div>
+                                        </div>
+                                    </span>
+                                </div>
+                                <div id="js_store_branches_container" class="container-fluid">
+                                    <div class="box mt-3 p-0">
+                                        <div class="radio-buttons-group">
+                                            <ul class="list-unstyled radio-button-container">
+                                                ${createBranchOptions(generalData)}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                cartFormHTML += `
+                    <div class="card border-secondary mb-5">
+                        <div class="card-header bg-secondary border-0">
+                            <h4 class="font-weight-semi-bold m-0">${generalData.page_cart.cart.title}</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3 pt-1">
+                                <h6 class="font-weight-medium">${generalData.page_cart.cart.table.subtotal}</h6>
+                                <h6 class="font-weight-medium" id="subtotal">$&nbsp;${subtotal}</h6>
+                            </div>
+                            <div id="shippingCostSection" class="d-flex justify-content-between">
+                            </div>
+                        </div>
+                        <div class="card-footer border-secondary bg-transparent">
+                            <div id="totalSection" class="d-flex justify-content-between mt-2">
+                                <h5 class="font-weight-bold">${generalData.page_cart.cart.table.total}</h5>
+                                <h5 class="font-weight-bold" id="total">$&nbsp;${total}</h5>
+                            </div>
+                            <a class="text-white" href="${generalData.store_info.checkout.href}"><button id="checkoutButton" class="btn btn-block btn-primary my-3 py-3">${generalData.page_cart.cart.btn}</button></a>
+                        </div>
+                    </div>
+                `;
+
+                cartFormContainer.innerHTML = cartFormHTML;
+
+                // Actualizar el método de envío dinámicamente
+                let selectedShippingMethod = localStorage.getItem('selectedShippingMethod');
+                if (selectedShippingMethod) {
+                    selectedShippingMethod = JSON.parse(selectedShippingMethod);
+                    updateShippingMethod(selectedShippingMethod, subtotal, shipping_free, shippingOptions[0], generalData);
+                }
+
+                const js_shipping_calculator_form = document.getElementById('js_shipping_calculator_form');
+                const js_shipping_calculator_head = document.getElementById('js_shipping_calculator_head');
                 js_shipping_calculator_head.style.height = '100px'; // Añadir la clase de posicionamiento
+
+                const js_cart_saved_zipcode = document.getElementById('js_cart_saved_zipcode');
                 js_cart_saved_zipcode.style.display = 'none'; // Remover la clase de posicionamiento
+
+                const js_shipping_calculator_response = document.getElementById('js_shipping_calculator_response');
                 js_shipping_calculator_response.style.display = 'none';
-                js_shipping_calculator_form.style.display = 'block'; // Añadir la clase de posicionamiento
-                if (isFeaturedShippingMethod()) {
-                    updateSelectedShippingMethod('zipCode', null);
+
+                const js_calculate_shipping_wording = document.getElementById('js_calculate_shipping_wording');
+                const js_calculating_shipping_wording = document.getElementById('js_calculating_shipping_wording');
+                const js_calculating_shipping_wording_logo = document.getElementById('js_calculating_shipping_wording_logo');
+                const js_danger_postal = document.getElementById('js_danger_postal');
+                const js_danger_zipcode = document.getElementById('js_danger_zipcode');
+                const js_danger_external = document.getElementById('js_danger_external');
+
+                let savedShippingMethod = localStorage.getItem('selectedShippingMethod');
+                if (savedShippingMethod) {
+                    savedShippingMethod = JSON.parse(savedShippingMethod);
+                    if (savedShippingMethod.zipCode !== null) {
+                        handleCalculateShipping();
+                        handleShippingMethodSelection(null, subtotal, generalData);
+                    } else {
+                        handleChangeZipcode();
+                        handleShippingMethodSelection(null, subtotal, generalData);
+                    }
                 } else {
-                    if(localStorage.getItem('selectedShippingMethod')) {
+                    initializeSelectedShippingMethod();
+                    savedShippingMethod = JSON.parse(localStorage.getItem('selectedShippingMethod'));
+                    handleChangeZipcode();
+                    handleShippingMethodSelection(null, subtotal, generalData);
+                }
+
+                updateBarProgress(subtotal, shipping_free, generalData, true);
+
+                document.addEventListener('click', (event) => {
+                    if (event.target && (event.target.id === 'js_calculate_shipping' || event.target.id === 'js_calculate_shipping_wording')) {
+                        js_danger_external.style.display = 'none';
+                        js_danger_postal.style.display = 'none';
+                        js_danger_zipcode.style.display = 'none';
+                        js_calculate_shipping_wording.style.display = 'none';
+                        js_calculating_shipping_wording.style.display = 'inline';
+                        js_calculating_shipping_wording_logo.style.display = 'inline';
+                        handleShippingMethodSelection(null, subtotal, generalData);
+                        setTimeout(handleCalculateShipping, 100); // Agregar un retraso de 100ms antes de ejecutar handleCalculateShipping
+                    } else if (event.target && event.target.id === 'js_shipping_calculator_change_zipcode') {
+                        handleChangeZipcode();
+                    } else if (event.target && event.target.classList.contains('js-shipping-method')) {
+                        handleShippingMethodSelection(event.target, subtotal, generalData);
+                    }
+                    checkShippingMethodSelection();
+                });
+
+                function handleCalculateShipping() {
+                    let js_shipping_input = document.getElementById('js_shipping_input').value.trim();
+                
+                    if (js_shipping_input.length === 4 || (localStorage.getItem('selectedShippingMethod') && savedShippingMethod.zipCode !== null)) {
+                        if (localStorage.getItem('selectedShippingMethod') && savedShippingMethod.zipCode !== null) {
+                            js_shipping_input = savedShippingMethod.zipCode;
+                        }
+                    
+                        const js_shipping_input_values = document.querySelectorAll('.js_shipping_calculator_current_zip_value');
+                        js_shipping_input_values.forEach(element => {
+                            element.textContent = js_shipping_input;
+                        });
+                    
+                        js_shipping_calculator_head.style.height = '25px'; // Añadir la clase de posicionamiento
+                        js_shipping_calculator_form.style.display = 'none';
+                        js_cart_saved_zipcode.style.display = 'block'; // Añadir la clase de posicionamiento
+                        js_shipping_calculator_response.style.display = 'block';
+                        js_calculating_shipping_wording_logo.style.display = 'none';
+                        js_calculating_shipping_wording.style.display = 'none';
+                        js_calculate_shipping_wording.style.display = 'inline';
+                    } else if (js_shipping_input === "404") {
+                        // Ocurrió un error al calcular el envío. Por favor intentá de nuevo en unos segundos.
+                        js_calculating_shipping_wording_logo.style.display = 'none';
+                        js_calculating_shipping_wording.style.display = 'none';
+                        js_calculate_shipping_wording.style.display = 'inline';
+                        js_danger_zipcode.style.display = 'inline';
+                    } else if (js_shipping_input === "44") {
+                        // El calculo falló por un problema con el medio de envío. Por favor intentá de nuevo en unos segundos.
+                        js_calculating_shipping_wording_logo.style.display = 'none';
+                        js_calculating_shipping_wording.style.display = 'none';
+                        js_calculate_shipping_wording.style.display = 'inline';
+                        js_danger_external.style.display = 'inline';
+                    } else if (js_shipping_input.length !== 4 && js_shipping_input !== "") {
+                        // No encontramos este código postal. ¿Está bien escrito?
+                        js_calculating_shipping_wording_logo.style.display = 'none';
+                        js_calculating_shipping_wording.style.display = 'none';
+                        js_calculate_shipping_wording.style.display = 'inline';
+                        js_danger_postal.style.display = 'inline';
+                    }
+                }
+
+                function handleChangeZipcode() {
+                    js_shipping_calculator_head.style.height = '100px'; // Añadir la clase de posicionamiento
+                    js_cart_saved_zipcode.style.display = 'none'; // Remover la clase de posicionamiento
+                    js_shipping_calculator_response.style.display = 'none';
+                    js_shipping_calculator_form.style.display = 'block'; // Añadir la clase de posicionamiento
+                    if (isFeaturedShippingMethod()) {
                         updateSelectedShippingMethod('zipCode', null);
-                        updateSelectedShippingMethod('shippingMethod', null);
+                    } else {
+                        if(localStorage.getItem('selectedShippingMethod')) {
+                            updateSelectedShippingMethod('zipCode', null);
+                            updateSelectedShippingMethod('shippingMethod', null);
+                            updateSelectedShippingMethod('amount', null);
+                            updateSelectedShippingMethod('label', null);
+                            updateSelectedShippingMethod('description', null);
+                        }
+                    }
+                }
+
+                // Cargar el método de envío guardado al cargar la página
+                rechargeShippingMethod(savedShippingMethod);
+
+                // Verificar el estado inicial de los métodos de envío
+                checkShippingMethodSelection();
+
+                // Verificar periódicamente si el objeto selectedShippingMethod existe en localStorage
+                setInterval(() => {
+                    if (!localStorage.getItem('selectedShippingMethod')) {
+                        initializeSelectedShippingMethod();
+                        rechargeShippingMethod();
+                        checkShippingMethodSelection();
+                    }
+                }, 1); // Verificar cada segundo
+            } else {
+                cartContainer.style.justifyContent = 'center';
+                cart_empty.style.display = 'block';
+                cart_empty.style.marginInline = '20px';
+                cartTableContainer.style.display = 'none';
+                cartFormContainer.style.display = 'none';
+                updateSelectedShippingMethod('amount', null);
+                updateSelectedShippingMethod('shippingMethod', null);
+                updateSelectedShippingMethod('label', null);
+                updateSelectedShippingMethod('description', null);
+                let cart_emptyHTML = `
+                    <div class="alert alert-info"><i class="fa-solid fa-circle-info"></i> ${generalData.page_cart.shipping.alert_cart} </div>
+                `;
+                cart_empty.innerHTML = cart_emptyHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error al cargar los archivos JSON:', error);
+        });
+    }
+
+    function initializeSelectedShippingMethod() {
+        if (!localStorage.getItem('selectedShippingMethod')) {
+            const defaultShippingMethod = {
+                shippingMethod: null,
+                zipCode: null,
+                amount: 0,
+                label: null,
+                description: null
+            };
+            localStorage.setItem('selectedShippingMethod', JSON.stringify(defaultShippingMethod));
+        }
+    }
+
+    function rechargeShippingMethod(savedShippingMethod) {
+        if(savedShippingMethod) {
+            if (savedShippingMethod.shippingMethod) {
+                const { shippingMethod, zipCode } = savedShippingMethod;
+                const shippingInput = document.getElementById('js_shipping_input');
+                const shippingMethodInput = document.getElementById(shippingMethod);
+                shippingMethodInput.checked = false;
+            
+                if (shippingInput) {
+                    if (zipCode) {
+                        shippingInput.value = zipCode;
+                    }
+                }
+                if(shippingMethod) {
+                    if(shippingMethodInput) {
+                        shippingMethodInput.checked = true;
                     }
                 }
             }
-            
-            function handleShippingMethodSelection(target, subtotal, generalData) {
-                const js_shipping_input = document.getElementById('js_shipping_input').value.trim();
-                const shippingCostSection = document.getElementById('shippingCostSection');
-                const totalSection = document.getElementById('totalSection');
+        }
+    }
 
-                let selectedShippingMethod = null;
-                let price = null;
+    function updateShippingMethod(selectedShippingMethod, subtotal, shipping_free, shippingOptions, generalData) {
+        if (selectedShippingMethod.shippingMethod === shippingOptions.id) {
+            let price = shippingOptions.price;
+            selectedShippingMethod.amount = price;
+            if (subtotal >= shipping_free) {
+                price = 0;
+                selectedShippingMethod.amount = price;
+            }
+            selectedShippingMethod.id = shippingOptions.id;
+            handleShippingMethodSelection(null, subtotal, generalData, selectedShippingMethod);
+        }
+    }
 
-                if (target !== null) {
-                    selectedShippingMethod = target.id;
-                    price = target.dataset.price;
+    function checkShippingMethodSelection() {
+        const checkoutButton = document.getElementById('checkoutButton');
+        
+        let isAnyChecked = false;
+        
+        let selectedShippingMethod = localStorage.getItem('selectedShippingMethod');
+        if (selectedShippingMethod) {
+            selectedShippingMethod = JSON.parse(selectedShippingMethod);
+            if(selectedShippingMethod.shippingMethod) {
+                isAnyChecked = true;
+            }
+        }
+        checkoutButton.disabled = !isAnyChecked;
+    }
+
+    function handleShippingMethodSelection(target, subtotal, generalData, selectedShippingMethodFeatured = null) {
+        let js_shipping_input = null;
+        const shippingCostSection = document.getElementById('shippingCostSection');
+        const totalSection = document.getElementById('totalSection');
+        
+        let selectedShippingMethod = null;
+        let price = null;
+        let label = null;
+        let description = null;
+
+        if(selectedShippingMethodFeatured) {
+            selectedShippingMethod = selectedShippingMethodFeatured.id;
+            price = selectedShippingMethodFeatured.amount;
+        } else {
+            js_shipping_input = document.getElementById('js_shipping_input').value.trim();
+            if(js_shipping_input == "") {
+                let selectedShippingMethodZipCode = localStorage.getItem('selectedShippingMethod');
+                
+                if(selectedShippingMethodZipCode) {
+                    selectedShippingMethodZipCode = JSON.parse(selectedShippingMethodZipCode);
+                    if(selectedShippingMethodZipCode.zipCode) {
+                        js_shipping_input = selectedShippingMethodZipCode.zipCode;
+                    }
                 }
+            }
+        }
 
-                price = Number(price);
-            
-                if (selectedShippingMethod === 'featured_shipping_6' && selectedShippingMethod != null) {
-                    localStorage.setItem('selectedShippingMethod', JSON.stringify({
-                        shippingMethod: selectedShippingMethod,
-                        zipCode: null,
-                        amount: price
-                    }));
-                } else if (js_shipping_input.length === 4 && selectedShippingMethod != null) {
-                    localStorage.setItem('selectedShippingMethod', JSON.stringify({
-                        shippingMethod: selectedShippingMethod,
-                        zipCode: js_shipping_input,
-                        amount: price
-                    }));
-                } else if (js_shipping_input.length === 4 && selectedShippingMethod == null) {
-                    updateSelectedShippingMethod('zipCode', js_shipping_input);
-                } 
+        if (target) {
+            selectedShippingMethod = target.id;
+            price = target.dataset.price;
+            label = target.dataset.label;
+            description = target.dataset.description;
+        }
 
+        price = Number(price);
+    
+        if (selectedShippingMethod === 'featured_shipping_6' && selectedShippingMethod != null) {
+            localStorage.setItem('selectedShippingMethod', JSON.stringify({
+                shippingMethod: selectedShippingMethod,
+                zipCode: null,
+                amount: price,
+                label: label,
+                description: description
+            }));
+        } else if (js_shipping_input && js_shipping_input.length === 4 && selectedShippingMethod != null) {
+            localStorage.setItem('selectedShippingMethod', JSON.stringify({
+                shippingMethod: selectedShippingMethod,
+                zipCode: js_shipping_input,
+                amount: price,
+                label: label,
+                description: description
+            }));
+        } else if (js_shipping_input && js_shipping_input.length === 4 && selectedShippingMethod == null) {
+            updateSelectedShippingMethod('zipCode', js_shipping_input);
+        } else if (selectedShippingMethod === 'featured_shipping_1' && selectedShippingMethodFeatured != null) {
+            updateSelectedShippingMethod('amount', price);
+        }
+
+        const selectedShippingMethodVerific = localStorage.getItem('selectedShippingMethod');
+        if (selectedShippingMethodVerific) {
+            const parsedShippingMethod = JSON.parse(selectedShippingMethodVerific);
+            if (parsedShippingMethod.shippingMethod) {
+                price = Number(parsedShippingMethod.amount);
                 const total = subtotal + price;
 
                 if(price === 0) {
                     price = generalData.page_cart.shipping.free;
                 }
-
                 shippingCostSection.innerHTML = `
                     <h6 class="font-weight-medium">${generalData.page_cart.cart.table.shipping_cost}</h6>
                     <h6 class="font-weight-medium" id="shippingCost">${!isNaN(price) ? `$&nbsp;${price}` : price}</h6>
                 `;
-
+                
                 totalSection.innerHTML = `
                     <h5 class="font-weight-bold">${generalData.page_cart.cart.table.total}</h5>
                     <h5 class="font-weight-bold" id="total">$&nbsp;${total}</h5>
                 `;
             }
-            
-            // Cargar el método de envío guardado al cargar la página
-            if (savedShippingMethod.shippingMethod) {
-                const { shippingMethod, zipCode } = savedShippingMethod;
-                const shippingInput = document.getElementById('js_shipping_input');
-                const shippingMethodInput = document.getElementById(shippingMethod);
-            
-                if (shippingInput && shippingMethodInput) {
-                    if (zipCode) {
-                        shippingInput.value = zipCode;
-                    }
-                    shippingMethodInput.checked = true;
-                }
-            }
-
-        })
-        .catch(error => {
-            console.error('Error al cargar los archivos JSON:', error);
-        });
+        }
     }
 
     function isFeaturedShippingMethod() {
@@ -1941,6 +2115,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateSelectedShippingMethod(key, value) {
+        // Inicializar el objeto si no existe
+        initializeSelectedShippingMethod();
+
         // Obtener el objeto actual de localStorage
         let selectedShippingMethod = localStorage.getItem('selectedShippingMethod');
         
@@ -1958,7 +2135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function updateBarProgress(amount, shipping_free) {
+    function updateBarProgress(amount, shipping_free, generalData, shippingMethod) {
         const barProgress = document.getElementById('js_bar_progress_active');
         const barProgressCheck = document.getElementById('js_bar_progress_check');
         const shipFreeRestMessage = document.getElementById('js_ship_free_rest_message');
@@ -1982,6 +2159,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 shipFreeRestAmount.textContent = `$${shipping_free - amount}`;
             }
         }
+        if(shippingMethod) {
+            handleShippingMethodSelection(null, amount, generalData, shipping_free);
+        }
     }
 
     function createShippingOption(id, label, description, price, amount, shipping_free, generalData) {
@@ -1997,7 +2177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `
             <li class="js-shipping-list-item radio-button-item float-left w-100">
                 <label class="js-shipping-radio radio-button list-item">
-                    <input id="${id}" class="js-shipping-method shipping-method" data-price="${price}" type="radio" name="option" style="display:none">
+                    <input id="${id}" class="js-shipping-method shipping-method" data-label="${label}" data-price="${price}" data-description="${description}" type="radio" name="option" style="display:none">
                     <div class="radio-button-content">
                         <div class="radio-button-icons-container">
                             <span class="radio-button-icons">
@@ -2028,43 +2208,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </li>
         `;
     }
-    
-    function createShippingOptions(generalData, amount, shipping_free) {
-        const shippingOptions = [
-            {
-                id: 'featured_shipping_1',
-                label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_motorcycle,
-                description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
-                price: 5900
-            },
-            {
-                id: 'featured_shipping_2',
-                label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_clasic,
-                description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
-                price: 7199
-            },
-            {
-                id: 'featured_shipping_3',
-                label: generalData.page_cart.shipping.js_shipping_calculator_response.shipping_company_express,
-                description: generalData.page_cart.shipping.js_shipping_calculator_response.arrives_between,
-                price: 7899
-            },
-            {
-                id: 'featured_shipping_4',
-                label: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point,
-                description: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option,
-                price: 4500
-            },
-            {
-                id: 'featured_shipping_5',
-                label: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point,
-                description: generalData.page_cart.shipping.js_shipping_calculator_response.pickup_point_option,
-                price: 4999
-            }
-        ];
-    
-        return shippingOptions.map(option => createShippingOption(option.id, option.label, option.description, option.price, amount, shipping_free, generalData)).join('');
-    }
 
     function createBranchOption(id, title, address, price, generalData) {
         if(price === 0) {
@@ -2074,7 +2217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `
             <li class="radio-button-item">
                 <label class="js-shipping-radio js-branch-radio radio-button">
-                    <input id="${id}" data-price="${price}" class="js-shipping-method js-branch-method shipping-method js-selected-shipping-method" type="radio" name="option" style="display:none">
+                    <input id="${id}" data-price="${price}" data-label="${title}" data-description="${address}" class="js-shipping-method js-branch-method shipping-method js-selected-shipping-method" type="radio" name="option" style="display:none">
                     <div class="shipping-option row-fluid radio-button-content">
                         <div class="radio-button-icons-container">
                             <span class="radio-button-icons">
@@ -2222,6 +2365,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let countries = ["Afganistán","Albania","Alemania","Andorra","Angola","Antigua y Barbuda","Arabia Saudita","Argelia","Argentina","Armenia","Australia","Austria","Azerbaiyán","Bahamas","Bangladés","Barbados","Baréin","Bélgica","Belice","Benín","Bielorrusia","Birmania","Bolivia","Bosnia y Herzegovina","Botsuana","Brasil","Brunéi","Bulgaria","Burkina Faso","Burundi","Bután","Cabo Verde","Camboya","Camerún","Canadá","Catar","Chad","Chile","China","Chipre","Ciudad del Vaticano","Colombia","Comoras","Corea del Norte","Corea del Sur","Costa de Marfil","Costa Rica","Croacia","Cuba","Dinamarca","Dominica","Ecuador","Egipto","El Salvador","Emiratos Árabes Unidos","Eritrea","Eslovaquia","Eslovenia","España","Estados Unidos","Estonia","Etiopía","Filipinas","Finlandia","Fiyi","Francia","Gabón","Gambia","Georgia","Ghana","Granada","Grecia","Guatemala","Guyana","Guinea","Guinea ecuatorial","Guinea-Bisáu","Haití","Honduras","Hungría","India","Indonesia","Irak","Irán","Irlanda","Islandia","Islas Marshall","Islas Salomón","Israel","Italia","Jamaica","Japón","Jordania","Kazajistán","Kenia","Kirguistán","Kiribati","Kuwait","Laos","Lesoto","Letonia","Líbano","Liberia","Libia","Liechtenstein","Lituania","Luxemburgo","Madagascar","Malasia","Malaui","Maldivas","Malí","Malta","Marruecos","Mauricio","Mauritania","México","Micronesia","Moldavia","Mónaco","Mongolia","Montenegro","Mozambique","Namibia","Nauru","Nepal","Nicaragua","Níger","Nigeria","Noruega","Nueva Zelanda","Omán","Países Bajos","Pakistán","Palaos","Palestina","Panamá","Papúa Nueva Guinea","Paraguay","Perú","Polonia","Portugal","Reino Unido","República Centroafricana","República Checa","República de Macedonia","República del Congo","República Democrática del Congo","República Dominicana","República Sudafricana","Ruanda","Rumanía","Rusia","Samoa","San Cristóbal y Nieves","San Marino","San Vicente y las Granadinas","Santa Lucía","Santo Tomé y Príncipe","Senegal","Serbia","Seychelles","Sierra Leona","Singapur","Siria","Somalia","Sri Lanka","Suazilandia","Sudán","Sudán del Sur","Suecia","Suiza","Surinam","Tailandia","Tanzania","Tayikistán","Timor Oriental","Togo","Tonga","Trinidad y Tobago","Túnez","Turkmenistán","Turquía","Tuvalu","Ucrania","Uganda","Uruguay","Uzbekistán","Vanuatu","Venezuela","Vietnam","Yemen","Yibuti","Zambia","Zimbabue"];
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
+            let zipCode = '';
+            let selectedShippingMethod = localStorage.getItem('selectedShippingMethod');
+            if (selectedShippingMethod) {
+                selectedShippingMethod = JSON.parse(selectedShippingMethod);
+                if (selectedShippingMethod.zipCode) {
+                    zipCode = selectedShippingMethod.zipCode;
+                }
+            }
             const checkoutFormHTML = `
                 <div class="row px-xl-5">
                     <div class="col-lg-8">

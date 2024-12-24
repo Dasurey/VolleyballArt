@@ -158,6 +158,7 @@
             "js_ship_free_dif": "¡Estás a <strong id=\"js_ship_free_dif\" class=\"js-ship-free-dif h4\"></strong> de tener <strong class=\"text-accent\">envío gratis</strong>!",
             "overcoming_the": "Envío gratis</strong> superando los",
             "shipping_free": "¡Genial! Tenés envío gratis",
+            "alert_cart": "El carrito de compras está vacío.",
             "js_cart_saved_zipcode": {
                 "title": "Entregas para el CP:",
                 "change_zip": "Cambiar CP"
@@ -179,8 +180,10 @@
                 "shipping_company_clasic": "(Empresa) Clasico - Envio a domicilio",
                 "shipping_company_express": "(Empresa) Express - Envio a domicilio",
                 "shipping_company": "Empresa",
-                "pickup_point": "Punto de retiro",
-                "pickup_point_option": "Retiras entre el (día fecha) y el (día fecha)",
+                "pickup_point_slow": "Punto de retiro",
+                "pickup_point_option_slow": "Retiras entre el (día fecha) y el (día fecha) S",
+                "pickup_point_fast": "Punto de retiro",
+                "pickup_point_option_fast": "Retiras entre el (día fecha) y el (día fecha) F",
                 "see_directions": "Ver direcciones",
                 "table_pickup_points": {
                     "title": "Puntos de retiro",
