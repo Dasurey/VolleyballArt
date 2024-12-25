@@ -1916,6 +1916,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             updateSelectedShippingMethod('label', null);
                             updateSelectedShippingMethod('description', null);
                         }
+                        // Desmarcar los inputs con la clase js-shipping-method
+                        const shippingMethods = document.querySelectorAll('.js-shipping-method');
+                        shippingMethods.forEach(input => {
+                            input.checked = false;
+                        });
                     }
                 }
 
@@ -1929,11 +1934,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 setInterval(() => {
                     if (!localStorage.getItem('selectedShippingMethod')) {
                         initializeSelectedShippingMethod();
-                        
-                        
+                        rechargeShippingMethod();
+                        checkShippingMethodSelection(savedShippingMethod);
                     }
-rechargeShippingMethod();
-checkShippingMethodSelection();
                 }, 1); // Verificar cada segundo
             } else {
                 cartContainer.style.justifyContent = 'center';
@@ -1970,29 +1973,23 @@ checkShippingMethodSelection();
     }
 
     function rechargeShippingMethod(savedShippingMethod = null) {
-        if(!savedShippingMethod) {
-               savedShippingMethod = localStorage.getItem('selectedShippingMethod');
-                if (savedShippingMethod) {
-                    savedShippingMethod = JSON.parse(savedShippingMethod);
-}
-}
-            if (savedShippingMethod.shippingMethod) {
-                const { shippingMethod, zipCode } = savedShippingMethod;
-                const shippingInput = document.getElementById('js_shipping_input');
-                const shippingMethodInput = document.getElementById(shippingMethod);
-                shippingMethodInput.checked = false;
-            
-                if (shippingInput) {
-                    if (zipCode) {
-                        shippingInput.value = zipCode;
-                    }
-                }
-                if(shippingMethod) {
-                    if(shippingMethodInput) {
-                        shippingMethodInput.checked = true;
-                    }
+        if (savedShippingMethod.shippingMethod) {
+            const { shippingMethod, zipCode } = savedShippingMethod;
+            const shippingInput = document.getElementById('js_shipping_input');
+            const shippingMethodInput = document.getElementById(shippingMethod);
+            shippingMethodInput.checked = false;
+        
+            if (shippingInput) {
+                if (zipCode) {
+                    shippingInput.value = zipCode;
                 }
             }
+            if(shippingMethod) {
+                if(shippingMethodInput) {
+                    shippingMethodInput.checked = true;
+                }
+            }
+        }
     }
 
     function updateShippingMethod(selectedShippingMethod, subtotal, shipping_free, shippingOptions, generalData) {
@@ -2179,6 +2176,58 @@ checkShippingMethodSelection();
                 price = 0;
             }
         }
+        
+        let pickupLocationsHTML = null;
+        let selectedSuboptionHTML = null;
+        const containerPage = document.getElementById('page');
+
+        if(id === 'featured_shipping_4' || id === 'featured_shipping_5') {
+            pickupLocationsHTML = `
+                <div>
+                    <div class="js-shipping-suboption selected_suboption_api_559774_CPS">
+                        <div data-toggle="#selected_suboption_${id}" class="js-modal-open btn-link btn-link-primary">
+                            <svg class="icon-inline icon-lg mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                            <span class="align-bottom">${generalData.page_cart.shipping.js_shipping_calculator_response.see_directions}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            const element = document.getElementById(`selected_suboption_${id}`);
+            if(element === null) {
+                console.log(element);
+                selectedSuboptionHTML = `
+                    <div class="js-modal-overlay modal-overlay modal-zindex-top" id="selected_suboption_${id}" style="display: none;" data-prev-visibility="block"></div>
+                    <div id="selected_suboption_${id}" class="js-modal modal modal-bottom modal-centered-small js-modal-shipping-suboptions modal-center transition-slide modal-centered transition-soft modal-zindex-top" style="display: none;" data-prev-visibility="block">
+                        <div class="js-modal-close  modal-header">
+                            <span class="modal-close ">
+                                <svg class="icon-inline modal-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
+                            </span>
+                            Puntos de retiro
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-unstyled py-2">
+                                <li class="text-capitalize mb-3">
+                                    <svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                                        <span class="d-flex">correo argentino clasico - el palomar - ing guillermo marconi 6595, ciudad jardin del palomar - tres de febrero</span>
+                                </li>
+                                <li class="text-capitalize mb-3">
+                                    <svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
+                                    <span class="d-flex">correo argentino clasico - el palomar enco envios - av pte j d peron 3571, el palomar - moron</span>
+                                </li>
+                            </ul>
+                            <div class="mt-4">
+                                <span class="opacity-50">Cercanos al código postal:</span> <span class="text-primary font-weight-bold">1685</span>
+                            </div>
+                            <div class="mt-2 font-small">
+                                <svg class="icon-inline svg-icon-text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-36 344h12V232h-12c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12h48c6.627 0 12 5.373 12 12v140h12c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12h-72c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12zm36-240c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z"></path></svg>
+                                <i>Vas a poder elegir estas opciones antes de finalizar tu compra</i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                containerPage.innerHTML += selectedSuboptionHTML;
+            }
+        } 
 
         return `
             <li class="js-shipping-list-item radio-button-item float-left w-100">
@@ -2203,6 +2252,7 @@ checkShippingMethodSelection();
                                         </span>
                                         <span class="d-table">${description}</span>
                                     </div>
+                                    ${pickupLocationsHTML ? pickupLocationsHTML : ''}
                                 </div>
                                 <div class="col-4 col-md-3 text-right">
                                     <h5 class="text-primary mb-0 d-inline-block">${price == 0 ? shipping_freeHTML : `$&nbsp;${price}`}</h5>
