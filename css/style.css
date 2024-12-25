@@ -1140,3 +1140,15 @@ h5.text-primary.mb-0.d-inline-block {
     color: var(--secondary-universal-color);
     border-color: var(--secondary-universal-color);
 }
+
+.btn-link-primary {
+    color: #000;
+    fill: #000;
+    font-weight: bold;
+}
+
+.btn-link {
+    color: #000;
+    fill: #000;
+    cursor: pointer;
+}
