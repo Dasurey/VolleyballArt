@@ -2179,7 +2179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let pickupLocationsHTML = null;
         let selectedSuboptionHTML = null;
-        const containerPage = document.getElementById('page');
+        const containerPage = document.getElementById('locations');
 
         if(id === 'featured_shipping_4' || id === 'featured_shipping_5') {
             pickupLocationsHTML = `
