@@ -1930,7 +1930,7 @@ table {
 }
 
 .form-control:disabled, .form-control[readonly] {
-  background-color: #efe9ee;
+  background-color: #ecf0f1;
   opacity: 1;
 }
 
@@ -2347,11 +2347,11 @@ fieldset:disabled a.btn {
 
 .btn-link:hover {
   color: var(--fifth-universal-color);
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .btn-link:focus, .btn-link.focus {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .btn-link:disabled, .btn-link.disabled {

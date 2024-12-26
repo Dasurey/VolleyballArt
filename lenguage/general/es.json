@@ -190,7 +190,7 @@
                     "close_zipCode": "Cercanos al código postal",
                     "pickup_clasic": "(Empresa) clasico - (Lugar) - (dirrección, localidad) - (Partido, provincia)",
                     "pickup_express": "(Empresa) express - (Lugar) - (dirrección, localidad) - (Partido, provincia)",
-                    "options": "Vas a poder elegir estas opciones antes de finalizar tu compra"
+                    "options": "Vas a poder elegir estas opciones al finalizar tu compra y se te enviara un mensaje para que selecciones tu opción"
                 }
             }
         },
@@ -202,39 +202,48 @@
                 "subtotal": "Subtotal",
                 "shipping_cost": "Envío",
                 "total": "Total"
-            }
+            },
+            "updateCart": "Actualizar Carrito",
+            "clearCart": "Borrar Todo"
         }
     },
     "checkout": {
         "datos": {
-            "title": "Dirección de Envio",
+            "title": "Dirección de Envio y/o Facturación",
             "firstname": {
                 "text": "Nombre",
-                "placeholder": "Emiliano"
+                "placeholder": "Emiliano",
+                "required_msj": "Por favor, ingresa tu nombre."
             },
             "lastname": {
                 "text": "Apellido",
-                "placeholder": "Perez"
+                "placeholder": "Perez",
+                "required_msj": "Por favor, ingresa tu apellido."
             },
             "email": {
                 "text": "Correo Electrónico",
-                "placeholder": "ejemplo@email.com"
+                "placeholder": "ejemplo@email.com",
+                "required_msj": "Por favor, ingresa tu correo electrónico."
             },
             "country": {
                 "text": "País",
-                "selected": "Seleccione el País"
+                "selected": "Seleccione el País",
+                "required_msj": "Por favor, ingresa el país."
             },
             "province": {
                 "text": "Provincia/Estado",
-                "placeholder": "Buenos Aires"
+                "placeholder": "Buenos Aires",
+                "required_msj": "Por favor, ingresa tu provincia/Estado."
             },
             "city": {
                 "text": "Ciudad",
-                "placeholder": "Ramos Mejía"
+                "placeholder": "Ramos Mejía",
+                "required_msj": "Por favor, ingresa tu ciudad."
             },            
             "address": {
                 "text": "Dirección",
-                "placeholder": "Calle de la República, 123"
+                "placeholder": "Calle de la República, 123",
+                "required_msj": "Por favor, ingresa tu dirección."
             },
             "additional": {
                 "text": "Adicional",
@@ -242,11 +251,13 @@
             },
             "postal_code": {
                 "text": "Código Postal",
-                "placeholder": "1234"
+                "placeholder": "1234",
+                "required_msj": "Por favor, ingresa tu código postal."
             },
             "phone": {
                 "text": "Celular",
-                "placeholder": "+54 011 1234-5678"
+                "placeholder": "+54 11 1234-5678",
+                "required_msj": "Por favor, ingresa tu celular."
             },
             "payment": {
                 "text": "Forma de Pago",

@@ -1605,7 +1605,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     </div>
                                 </div>
                             </td>
-                            <td class="align-middle">$${itemTotal}</td>
+                            <td class="align-middle">$&nbsp;${itemTotal}</td>
                             <td class="align-middle">
                                 <button class="btn btn-sm btn-primary btn-remove" data-id="${item.id}" ${item.size ? `data-size="${item.size}"` : ''}>
                                     <i class="fa fa-times"></i>
@@ -1619,8 +1619,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-end">
-                            <button id="updateCartButton" class="btn btn-block btn-primary my-2 py-2">Actualizar Carrito</button>
-                            <button id="clearCartButton" class="btn btn-block btn-primary my-2 py-2">Borrar Todo</button>
+                            <button id="updateCartButton" class="btn btn-block btn-primary my-2 py-2">${generalData.page_cart.cart.updateCart}</button>
+                            <button id="clearCartButton" class="btn btn-block btn-primary my-2 py-2">${generalData.page_cart.cart.clearCart}</button>
                         </div>
                     </form>
                 `;
@@ -1856,6 +1856,31 @@ document.addEventListener('DOMContentLoaded', () => {
                         handleChangeZipcode();
                     } else if (event.target && event.target.classList.contains('js-shipping-method')) {
                         handleShippingMethodSelection(event.target, subtotal, generalData);
+                    } else if (event.target && event.target.classList.contains('js-modal-open')) {
+                        console.log('hola12');
+                        const targetId = event.target.getAttribute('data-toggle');
+                        const modalOverlay = document.querySelector(`${targetId}.js-modal-overlay`);
+                        const modal = document.querySelector(`${targetId}.js-modal`);
+            
+                        if (modalOverlay) {
+                            modalOverlay.style.display = 'block';
+                        }
+                        if (modal) {
+                            modal.classList.add('modal-show');
+                            modal.style.display = 'block';
+                        }
+                    } else if (event.target && event.target.classList.contains('js_modal_close')) {
+                        const targetId = event.target.getAttribute('data-toggle');
+                        const modalOverlay = document.querySelector(`${targetId}.js-modal-overlay`);
+                        const modal = document.querySelector(`${targetId}.js-modal`);
+            
+                        if (modalOverlay) {
+                            modalOverlay.style.display = 'none';
+                        }
+                        if (modal) {
+                            modal.classList.remove('modal-show');
+                            modal.style.display = 'none';
+                        }
                     }
                     checkShippingMethodSelection();
                 });
@@ -1872,6 +1897,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         js_shipping_input_values.forEach(element => {
                             element.textContent = js_shipping_input;
                         });
+                        const js_zipCode = document.getElementById('js_zipCode');
+                        js_zipCode.innerHTML = `<span class="opacity-50">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.close_zipCode}:</span> <span class="text-primary font-weight-bold">${js_shipping_input}</span>`;
                     
                         js_shipping_calculator_head.style.height = '25px'; // Añadir la clase de posicionamiento
                         js_shipping_calculator_form.style.display = 'none';
@@ -2184,10 +2211,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if(id === 'featured_shipping_4' || id === 'featured_shipping_5') {
             pickupLocationsHTML = `
                 <div>
-                    <div class="js-shipping-suboption selected_suboption_api_559774_CPS">
+                    <div class="js-shipping-suboption selected_suboption_${id}">
                         <div data-toggle="#selected_suboption_${id}" class="js-modal-open btn-link btn-link-primary">
-                            <svg class="icon-inline icon-lg mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                            <span class="align-bottom">${generalData.page_cart.shipping.js_shipping_calculator_response.see_directions}</span>
+                            
+                            <i data-toggle="#selected_suboption_${id}" class="js-modal-open fa-solid fa-location-dot"></i>
+                            <span data-toggle="#selected_suboption_${id}" class="js-modal-open align-bottom">${generalData.page_cart.shipping.js_shipping_calculator_response.see_directions}</span>
                         </div>
                     </div>
                 </div>
@@ -2195,12 +2223,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const element = document.getElementById(`selected_suboption_${id}`);
             if(element === null) {
                 console.log(element);
+                let selectedSuboption_classificationHTML = ``;
+                if(id === 'featured_shipping_4') selectedSuboption_classificationHTML = `<span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_clasic}</span>`;
+                if(id === 'featured_shipping_5') selectedSuboption_classificationHTML = `<span class="d-flex">${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.pickup_express}</span>`;
                 selectedSuboptionHTML = `
-                    <div class="js-modal-overlay modal-overlay modal-zindex-top" id="selected_suboption_${id}" style="display: none;" data-prev-visibility="block"></div>
-                    <div id="selected_suboption_${id}" class="js-modal modal modal-bottom modal-centered-small js-modal-shipping-suboptions modal-center transition-slide modal-centered transition-soft modal-zindex-top" style="display: none;" data-prev-visibility="block">
-                        <div class="js-modal-close  modal-header">
-                            <span class="modal-close ">
-                                <svg class="icon-inline modal-close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
+                    <div class="js-modal-overlay modal-overlay modal-zindex-top" id="selected_suboption_${id}" style="display: none;"></div>
+                    <div id="selected_suboption_${id}" class="js-modal modal modal-bottom modal-centered-small js-modal-shipping-suboptions modal-center transition-slide modal-centered transition-soft modal-zindex-top" style="display: none;">
+                        <div class="js-modal-close modal-header">
+                            <span class="modal-close js_modal_close" data-toggle="#selected_suboption_${id}">
+                                <svg class="icon-inline modal-close-icon js_modal_close" data-toggle="#selected_suboption_${id}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
                             </span>
                             Puntos de retiro
                         </div>
@@ -2208,19 +2239,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             <ul class="list-unstyled py-2">
                                 <li class="text-capitalize mb-3">
                                     <svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                        <span class="d-flex">correo argentino clasico - el palomar - ing guillermo marconi 6595, ciudad jardin del palomar - tres de febrero</span>
+                                    ${selectedSuboption_classificationHTML}
                                 </li>
                                 <li class="text-capitalize mb-3">
                                     <svg class="icon-inline svg-icon-primary d-flex float-left mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 96c-52.935 0-96 43.065-96 96s43.065 96 96 96 96-43.065 96-96-43.065-96-96-96zm0 160c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64zm0-256C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.534 13.772 29.929 13.774 39.465 0C357.03 291.031 384 269.413 384 192 384 85.961 298.039 0 192 0zm0 473.931C52.705 272.488 32 256.494 32 192c0-42.738 16.643-82.917 46.863-113.137S149.262 32 192 32s82.917 16.643 113.137 46.863S352 149.262 352 192c0 64.49-20.692 80.47-160 281.931z"></path></svg>
-                                    <span class="d-flex">correo argentino clasico - el palomar enco envios - av pte j d peron 3571, el palomar - moron</span>
+                                    ${selectedSuboption_classificationHTML}
                                 </li>
                             </ul>
-                            <div class="mt-4">
-                                <span class="opacity-50">Cercanos al código postal:</span> <span class="text-primary font-weight-bold">1685</span>
-                            </div>
+                            <div class="mt-4" id="js_zipCode"></div>
                             <div class="mt-2 font-small">
                                 <svg class="icon-inline svg-icon-text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-36 344h12V232h-12c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12h48c6.627 0 12 5.373 12 12v140h12c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12h-72c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12zm36-240c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z"></path></svg>
-                                <i>Vas a poder elegir estas opciones antes de finalizar tu compra</i>
+                                <i>${generalData.page_cart.shipping.js_shipping_calculator_response.table_pickup_points.options}</i>
                             </div>
                         </div>
                     </div>
@@ -2421,119 +2450,65 @@ document.addEventListener('DOMContentLoaded', () => {
         let countries = ["Afganistán","Albania","Alemania","Andorra","Angola","Antigua y Barbuda","Arabia Saudita","Argelia","Argentina","Armenia","Australia","Austria","Azerbaiyán","Bahamas","Bangladés","Barbados","Baréin","Bélgica","Belice","Benín","Bielorrusia","Birmania","Bolivia","Bosnia y Herzegovina","Botsuana","Brasil","Brunéi","Bulgaria","Burkina Faso","Burundi","Bután","Cabo Verde","Camboya","Camerún","Canadá","Catar","Chad","Chile","China","Chipre","Ciudad del Vaticano","Colombia","Comoras","Corea del Norte","Corea del Sur","Costa de Marfil","Costa Rica","Croacia","Cuba","Dinamarca","Dominica","Ecuador","Egipto","El Salvador","Emiratos Árabes Unidos","Eritrea","Eslovaquia","Eslovenia","España","Estados Unidos","Estonia","Etiopía","Filipinas","Finlandia","Fiyi","Francia","Gabón","Gambia","Georgia","Ghana","Granada","Grecia","Guatemala","Guyana","Guinea","Guinea ecuatorial","Guinea-Bisáu","Haití","Honduras","Hungría","India","Indonesia","Irak","Irán","Irlanda","Islandia","Islas Marshall","Islas Salomón","Israel","Italia","Jamaica","Japón","Jordania","Kazajistán","Kenia","Kirguistán","Kiribati","Kuwait","Laos","Lesoto","Letonia","Líbano","Liberia","Libia","Liechtenstein","Lituania","Luxemburgo","Madagascar","Malasia","Malaui","Maldivas","Malí","Malta","Marruecos","Mauricio","Mauritania","México","Micronesia","Moldavia","Mónaco","Mongolia","Montenegro","Mozambique","Namibia","Nauru","Nepal","Nicaragua","Níger","Nigeria","Noruega","Nueva Zelanda","Omán","Países Bajos","Pakistán","Palaos","Palestina","Panamá","Papúa Nueva Guinea","Paraguay","Perú","Polonia","Portugal","Reino Unido","República Centroafricana","República Checa","República de Macedonia","República del Congo","República Democrática del Congo","República Dominicana","República Sudafricana","Ruanda","Rumanía","Rusia","Samoa","San Cristóbal y Nieves","San Marino","San Vicente y las Granadinas","Santa Lucía","Santo Tomé y Príncipe","Senegal","Serbia","Seychelles","Sierra Leona","Singapur","Siria","Somalia","Sri Lanka","Suazilandia","Sudán","Sudán del Sur","Suecia","Suiza","Surinam","Tailandia","Tanzania","Tayikistán","Timor Oriental","Togo","Tonga","Trinidad y Tobago","Túnez","Turkmenistán","Turquía","Tuvalu","Ucrania","Uganda","Uruguay","Uzbekistán","Vanuatu","Venezuela","Vietnam","Yemen","Yibuti","Zambia","Zimbabue"];
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
-            let zipCode = '';
-            let selectedShippingMethod = localStorage.getItem('selectedShippingMethod');
-            if (selectedShippingMethod) {
-                selectedShippingMethod = JSON.parse(selectedShippingMethod);
-                if (selectedShippingMethod.zipCode) {
-                    zipCode = selectedShippingMethod.zipCode;
+            const zipCodeValueCheckout = 'zipCodeValueCheckout';
+            let zipCodeValue = true;
+            let selectedShippingMethod = null;
+            let address = true;
+            let shippingAddress = true;
+
+            if(localStorage.getItem('selectedShippingMethod')) {
+                selectedShippingMethod = JSON.parse(localStorage.getItem('selectedShippingMethod'));
+                if(selectedShippingMethod.shippingMethod == 'featured_shipping_6') {
+                    zipCodeValue = false;
+                    address = false;
+                    shippingAddress = false;
+                }
+                if(selectedShippingMethod.shippingMethod == 'featured_shipping_4' || selectedShippingMethod.shippingMethod == 'featured_shipping_5') {
+                    address = false;
                 }
             }
+
             const checkoutFormHTML = `
                 <div class="row px-xl-5">
                     <div class="col-lg-8">
                         <div class="mb-4">
                             <h4 class="font-weight-semi-bold mb-4">${generalData.checkout.datos.title}</h4>
                             <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.firstname.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.firstname.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.lastname.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.lastname.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.email.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.email.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.phone.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.phone.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.country.text}<text class="text-red"> *</text></label>
-                                    <select class="custom-select">
-                                        <option selected>${generalData.checkout.datos.country.selected}</option>
-                                        ${arrayCountries(countries)}
-                                    </select>
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.province.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.province.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.city.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.city.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.address.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.address.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.additional.text}</label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.additional.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.postal_code.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.postal_code.placeholder}">
-                                </div>
-                                <div class="col-md-12 form-group">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="shipto">
-                                        <label class="custom-control-label" for="shipto" data-toggle="collapse"
-                                            data-target="#shipping-address">${generalData.checkout.datos.skipAddress.text}</label>
-                                    </div>
-                                </div>
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.firstname, true)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.lastname, true)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.email, true)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.phone, true)}
+                                ${createSelectGroup('col-md-6', generalData.checkout.datos.country, countries, true)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.province, true)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.city, true)}
+                                ${createFormGroup('col-md-6 addressCheckoutContainer', generalData.checkout.datos.address, true)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.additional, false)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true, '', zipCodeValueCheckout)}
+                                ${shippingAddress ? 
+                                    `<div class="col-md-12 form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="shipto">
+                                            <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#shipping-address">${generalData.checkout.datos.skipAddress.text}</label>
+                                        </div>
+                                    </div>` : ''
+                                }
                             </div>
                         </div>
-                        <div class="collapse mb-4" id="shipping-address">
-                            <h4 class="font-weight-semi-bold mb-4">${generalData.checkout.datos.skipAddress.title}</h4>
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.firstname.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.firstname.placeholder}">
+                        ${shippingAddress ? 
+                            `<div class="collapse mb-4" id="shipping-address">
+                                <h4 class="font-weight-semi-bold mb-4">${generalData.checkout.datos.skipAddress.title}</h4>
+                                <div class="row">
+                                    ${createFormGroup('col-md-6', generalData.checkout.datos.firstname, true)}
+                                    ${createFormGroup('col-md-6', generalData.checkout.datos.lastname, true)}
+                                    ${createSelectGroup('col-md-6', generalData.checkout.datos.country, countries, true)}
+                                    ${createFormGroup('col-md-6', generalData.checkout.datos.province, true)}
+                                    ${createFormGroup('col-md-6', generalData.checkout.datos.city, true)}
+                                    ${address ? createFormGroup('col-md-6 addressCheckoutContainer', generalData.checkout.datos.address, true) : ''}
+                                    ${address ? createFormGroup('col-md-6', generalData.checkout.datos.additional, false) : ''}
+                                    ${zipCodeValue ? createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true, '') : ''}
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.lastname.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.lastname.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.country.text}<text class="text-red"> *</text></label>
-                                    <select class="custom-select">
-                                        <option selected>${generalData.checkout.datos.country.selected}</option>
-                                        ${arrayCountries(countries)}
-                                    </select>
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.province.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.province.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.city.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.city.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.address.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.address.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.additional.text}</label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.additional.placeholder}">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>${generalData.checkout.datos.postal_code.text}<text class="text-red"> *</text></label>
-                                    <input class="form-control" type="text" placeholder="${generalData.checkout.datos.postal_code.placeholder}">
-                                </div>
-                                <div class="col-md-12 form-group">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="shipto">
-                                        <label class="custom-control-label" for="shipto" data-toggle="collapse"
-                                            data-target="#shipping-address">${generalData.checkout.datos.skipAddress.text}</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            </div>` : ''
+                        }
                     </div>
                     <div class="col-lg-4">
                         <div class="card border-secondary mb-5">
@@ -2542,95 +2517,174 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div class="card-body">
                                 <h5 class="font-weight-medium mb-3">${generalData.checkout.bill.table.product}</h5>
-                                <div class="d-flex justify-content-between">
-                                    <p>Colorful Stylish Shirt 1</p>
-                                    <p>$150</p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p>Colorful Stylish Shirt 2</p>
-                                    <p>$150</p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p>Colorful Stylish Shirt 3</p>
-                                    <p>$150</p>
-                                </div>
+                                <div id="productsCartContainer"></div>
                                 <hr class="mt-0">
-                                <div class="d-flex justify-content-between mb-3 pt-1">
-                                    <h6 class="font-weight-medium">Subtotal</h6>
-                                    <h6 class="font-weight-medium">$150</h6>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="font-weight-medium">Shipping</h6>
-                                    <h6 class="font-weight-medium">$10</h6>
-                                </div>
+                                <div class="d-flex justify-content-between mb-3 pt-1" id="subtotalCheckout"></div>
+                                <div class="d-flex justify-content-between" id="shippingCostCheckout"></div>
                             </div>
                             <div class="card-footer border-secondary bg-transparent">
-                                <div class="d-flex justify-content-between mt-2">
-                                    <h5 class="font-weight-bold">Total</h5>
-                                    <h5 class="font-weight-bold">$160</h5>
-                                </div>
+                                <div class="d-flex justify-content-between mt-2" id="totalCheckout"></div>
                             </div>
                         </div>
                         <div class="card border-secondary mb-5">
                             <div class="card-header bg-secondary border-0">
                                 <h4 class="font-weight-semi-bold m-0">${generalData.checkout.payment.title}</h4>
                             </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="payment"
-                                            id="directcheck">
-                                        <label class="custom-control-label" for="directcheck">${generalData.checkout.payment.table.directcheck}</label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="payment"
-                                            id="banktransfer">
-                                        <label class="custom-control-label" for="banktransfer">${generalData.checkout.payment.table.banktransfer}</label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="payment"
-                                            id="mercadopago">
-                                        <label class="custom-control-label" for="mercadopago">${generalData.checkout.payment.table.mercadopago}</label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                                        <label class="custom-control-label" for="paypal">${generalData.checkout.payment.table.paypal}</label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="payment"
-                                            id="debitcard">
-                                        <label class="custom-control-label" for="debitcard">${generalData.checkout.payment.table.debitcard}</label>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="payment"
-                                            id="creditcard">
-                                        <label class="custom-control-label" for="creditcard">${generalData.checkout.payment.table.creditcard}</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer border-secondary bg-transparent">
-                                <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place
-                                    Order</button>
-                            </div>
+                            <div class="card-body" id="paymentContainer"></div>
+                            <div class="card-footer border-secondary bg-transparent" id="checkoutButtonEnd"></div>
                         </div>
                     </div>
                 </div>
             `;
+
             checkoutFormContainer.innerHTML = checkoutFormHTML;
+
+            if(selectedShippingMethod.shippingMethod == 'featured_shipping_4' || selectedShippingMethod.shippingMethod == 'featured_shipping_5' || selectedShippingMethod.shippingMethod == 'featured_shipping_6') {
+                if(selectedShippingMethod.zipCode) {
+                    const zipCodeValueCheckoutKeep = document.querySelectorAll(`.${zipCodeValueCheckout}`);
+                    zipCodeValueCheckoutKeep.forEach(input => {
+                        input.value = selectedShippingMethod.zipCode;
+                        input.disabled = true;
+                    });
+                }
+            }
+
+            const paymentOptions = [
+                { id: 'directcheck', label: generalData.checkout.payment.table.directcheck },
+                { id: 'banktransfer', label: generalData.checkout.payment.table.banktransfer },
+                { id: 'mercadopago', label: generalData.checkout.payment.table.mercadopago },
+                { id: 'paypal', label: generalData.checkout.payment.table.paypal },
+                { id: 'debitcard', label: generalData.checkout.payment.table.debitcard },
+                { id: 'creditcard', label: generalData.checkout.payment.table.creditcard }
+            ];
+
+            const productsCartContainer = document.getElementById('productsCartContainer');
+            if (productsCartContainer) {
+                createProductsCart(productsCartContainer, generalData, zipCodeValueCheckout);
+            }
+        
+            const paymentContainer = document.getElementById('paymentContainer');
+            if (paymentContainer) {
+                createPaymentOptions(paymentContainer, paymentOptions);
+            }
+        
+            const cardFooter = document.getElementById('checkoutButtonEnd');
+            if (cardFooter) {
+                const button = document.createElement('button');
+                button.className = 'btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3';
+                button.textContent = generalData.checkout.payment.btn;
+                cardFooter.appendChild(button);
+            }
         })
         .catch(error => {
             console.error('Error al cargar los archivos JSON:', error);
         });
+    }
+
+    function createFormGroup(colClass, data, required = true, id = '', className = '') {
+        return `
+            <div class="${colClass} form-group">
+                <label>${data.text}${required ? '<text class="text-red"> *</text>' : ''}</label>
+                <input class="form-control${className ? ` ${className}` : ''}" type="text" placeholder="${data.placeholder}"${required ? ` required data-validation-required-message="${data.required_msj}"` : ''}${id ? ` id="${id}"` : ''}>
+            </div>
+        `;
+    }
+
+    function createSelectGroup(colClass, data, countries, required = true) {
+        return `
+            <div class="${colClass} form-group">
+                <label>${data.text}${required ? '<text class="text-red"> *</text>' : ''}</label>
+                <select class="custom-select" ${required ? 'required' : ''}>
+                    <option selected>${data.selected}</option>
+                    ${arrayCountries(countries)}
+                </select>
+            </div>
+        `;
+    }
+
+    function createPaymentOptions(container, paymentOptions) {
+        paymentOptions.forEach(option => {
+            const formGroup = document.createElement('div');
+            formGroup.className = 'form-group';
+
+            const customControl = document.createElement('div');
+            customControl.className = 'custom-control custom-radio';
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.className = 'custom-control-input';
+            input.name = 'payment';
+            input.id = option.id;
+
+            const label = document.createElement('label');
+            label.className = 'custom-control-label';
+            label.htmlFor = option.id;
+            label.textContent = option.label;
+
+            customControl.appendChild(input);
+            customControl.appendChild(label);
+            formGroup.appendChild(customControl);
+            container.appendChild(formGroup);
+        });
+    }
+
+    function createProductsCart(container, generalData, zipCodeValueCheckout) {
+        if(localStorage.getItem('selectedShippingMethod') && localStorage.getItem('productsCart')) {
+            const selectedShippingMethod = JSON.parse(localStorage.getItem('selectedShippingMethod'));
+            
+
+            if(selectedShippingMethod.shippingMethod == 'featured_shipping_4' || selectedShippingMethod.shippingMethod == 'featured_shipping_5') {
+                const addressCheckoutContainer = document.querySelectorAll('.addressCheckoutContainer');
+                addressCheckoutContainer.forEach(container => {
+                    container.style.display = 'none';
+                });
+            }
+
+            const productsCart = JSON.parse(localStorage.getItem('productsCart'));
+            if(productsCart) {
+                let subtotal = 0;
+
+                productsCart.forEach(product => {
+                    let sizeInfo = '';
+                    if (product.size) {
+                        if (!isNaN(product.size)) {
+                            sizeInfo = `Numero: ${product.size}`;
+                        } else {
+                            sizeInfo = `Talle: ${product.size}`;
+                        }
+                    }
+                    const productTotal = product.price * product.amount;
+                    subtotal += productTotal;
+
+                    const productElement = document.createElement('div');
+                    productElement.className = 'd-flex justify-content-between';
+                    productElement.innerHTML = `
+                        <p style="padding-right: 30px;">${product.title}${sizeInfo ? ` - ${sizeInfo}` : ''} x${product.amount}</p>
+                        <p>$&nbsp;${product.price * product.amount}</p>
+                    `;
+                    container.appendChild(productElement);
+                });
+                
+                let shipping_free = Number(selectedShippingMethod.amount);
+                let total = subtotal + shipping_free;
+
+                if(shipping_free === 0) {
+                    shipping_free = generalData.page_cart.shipping.free;
+                }
+                document.getElementById('subtotalCheckout').innerHTML = `
+                    <h6 class="font-weight-medium">${generalData.checkout.bill.table.subtotal}</h6>
+                    <h6 class="font-weight-medium">$&nbsp;${subtotal}</h6>
+                `;
+                document.getElementById('shippingCostCheckout').innerHTML = `
+                    <h6 class="font-weight-medium">${generalData.checkout.bill.table.shipping_cost}</h6>
+                    <h6 class="font-weight-medium">${!isNaN(shipping_free) ? `$&nbsp;${shipping_free}` : shipping_free}</h6>
+                `;
+                document.getElementById('totalCheckout').innerHTML = `
+                    <h5 class="font-weight-bold">${generalData.checkout.bill.table.total}</h5>
+                    <h5 class="font-weight-bold">$&nbsp;${total}</h5>
+                `;
+            }
+        }
     }
 
     function arrayCountries(countries) {
@@ -2640,69 +2694,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         return options;
     }
-
-    /* 
-    <div class="col-md-12 form-group">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="newaccount">
-            <label class="custom-control-label" for="newaccount">Create an account</label>
-        </div>
-    </div>
-
-    
-    <div class="justify-content-between" id="discountSection" style="display: none;">
-        <h6 class="font-weight-medium">${generalData.page_cart.cart.table.discount}</h6>
-        <h6 class="font-weight-medium" id="discount"></h6>
-    </div>
-
-    <form class="mb-5" id="discountForm">
-        <div class="input-group">
-            <input type="text" class="form-control p-4" id="discountCode" placeholder="${generalData.page_cart.cupon.placeholder}">
-            <div class="input-group-append">
-                <button type="button" class="btn btn-primary" id="applyDiscount">${generalData.page_cart.cupon.btn}</button>
-            </div>
-        </div>
-    </form>
-            // Añadir event listener para el botón de aplicar descuento
-            document.getElementById('applyDiscount').addEventListener('click', () => {
-                const discountCode = document.getElementById('discountCode').value;
-                let discount = 0;
-                let discountText = "";
-                let total = null;
-                // Aquí puedes agregar la lógica para verificar el código de descuento
-                // Por ejemplo, si el código es "DESC10", aplicar un 10% de descuento
-                if (discountCode === 'DESC10') {
-                    discount = subtotal * 0.10;
-                    discountText = "10%";
-                    total = subtotal + shippingCost - discount;
-                    // Actualizar los valores en el HTML
-                    document.getElementById('discount').textContent = `${discountText}`;
-                    document.getElementById('total').textContent = `$${total.toFixed(2)}`;
-                } else if (discountCode === 'DESC20') {
-                    discount = subtotal * 0.20;
-                    discountText = "20%";
-                    total = subtotal + shippingCost - discount;
-                    // Actualizar los valores en el HTML
-                    document.getElementById('discount').textContent = `${discountText}`;
-                    document.getElementById('total').textContent = `$&nbsp;${total.toFixed(2)}`;
-                }
-        
-                // Mostrar la sección de descuento si hay un descuento aplicado
-                const discountSection = document.getElementById('discountSection');
-                if (discount > 0) {
-                    discountSection.style = '';
-                    discountSection.classList.add('d-flex');
-                } else {
-                    discountSection.style.display = 'none';
-                }
-        
-                // Guardar el descuento en el localStorage
-                document.getElementById('checkoutButton').addEventListener('click', () => {
-                    if (total && discountText) {
-                        localStorage.setItem('discount', JSON.stringify({ discountCode, total, discountText }));
-                    }
-                });
-            }); */
 
     // Funciones de Paginas especificas
 
