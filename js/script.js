@@ -2483,7 +2483,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 ${createFormGroup('col-md-6', generalData.checkout.datos.city, true)}
                                 ${createFormGroup('col-md-6 addressCheckoutContainer', generalData.checkout.datos.address, true)}
                                 ${createFormGroup('col-md-6', generalData.checkout.datos.additional, false)}
-                                ${createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true, '', zipCodeValueCheckout)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true)}
                                 ${shippingAddress ? 
                                     `<div class="col-md-12 form-group">
                                         <div class="custom-control custom-checkbox">
@@ -2505,7 +2505,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     ${createFormGroup('col-md-6', generalData.checkout.datos.city, true)}
                                     ${address ? createFormGroup('col-md-6 addressCheckoutContainer', generalData.checkout.datos.address, true) : ''}
                                     ${address ? createFormGroup('col-md-6', generalData.checkout.datos.additional, false) : ''}
-                                    ${zipCodeValue ? createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true, '') : ''}
+                                    ${zipCodeValue ? createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true) : ''}
                                 </div>
                             </div>` : ''
                         }
@@ -2560,7 +2560,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const productsCartContainer = document.getElementById('productsCartContainer');
             if (productsCartContainer) {
-                createProductsCart(productsCartContainer, generalData, zipCodeValueCheckout);
+                createProductsCart(productsCartContainer, generalData);
             }
         
             const paymentContainer = document.getElementById('paymentContainer');
@@ -2581,11 +2581,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function createFormGroup(colClass, data, required = true, id = '', className = '') {
+    function createFormGroup(colClass, data, required = true, id = '') {
         return `
             <div class="${colClass} form-group">
                 <label>${data.text}${required ? '<text class="text-red"> *</text>' : ''}</label>
-                <input class="form-control${className ? ` ${className}` : ''}" type="text" placeholder="${data.placeholder}"${required ? ` required data-validation-required-message="${data.required_msj}"` : ''}${id ? ` id="${id}"` : ''}>
+                <input class="form-control" type="text" placeholder="${data.placeholder}"${required ? ` required data-validation-required-message="${data.required_msj}"` : ''}${id ? ` id="${id}"` : ''}>
+                <small class="help-block text-danger" id="${data.id}-error"></small>
             </div>
         `;
     }
@@ -2628,10 +2629,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function createProductsCart(container, generalData, zipCodeValueCheckout) {
+    function createProductsCart(container, generalData) {
         if(localStorage.getItem('selectedShippingMethod') && localStorage.getItem('productsCart')) {
             const selectedShippingMethod = JSON.parse(localStorage.getItem('selectedShippingMethod'));
-            
 
             if(selectedShippingMethod.shippingMethod == 'featured_shipping_4' || selectedShippingMethod.shippingMethod == 'featured_shipping_5') {
                 const addressCheckoutContainer = document.querySelectorAll('.addressCheckoutContainer');
