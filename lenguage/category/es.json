@@ -1,0 +1,171 @@
+{
+    "category": [
+        {
+            "id": 1,
+            "title": "Zapatillas",
+            "subcategory": [
+                {
+                    "id": 1,
+                    "title": "Hombre",
+                    "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
+                    "img": [
+                        {
+                            "src": "img/additional_info/shoes_alls.webp",
+                            "alt": "Talles de Zapatillas"
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "title": "Mujer",
+                    "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
+                    "img": [
+                        {
+                            "src": "img/additional_info/shoes_alls.webp",
+                            "alt": "Talles de Zapatillas"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Indumentaria",
+            "subcategory": [
+                {
+                    "id": 3,
+                    "title": "Camperas y Buzos",
+                    "text": "<p>CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.</p>\n",
+                    "img": [
+                        {
+                            "src": "img/additional_info/jacket.webp",
+                            "alt": "Talle de Camperas y Buzos"
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "title": "Camisetas de Juegos",
+                    "text": "<p>CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.</p>\n",
+                    "img": [
+                        {
+                            "src": "img/additional_info/game_shirts.webp",
+                            "alt": "Talles de Remeras"
+                        }
+                    ]
+                },
+                {
+                    "id": 5,
+                    "title": "Remeras y Musculosas",
+                    "text": "<p>CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.</p>\n",
+                    "img": [
+                        {
+                            "src": "img/additional_info/game_shirts.webp",
+                            "alt": "Talles de Remeras y Musculosas"
+                        }
+                    ]
+                },
+                {
+                    "id": 6,
+                    "title": "Calzas",
+                    "text": "Talle de Calzas",
+                    "img": [
+                        {
+                            "src": "img/additional_info/leggings.webp",
+                            "alt": "Talle de Calzas"
+                        }
+                    ]
+                },
+                {
+                    "id": 7,
+                    "title": "Shorts",
+                    "text": "Talle de Shorts",
+                    "img": [
+                        {
+                            "src": "img/additional_info/short.webp",
+                            "alt": "Talle de Shorts"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Accesorios",
+            "subcategory": [
+                {
+                    "id": 8,
+                    "title": "Bolsos y Mochilas",
+                    "text": null,
+                    "img": [
+                        {
+                            "src": null,
+                            "alt": null
+                        }
+                    ]
+                },
+                {
+                    "id": 9,
+                    "title": "Manguitas y Gemeleras",
+                    "text": "<p>Recomendaciones:  Aptas Lavarropas. No planchar. Para elegir el talle, chequeá la tabla de medidas publicada.</p>\n<p>El precio publicado es por Par.</p>\n",
+                    "img": [
+                        {
+                            "src": "img/additional_info/sleeves.webp",
+                            "alt": "Talle de Manguitas y Gemeleras"
+                        }
+                    ]
+                },
+                {
+                    "id": 10,
+                    "title": "Medias",
+                    "text": "Talle de Medias",
+                    "img": [
+                        {
+                            "src": "img/additional_info/sock.webp",
+                            "alt": "Talle de Medias"
+                        }
+                    ]
+                },
+                {
+                    "id": 11,
+                    "title": "Rodilleras",
+                    "text": "Talle de Rodilleras",
+                    "img": [
+                        {
+                            "src": "img/additional_info/knee_pad_size.webp",
+                            "alt": "Talle de Rodilleras"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "title": "Equipamiento",
+            "subcategory": [
+                {
+                    "id": 12,
+                    "title": "Pelotas",
+                    "text": "Como cuidar la pelota",
+                    "img": [
+                        {
+                            "src": "img/additional_info/balls.webp",
+                            "alt": "Como cuidar la pelota"
+                        }
+                    ]
+                },
+                {
+                    "id": 13,
+                    "title": "Redes y Varillas",
+                    "text": null,
+                    "img": [
+                        {
+                            "src": null,
+                            "alt": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

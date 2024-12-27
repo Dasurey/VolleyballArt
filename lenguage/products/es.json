@@ -1,195 +1,8 @@
 {
-    "category": [
-        {
-            "id": 1,
-            "title": "Zapatillas",
-            "href": "shop.html?category=Zapatillas",
-            "subcategory": [
-                {
-                    "id": 1,
-                    "title": "Hombre",
-                    "href": "shop.html?category=Zapatillas&subcategory=Hombre",
-                    "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
-                    "img": [
-                        {
-                            "src": "img/additional_info/shoes_alls.webp",
-                            "alt": "Talles de Zapatillas"
-                        }
-                    ]
-                },
-                {
-                    "id": 2,
-                    "title": "Mujer",
-                    "href": "shop.html?category=shoes&subcategory=women",
-                    "text": "<p>IMPORTANTE: en base a nuestra experiencia, el mejor dato  para elegir el numero de tu zapa, es el que en la etiqueta figura como CM o JP. Compara ese dato con el que figura en nuestra pagina y así el margen de error es mínimo! y cualquier duda que tengas, te podes comunicar con nosotros.</p>\n<p>Cuidado del calzado!!!: Barro y suciedad pueden ser removidos suavemente con un cepillo de dientes, agua tibia y jabón antigrasa. NO LAVAR EN LAVARROPAS. NO METER EN SECARROPAS. NO SOMETER A CALOR DIRECTO.</p>\n",
-                    "img": [
-                        {
-                            "src": "img/additional_info/shoes_alls.webp",
-                            "alt": "Talles de Zapatillas"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "title": "Indumentaria",
-            "href": null,
-            "subcategory": [
-                {
-                    "id": 3,
-                    "title": "Camperas y Buzos",
-                    "href": null,
-                    "text": "<p>CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.</p>\n",
-                    "img": [
-                        {
-                            "src": "img/additional_info/jacket.webp",
-                            "alt": "Talle de Camperas y Buzos"
-                        }
-                    ]
-                },
-                {
-                    "id": 4,
-                    "title": "Camisetas de Juegos",
-                    "href": null,
-                    "text": "<p>CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.</p>\n",
-                    "img": [
-                        {
-                            "src": "img/additional_info/game_shirts.webp",
-                            "alt": "Talles de Remeras"
-                        }
-                    ]
-                },
-                {
-                    "id": 5,
-                    "title": "Remeras y Musculosas",
-                    "href": null,
-                    "text": "<p>CONSEJO: Ver tabla de talles y medidas en la foto adjunta. La medida de los talles puede variar en aprox. +/- 1cm. Ante duda pedir un talle más.</p>\n",
-                    "img": [
-                        {
-                            "src": "img/additional_info/game_shirts.webp",
-                            "alt": "Talles de Remeras y Musculosas"
-                        }
-                    ]
-                },
-                {
-                    "id": 6,
-                    "title": "Calzas",
-                    "href": null,
-                    "text": null,
-                    "img": [
-                        {
-                            "src": "img/additional_info/leggings.webp",
-                            "alt": "Talle de Calzas"
-                        }
-                    ]
-                },
-                {
-                    "id": 7,
-                    "title": "Shorts",
-                    "href": null,
-                    "text": null,
-                    "img": [
-                        {
-                            "src": "img/additional_info/short.webp",
-                            "alt": "Talle de Shorts"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "title": "Accesorios",
-            "href": null,
-            "subcategory": [
-                {
-                    "id": 8,
-                    "title": "Bolsos y Mochilas",
-                    "href": null,
-                    "text": null,
-                    "img": [
-                        {
-                            "src": null,
-                            "alt": null
-                        }
-                    ]
-                },
-                {
-                    "id": 9,
-                    "title": "Manguitas y Gemeleras",
-                    "href": null,
-                    "text": "<p>Recomendaciones:  Aptas Lavarropas. No planchar. Para elegir el talle, chequeá la tabla de medidas publicada.</p>\n<p>El precio publicado es por Par.</p>\n",
-                    "img": [
-                        {
-                            "src": "img/additional_info/sleeves.webp",
-                            "alt": "Talle de Manguitas y Gemeleras"
-                        }
-                    ]
-                },
-                {
-                    "id": 10,
-                    "title": "Medias",
-                    "href": null,
-                    "text": null,
-                    "img": [
-                        {
-                            "src": "img/additional_info/sock.webp",
-                            "alt": null
-                        }
-                    ]
-                },
-                {
-                    "id": 11,
-                    "title": "Rodilleras",
-                    "href": null,
-                    "text": null,
-                    "img": [
-                        {
-                            "src": null,
-                            "alt": null
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "title": "Equipamiento",
-            "href": null,
-            "subcategory": [
-                {
-                    "id": 12,
-                    "title": "Pelotas",
-                    "href": null,
-                    "text": null,
-                    "img": [
-                        {
-                            "src": "img/additional_info/balls.webp",
-                            "alt": "Como cuidar la pelota"
-                        }
-                    ]
-                },
-                {
-                    "id": 13,
-                    "title": "Redes y Varillas",
-                    "href": null,
-                    "text": null,
-                    "img": [
-                        {
-                            "src": null,
-                            "alt": null
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
     "products": [
         {
             "id": 1,
             "title": "Zapatilla Asics Metarise Tokyo Men",
-            "href": "product.html?title=Zapatilla-Asics-Metarise-Tokyo-Men",
             "img": [
                 {
                     "src": "img/products/asics-metarise-tokyo-men-shoes.png",
@@ -203,7 +16,7 @@
             ],
             "price": 225000,
             "previous_price": 247500,
-            "description": null,
+            "description": "Zapatilla Asics Metarise Tokyo Men las de Nishida, la estrella del voley Japones. La zapatilla de voley As",
             "category": 1,
             "subcategory": 1,
             "outstanding": true
@@ -211,7 +24,6 @@
         {
             "id": 2,
             "title": "Zapatilla Mizuno Women Wave Momentum 3",
-            "href": "product.html?title=Zapatilla-Mizuno-Women-Wave-Momentum-3",
             "img": [
                 {
                     "src": "img/products/Mizuno-Women-Adult-Wave-Momentum-3-Volleyball-Shoe.webp",
@@ -225,7 +37,7 @@
             ],
             "price": 180000,
             "previous_price": 200000,
-            "description": null,
+            "description": "Zapatilla Mizuno Women Wave Momentum 3 muy versatil y de alta calidad. Con un diseño de alta calidad y un diseño de alta calidad, la zapatilla Mizuno Women Wave Momentum 3 es una opción perfecta para los jugadores de voley que buscan una zapatilla de alta calidad y una zapatilla de alta calidad.",
             "category": 1,
             "subcategory": 2,
             "outstanding": false
@@ -233,7 +45,6 @@
         {
             "id": 3,
             "title": "Camiseta ISHIKAWA SIR PERUGiA temporada 2024-25",
-            "href": "product.html?title=Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25",
             "img": [
                 {
                     "src": "img/products/Camiseta-ISHIKAWA-SIR-PERUGiA-temporada-2024-25.webp",
@@ -251,7 +62,6 @@
         {
             "id": 4,
             "title": "Camiseta Lecoq Oficial Seleccion Argentina de Voley (Negra Con mangas)",
-            "href": "product.html?title=Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas",
             "img": [
                 {
                     "src": "img/products/Camiseta-Lecoq-Oficial-Seleccion-Argentina-de-Voley-Negra-Con-mangas.webp",
@@ -269,7 +79,6 @@
         {
             "id": 5,
             "title": "Calza corta LECOQ SPORTIF",
-            "href": "product.html?title=Calza-corta-LECOQ-SPORTIF",
             "img": [
                 {
                     "src": "img/products/calza-lecoq-1.webp",
@@ -287,7 +96,6 @@
         {
             "id": 6,
             "title": "Camiseta LOSER SIR PERUGiA temporada 2024-25",
-            "href": "product.html?title=Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25",
             "img": [
                 {
                     "src": "img/products/Camiseta-LOSER-SIR-PERUGiA-temporada-2024-25.webp",
@@ -305,7 +113,6 @@
         {
             "id": 7,
             "title": "Mangas Thorium Lisa",
-            "href": "product.html?title=Mangas-Thorium-Lisa",
             "img": [
                 {
                     "src": "img/products/Mangas-Thorium-Lisa.webp",
@@ -323,7 +130,6 @@
         {
             "id": 8,
             "title": "Zapatillas Asics Gel Backhand",
-            "href": "product.html?title=Zapatillas-Asics-Gel-Backhand",
             "img": [
                 {
                     "src": "img/products/Zapatillas-Asics-Gel-Backhand-Black-PureSIlver.webp",
@@ -341,7 +147,6 @@
         {
             "id": 9,
             "title": "Pelota Mikasa V200W Competición",
-            "href": "product.html?title=Pelota-Mikasa-V200W-Competición",
             "img": [
                 {
                     "src": "img/products/Pelota-Mikasa-V200W-Competicion.jpg",
@@ -351,9 +156,60 @@
             ],
             "price": 109999,
             "previous_price": null,
-            "description": null,
+            "description": "Pelota Mikasa V200W Competición",
             "category": 4,
             "subcategory": 12,
+            "outstanding": true
+        },
+        {
+            "id": 10,
+            "title": "Buzo Canguro Sonder Melange Linea Argentina 2024",
+            "img": [
+                {
+                    "src": "img/products/Sonder_buzoarg2024_1.webp",
+                    "alt": "Buzo Canguro Sonder Melange Linea Argentina 2024",
+                    "carousel": false
+                }
+            ],
+            "price": 51999,
+            "previous_price": null,
+            "description": "BUZO C/CAP. RÚSTICO LIVIANO ELASTIZAD GRIS MELANGE OSCURO C/ BOLSILLOS Y ESTAMPAS",
+            "category": 2,
+            "subcategory": 3,
+            "outstanding": true
+        },
+        {
+            "id": 11,
+            "title": "Campera Sonder impermeable Modelo Tecno",
+            "img": [
+                {
+                    "src": "img/products/campera-1.webp",
+                    "alt": "Campera Sonder impermeable Modelo Tecno",
+                    "carousel": false
+                }
+            ],
+            "price": 64999,
+            "previous_price": null,
+            "description": "Campera bomber de tela impermeable estampada tecno Argentina, con capucha y bolsillos.",
+            "category": 2,
+            "subcategory": 3,
+            "outstanding": true
+        },
+        {
+            "id": 12,
+            "title": "TheCecco – Buzo Canguro Logo TheCecco",
+            "img": [
+                {
+                    "src": "img/products/buzo-Gris-2.webp",
+                    "alt": "TheCecco – Buzo Canguro Logo TheCecco",
+                    "carousel": false
+                }
+            ],
+            "price": 31000,
+            "previous_price": null,
+            "description": "El buzo hoodie The Cecco Gris combina la comodidad de un buzo de algodón con la pasión por el capitán de la Selección Argentina de Voley.",
+            "category": 2,
+            "subcategory": 3,
             "outstanding": true
         }
     ]

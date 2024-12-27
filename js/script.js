@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedProducts.forEach(product => {
             const productHTML = `
                 <div class="col-lg-3 col-md-5 col-sm-12 pb-1">
-                    <a href="${product.href}" class="card product-item border-0 mb-4">
+                    <a href="${'product.html?title=' + product.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}" class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                             <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
                         </div>
@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Actualizar el texto de size-name según la categoría
                     const sizeNameElement = document.querySelector('[data-details="size-name"]');
-                    if (category === 'shoes') {
+                    if (category === 1) {
                         sizeNameElement.textContent = 'Numero de calzado:';
                     } else {
                         sizeNameElement.textContent = 'Talle:';
@@ -540,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const product = paginatedProducts[key];
                     const productHTML = `
                         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                            <a href="${product.href}" class="card product-item border-0 mb-4">
+                            <a href="${'product.html?title=' + product.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}" class="card product-item border-0 mb-4">
                                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                                     <img class="img-fluid w-100" src="${product.img[0].src}" alt="${product.img[0].alt}">
                                 </div>
@@ -862,7 +862,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let subcategoryId = null;
     
         if (categoryName) {
-            const category = dataProducts.category.find(cat => cat.title === categoryName);
+            const category = dataProducts.category.find(cat => cat.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === categoryName);
             if (category) {
                 categoryId = category.id;
             }
@@ -871,7 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (subcategoryName && categoryId) {
             const category = dataProducts.category.find(cat => cat.title === categoryName);
             if (category) {
-                const subcategory = category.subcategory.find(subcat => subcat.title === subcategoryName);
+                const subcategory = category.subcategory.find(subcat => subcat.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === subcategoryName);
                 if (subcategory) {
                     subcategoryId = subcategory.id;
                 }
@@ -1075,14 +1075,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const subItems = item.subcategory
             .filter(subItem => subItem.title) // Filtrar subItems sin title
             .map(subItem => `
-                <li><a ${subItem.href ? `href="${subItem.href}"` : ''} class="dropdown-item">${subItem.title}</a></li>
+                <li><a href="${'shop.html?category=' + item.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') + '&subcategory=' + subItem.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}" class="dropdown-item">${subItem.title}</a></li>
             `).join('');
     
         if (!item.title) return ''; // Verificar si el item principal tiene title
     
         return `
             <li class="nav-item dropdown">
-                <a ${item.href ? `href="${item.href}"` : ''} class="nav-link">
+                <a href="${'shop.html?category=' + item.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}" class="nav-link">
                     ${item.title}<i class="fa-solid fa-angle-down float-right mt-1"></i>
                 </a>
                 <ul class="dropdown-menu bg-secondary border-0 rounded-0 w-100 m-0">
@@ -1312,7 +1312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const featuredHTML = featuredItems.map(item => `
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <a ${item.href ? `href="${item.href}"` : ''} class="d-flex align-items-center border mb-4" style="padding: 30px">
+                    <a${item.href ? ` href="${item.href}"` : ''} class="d-flex align-items-center border mb-4" style="padding: 30px">
                         <h1 class="${item.icon} text-secondary m-0 mr-3${item.class ? item.class : ''}"></h1>
                         <h5 class="font-weight-semi-bold m-0">${item.title}</h5>
                     </a>
@@ -1588,8 +1588,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                     cartTableHTML += `
                         <tr>
-                            <td class="align-middle"><a class="text-body" href=${item.href}><img src="${item.img[0].src}" alt="${item.img[0].alt}" style="width: 50px;">${item.title}${sizeInfo ? ` - ${sizeInfo}` : ''}</a></td>
-                            <td class="align-middle">$${item.price}</td>
+                            <td class="align-middle"><a class="text-body" href=${'product.html?title=' + item.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}><img src="${item.img[0].src}" alt="${item.img[0].alt}" style="width: 50px;">${item.title}${sizeInfo ? ` - ${sizeInfo}` : ''}</a></td>
+                            <td class="align-middle">$&nbsp;${item.price}</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
@@ -2700,6 +2700,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('Formulario enviado'); // Mostrar mensaje de confirmación
                 });
             }
+
+            // Verificar las opciones de pago al cargar la página
+            checkPaymentOptions();
         })
         .catch(error => {
             console.error('Error al cargar los archivos JSON:', error);
@@ -2729,6 +2732,24 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
+    function checkPaymentOptions() {
+        const submitButton = document.getElementById('submitButton'); // Asegúrate de que el botón de envío tenga este ID
+        const paymentInputs = document.querySelectorAll('input[name="payment"]');
+        let anyPaymentSelected = false;
+
+        paymentInputs.forEach(input => {
+            if (input.checked) {
+                anyPaymentSelected = true;
+            }
+        });
+
+        if (anyPaymentSelected) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    }
+
     function createPaymentOptions(container, paymentOptions) {
         paymentOptions.forEach(option => {
             const formGroup = document.createElement('div');
@@ -2752,6 +2773,9 @@ document.addEventListener('DOMContentLoaded', () => {
             customControl.appendChild(label);
             formGroup.appendChild(customControl);
             container.appendChild(formGroup);
+
+            // Agregar evento change para verificar si hay algún método de pago seleccionado
+            input.addEventListener('change', checkPaymentOptions);
         });
     }
 
