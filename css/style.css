@@ -1210,3 +1210,7 @@ h5.text-primary.mb-0.d-inline-block {
 .js-modal-open.btn-link.btn-link-primary:hover, .js-modal-open.btn-link.btn-link-primary:hover:focus {
     color: var(--secondary-universal-color);
 }
+
+.no-scroll {
+    overflow: hidden;
+}

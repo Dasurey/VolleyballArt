@@ -213,51 +213,70 @@
             "firstname": {
                 "text": "Nombre",
                 "placeholder": "Emiliano",
-                "required_msj": "Por favor, ingresa tu nombre."
+                "required_msj": "Por favor, ingresa tu nombre.",
+                "type": "text",
+                "name": "firstname"
             },
             "lastname": {
                 "text": "Apellido",
                 "placeholder": "Perez",
-                "required_msj": "Por favor, ingresa tu apellido."
+                "required_msj": "Por favor, ingresa tu apellido.",
+                "type": "text",
+                "name": "lastname"
             },
             "email": {
                 "text": "Correo Electrónico",
                 "placeholder": "ejemplo@email.com",
-                "required_msj": "Por favor, ingresa tu correo electrónico."
+                "required_msj": "Por favor, ingresa tu correo electrónico.",
+                "type": "email",
+                "name": "email"
             },
             "country": {
                 "text": "País",
                 "selected": "Seleccione el País",
-                "required_msj": "Por favor, ingresa el país."
+                "required_msj": "Por favor, ingresa el país.",
+                "type": "text",
+                "name": "country"
             },
             "province": {
                 "text": "Provincia/Estado",
                 "placeholder": "Buenos Aires",
-                "required_msj": "Por favor, ingresa tu provincia/Estado."
+                "required_msj": "Por favor, ingresa tu provincia/Estado.",
+                "type": "text",
+                "name": "province_state"
             },
             "city": {
                 "text": "Ciudad",
                 "placeholder": "Ramos Mejía",
-                "required_msj": "Por favor, ingresa tu ciudad."
+                "required_msj": "Por favor, ingresa tu ciudad.",
+                "type": "text",
+                "name": "city"
             },            
             "address": {
                 "text": "Dirección",
                 "placeholder": "Calle de la República, 123",
-                "required_msj": "Por favor, ingresa tu dirección."
+                "required_msj": "Por favor, ingresa tu dirección.",
+                "type": "text",
+                "name": "address"
             },
             "additional": {
                 "text": "Adicional",
-                "placeholder": "Nro. de Apartamento, Piso, etc."
+                "placeholder": "Nro. de Apartamento, Piso, etc.",
+                "type": "text"
             },
             "postal_code": {
                 "text": "Código Postal",
                 "placeholder": "1234",
-                "required_msj": "Por favor, ingresa tu código postal."
+                "required_msj": "Por favor, ingresa tu código postal.",
+                "type": "text",
+                "name": "postal_code"
             },
             "phone": {
                 "text": "Celular",
                 "placeholder": "+54 11 1234-5678",
-                "required_msj": "Por favor, ingresa tu celular."
+                "required_msj": "Por favor, ingresa tu celular.",
+                "type": "tel",
+                "name": "phone"
             },
             "payment": {
                 "text": "Forma de Pago",

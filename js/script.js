@@ -1465,12 +1465,12 @@ document.addEventListener('DOMContentLoaded', () => {
             inputs.forEach(input => {
                 input.addEventListener('invalid', function(event) {
                     event.preventDefault(); // Prevenir el mensaje de validación predeterminado
-                    const errorElement = document.getElementById(`${input.id}-error`);
+                    const errorElement = document.getElementById(`${input.name}${input.getAttribute('data-id2') ? input.getAttribute('data-id2') : ''}-error`);
                     errorElement.textContent = input.getAttribute('data-validation-required-message');
                 });
     
                 input.addEventListener('input', function() {
-                    const errorElement = document.getElementById(`${input.id}-error`);
+                    const errorElement = document.getElementById(`${input.name}${input.getAttribute('data-id2') ? input.getAttribute('data-id2') : ''}-error`);
                     errorElement.textContent = '';
                 });
             });
@@ -1478,7 +1478,7 @@ document.addEventListener('DOMContentLoaded', () => {
             contactForm.addEventListener('submit', function(event) {
                 let formIsValid = true;
                 inputs.forEach(input => {
-                    const errorElement = document.getElementById(`${input.id}-error`);
+                    const errorElement = document.getElementById(`${input.name}${input.getAttribute('data-id2') ? input.getAttribute('data-id2') : ''}-error`);
                     if (!input.checkValidity()) {
                         input.setCustomValidity(input.getAttribute('data-validation-required-message'));
                         errorElement.textContent = input.getAttribute('data-validation-required-message');
@@ -1822,6 +1822,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const js_danger_postal = document.getElementById('js_danger_postal');
                 const js_danger_zipcode = document.getElementById('js_danger_zipcode');
                 const js_danger_external = document.getElementById('js_danger_external');
+                const body = document.body;
 
                 let savedShippingMethod = localStorage.getItem('selectedShippingMethod');
                 if (savedShippingMethod) {
@@ -1857,17 +1858,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else if (event.target && event.target.classList.contains('js-shipping-method')) {
                         handleShippingMethodSelection(event.target, subtotal, generalData);
                     } else if (event.target && event.target.classList.contains('js-modal-open')) {
-                        console.log('hola12');
                         const targetId = event.target.getAttribute('data-toggle');
                         const modalOverlay = document.querySelector(`${targetId}.js-modal-overlay`);
                         const modal = document.querySelector(`${targetId}.js-modal`);
             
                         if (modalOverlay) {
                             modalOverlay.style.display = 'block';
+                            body.classList.add('no-scroll');
                         }
                         if (modal) {
                             modal.classList.add('modal-show');
                             modal.style.display = 'block';
+                            body.classList.add('no-scroll');
                         }
                     } else if (event.target && event.target.classList.contains('js_modal_close')) {
                         const targetId = event.target.getAttribute('data-toggle');
@@ -1876,10 +1878,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
                         if (modalOverlay) {
                             modalOverlay.style.display = 'none';
+                            body.classList.remove('no-scroll');
                         }
                         if (modal) {
                             modal.classList.remove('modal-show');
                             modal.style.display = 'none';
+                            body.classList.remove('no-scroll');
                         }
                     }
                     checkShippingMethodSelection();
@@ -2451,19 +2455,17 @@ document.addEventListener('DOMContentLoaded', () => {
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
             const zipCodeValueCheckout = 'zipCodeValueCheckout';
-            let zipCodeValue = true;
+            const checkoutFormAll = 'checkoutFormAll';
             let selectedShippingMethod = null;
             let address = true;
             let shippingAddress = true;
 
             if(localStorage.getItem('selectedShippingMethod')) {
                 selectedShippingMethod = JSON.parse(localStorage.getItem('selectedShippingMethod'));
-                if(selectedShippingMethod.shippingMethod == 'featured_shipping_6') {
-                    zipCodeValue = false;
-                    address = false;
+                if(selectedShippingMethod.shippingMethod === 'featured_shipping_6') {
                     shippingAddress = false;
                 }
-                if(selectedShippingMethod.shippingMethod == 'featured_shipping_4' || selectedShippingMethod.shippingMethod == 'featured_shipping_5') {
+                if(selectedShippingMethod.shippingMethod === 'featured_shipping_4' || selectedShippingMethod.shippingMethod === 'featured_shipping_5') {
                     address = false;
                 }
             }
@@ -2471,9 +2473,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const checkoutFormHTML = `
                 <div class="row px-xl-5">
                     <div class="col-lg-8">
-                        <div class="mb-4">
+                        <div class="mb-4 ${checkoutFormAll} active" id="billing_address">
                             <h4 class="font-weight-semi-bold mb-4">${generalData.checkout.datos.title}</h4>
-                            <div class="row">
+                            <form class="row">
                                 ${createFormGroup('col-md-6', generalData.checkout.datos.firstname, true)}
                                 ${createFormGroup('col-md-6', generalData.checkout.datos.lastname, true)}
                                 ${createFormGroup('col-md-6', generalData.checkout.datos.email, true)}
@@ -2481,32 +2483,32 @@ document.addEventListener('DOMContentLoaded', () => {
                                 ${createSelectGroup('col-md-6', generalData.checkout.datos.country, countries, true)}
                                 ${createFormGroup('col-md-6', generalData.checkout.datos.province, true)}
                                 ${createFormGroup('col-md-6', generalData.checkout.datos.city, true)}
-                                ${createFormGroup('col-md-6 addressCheckoutContainer', generalData.checkout.datos.address, true)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.address, true)}
                                 ${createFormGroup('col-md-6', generalData.checkout.datos.additional, false)}
-                                ${createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true)}
+                                ${createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true, '', zipCodeValueCheckout)}
                                 ${shippingAddress ? 
                                     `<div class="col-md-12 form-group">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="shipto">
-                                            <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#shipping-address">${generalData.checkout.datos.skipAddress.text}</label>
+                                            <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#shipping_address">${generalData.checkout.datos.skipAddress.text}</label>
                                         </div>
                                     </div>` : ''
                                 }
-                            </div>
+                            </form>
                         </div>
                         ${shippingAddress ? 
-                            `<div class="collapse mb-4" id="shipping-address">
+                            `<div class="collapse mb-4 ${checkoutFormAll}" id="shipping_address">
                                 <h4 class="font-weight-semi-bold mb-4">${generalData.checkout.datos.skipAddress.title}</h4>
-                                <div class="row">
-                                    ${createFormGroup('col-md-6', generalData.checkout.datos.firstname, true)}
-                                    ${createFormGroup('col-md-6', generalData.checkout.datos.lastname, true)}
-                                    ${createSelectGroup('col-md-6', generalData.checkout.datos.country, countries, true)}
-                                    ${createFormGroup('col-md-6', generalData.checkout.datos.province, true)}
-                                    ${createFormGroup('col-md-6', generalData.checkout.datos.city, true)}
-                                    ${address ? createFormGroup('col-md-6 addressCheckoutContainer', generalData.checkout.datos.address, true) : ''}
+                                <form class="row">
+                                    ${createFormGroup('col-md-6', generalData.checkout.datos.firstname, true, '', '', '2')}
+                                    ${createFormGroup('col-md-6', generalData.checkout.datos.lastname, true, '', '', '2')}
+                                    ${createSelectGroup('col-md-6', generalData.checkout.datos.country, countries, true, '', '', '2')}
+                                    ${createFormGroup('col-md-6', generalData.checkout.datos.province, true, '', '', '2')}
+                                    ${createFormGroup('col-md-6', generalData.checkout.datos.city, true, '', '', '2')}
+                                    ${address ? createFormGroup('col-md-6', generalData.checkout.datos.address, true, '', '', '2') : ''}
                                     ${address ? createFormGroup('col-md-6', generalData.checkout.datos.additional, false) : ''}
-                                    ${zipCodeValue ? createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true) : ''}
-                                </div>
+                                    ${createFormGroup('col-md-6', generalData.checkout.datos.postal_code, true, '', '', '2')}
+                                </form>
                             </div>` : ''
                         }
                     </div>
@@ -2539,7 +2541,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             checkoutFormContainer.innerHTML = checkoutFormHTML;
 
-            if(selectedShippingMethod.shippingMethod == 'featured_shipping_4' || selectedShippingMethod.shippingMethod == 'featured_shipping_5' || selectedShippingMethod.shippingMethod == 'featured_shipping_6') {
+            if(selectedShippingMethod.shippingMethod != 'featured_shipping_6') {
                 if(selectedShippingMethod.zipCode) {
                     const zipCodeValueCheckoutKeep = document.querySelectorAll(`.${zipCodeValueCheckout}`);
                     zipCodeValueCheckoutKeep.forEach(input => {
@@ -2573,7 +2575,130 @@ document.addEventListener('DOMContentLoaded', () => {
                 const button = document.createElement('button');
                 button.className = 'btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3';
                 button.textContent = generalData.checkout.payment.btn;
+                button.type = 'submit';
+                button.id = 'submitButton';
                 cardFooter.appendChild(button);
+            }
+
+            const checkbox = document.getElementById('shipto'); // Asegúrate de que el checkbox tenga este ID
+            const targetElement = document.getElementById('shipping_address'); // Elemento al que se le agregará o quitará la clase
+
+            function checkCheckbox() {
+                if (checkbox && targetElement) {
+                    if (checkbox.checked) {
+                        targetElement.classList.add('active'); // Agrega la clase 'active' cuando el checkbox está marcado
+                    } else {
+                        targetElement.classList.remove('active'); // Quita la clase 'active' cuando el checkbox no está marcado
+                    }
+                }
+            }
+        
+            // Llamar a la función checkCheckbox periódicamente
+            setInterval(checkCheckbox, 1); // Verificar cada segundo
+
+            // Añadir validación personalizada
+            const billingForm = document.getElementById('billing_address');
+            const shippingForm = document.getElementById('shipping_address');
+            const submitButton = document.getElementById('submitButton'); // Asegúrate de que el botón de envío tenga este ID
+        
+            function addValidationListeners(form) {
+                const inputs = form.querySelectorAll('input, select');
+        
+                inputs.forEach(input => {
+                    input.addEventListener('invalid', function(event) {
+                        event.preventDefault(); // Prevenir el mensaje de validación predeterminado
+                        const errorElement = document.getElementById(`${input.name}${input.getAttribute('data-id2') ? input.getAttribute('data-id2') : ''}-error`);
+                        if (errorElement) {
+                            errorElement.textContent = input.getAttribute('data-validation-required-message');
+                        }
+                    });
+        
+                    input.addEventListener('input', function() {
+                        const errorElement = document.getElementById(`${input.name}${input.getAttribute('data-id2') ? input.getAttribute('data-id2') : ''}-error`);
+                        if (errorElement) {
+                            errorElement.textContent = '';
+                        }
+                        input.setCustomValidity(''); // Restablecer la validez del campo
+                    });
+                });
+        
+                form.addEventListener('submit', function(event) {
+                    let formIsValid = true;
+                    inputs.forEach(input => {
+                        const errorElement = document.getElementById(`${input.name}${input.getAttribute('data-id2') ? input.getAttribute('data-id2') : ''}-error`);
+                        if (!input.checkValidity()) {
+                            input.setCustomValidity(input.getAttribute('data-validation-required-message'));
+                            if (errorElement) {
+                                errorElement.textContent = input.getAttribute('data-validation-required-message');
+                            }
+                            formIsValid = false;
+                        } else {
+                            input.setCustomValidity('');
+                            if (errorElement) {
+                                errorElement.textContent = '';
+                            }
+                        }
+                    });
+                    if (!formIsValid) {
+                        event.preventDefault(); // Prevenir el envío del formulario si no es válido
+                    }
+                });
+            }
+        
+            if (billingForm) {
+                addValidationListeners(billingForm);
+            }
+        
+            if (shippingForm) {
+                addValidationListeners(shippingForm);
+            }
+        
+            if (submitButton) {
+                submitButton.addEventListener('click', function(event) {
+                    let formIsValid = validateForms();
+                    if (!formIsValid) {
+                        event.preventDefault(); // Prevenir el envío del formulario si no es válido
+                    } else {
+                        handleSubmit(event);
+                    }
+                });
+            }
+        
+            function validateForms() {
+                let formIsValid = true;
+                const activeForms = document.querySelectorAll(`.${checkoutFormAll}.active`);
+                activeForms.forEach(form => {
+                    const inputs = form.querySelectorAll('input, select');
+        
+                    inputs.forEach(input => {
+                        const errorElement = document.getElementById(`${input.name}${input.getAttribute('data-id2') ? input.getAttribute('data-id2') : ''}-error`);
+                        if (!input.checkValidity()) {
+                            input.setCustomValidity(input.getAttribute('data-validation-required-message'));
+                            if (errorElement) {
+                                errorElement.textContent = input.getAttribute('data-validation-required-message');
+                            }
+                            formIsValid = false;
+                        } else {
+                            input.setCustomValidity('');
+                            if (errorElement) {
+                                errorElement.textContent = '';
+                            }
+                        }
+                    });
+                });
+                return formIsValid;
+            }
+        
+            function handleSubmit(event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: generalData.page_contact.form.title,
+                    text: generalData.page_contact.form.text,
+                    icon: generalData.page_contact.form.icon,
+                    confirmButtonText: generalData.page_contact.form.confirmButtonText,
+                }).then(() => {
+                    console.log('Formulario enviado'); // Mostrar mensaje de confirmación
+                });
             }
         })
         .catch(error => {
@@ -2581,24 +2706,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function createFormGroup(colClass, data, required = true, id = '') {
+    function createFormGroup(colClass, data, required = true, id = '', className = null, id2 = null) {
         return `
             <div class="${colClass} form-group">
                 <label>${data.text}${required ? '<text class="text-red"> *</text>' : ''}</label>
-                <input class="form-control" type="text" placeholder="${data.placeholder}"${required ? ` required data-validation-required-message="${data.required_msj}"` : ''}${id ? ` id="${id}"` : ''}>
-                <small class="help-block text-danger" id="${data.id}-error"></small>
+                <input class="form-control${className ? ` ${className}` : ''}"${id2 ? ` data-id2="${id2}"` : ''} type="${data.type}"${data.name ? ` name="${data.name}"` : ''} placeholder="${data.placeholder}"${required ? ` required data-validation-required-message="${data.required_msj}"` : ''}${id ? ` id="${id}"` : ''}>
+                ${data.name ? `<small class="help-block text-danger" id="${data.name}${id2 ? id2 : ''}-error"></small>` : ''}
             </div>
         `;
     }
 
-    function createSelectGroup(colClass, data, countries, required = true) {
+    function createSelectGroup(colClass, data, countries, required = true, id = '', className = null, id2 = null) {
         return `
             <div class="${colClass} form-group">
                 <label>${data.text}${required ? '<text class="text-red"> *</text>' : ''}</label>
-                <select class="custom-select" ${required ? 'required' : ''}>
+                <select class="custom-select${className ? ` ${className}` : ''}"${id2 ? ` data-id2="${id2}"` : ''} type="${data.type}"${data.name ? ` name="${data.name}"` : ''}${required ? ` required data-validation-required-message="${data.required_msj}"` : ''}${id ? ` id="${id}"` : ''}>
                     <option selected>${data.selected}</option>
                     ${arrayCountries(countries)}
                 </select>
+                ${data.name ? `<small class="help-block text-danger" id="${data.name}${id2 ? id2 : ''}-error"></small>` : ''}
             </div>
         `;
     }
@@ -2632,14 +2758,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function createProductsCart(container, generalData) {
         if(localStorage.getItem('selectedShippingMethod') && localStorage.getItem('productsCart')) {
             const selectedShippingMethod = JSON.parse(localStorage.getItem('selectedShippingMethod'));
-
-            if(selectedShippingMethod.shippingMethod == 'featured_shipping_4' || selectedShippingMethod.shippingMethod == 'featured_shipping_5') {
-                const addressCheckoutContainer = document.querySelectorAll('.addressCheckoutContainer');
-                addressCheckoutContainer.forEach(container => {
-                    container.style.display = 'none';
-                });
-            }
-
             const productsCart = JSON.parse(localStorage.getItem('productsCart'));
             if(productsCart) {
                 let subtotal = 0;
