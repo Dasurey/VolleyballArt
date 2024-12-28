@@ -9,9 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.replace(newPathname);
     }  */
     const generalJson = 'lenguage/general/es.json'; // Ruta del archivo JSON
-    const productJson = 'lenguage/products/es.json'; // Ruta del archivo JSON
+    const productApi = 'https://api-rest-volleyballart.onrender.com/api/products'; // Reemplaza con la URL de tu API
+    const categoryJson = 'lenguage/category/es.json'; // Ruta del archivo JSON
     const reviewJson = 'lenguage/reviews/es.json'; // Ruta del archivo JSON
+
     let isAscending = true;
+    
     let many_variables = {
         sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
         numbers: [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
@@ -46,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const preloaderElement = document.querySelector('.preloader');
     const pageElement = document.querySelector('.page');
-    const delay = 100; // Retraso en milisegundos (0.1 segundos - excepto que tarde más, la página, en cargar)
+    const delay = 1100; // Retraso en milisegundos (1.1 segundos - excepto que tarde más, la página, en cargar)
     // Ya se esta mostrando el indicador de carga
 
     const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
@@ -196,8 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (productTitle) {
             // Cargar los JSONs
-            Promise.all([loadJSON(productJson), loadJSON(reviewJson), loadJSON(generalJson)])
-            .then(([productData, reviewsData, generalData]) => {
+            Promise.all([fetchData(productApi), loadJSON(categoryJson), loadJSON(reviewJson), loadJSON(generalJson)])
+            .then(([productData, categoryData, reviewsData, generalData]) => {
                 const product = Object.values(productData.products).find(p => p.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === productTitle);
                 if (product) {
                     // Actualizar el contenido de la página con los datos del producto
@@ -261,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     // Buscar información adicional que coincida con la categoría y subcategoría del producto
-                    const additionalInfo = productData.category; // Suponiendo que ahora es un array
+                    const additionalInfo = categoryData.category; // Suponiendo que ahora es un array
                     let info = null;
                     
                     if (additionalInfo && Array.isArray(additionalInfo)) {
@@ -504,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para mostrar los productos
     function displayProducts(products, sortCriteria = null, limit = null, reviews = null, page = null, sortedProducts = null) {
-        Promise.all([loadJSON(productJson)])
+        Promise.all([fetchData(productApi)])
         .then(([productData]) => {
             if (products === null) {
                 products = Object.values(productData.products);
@@ -677,7 +680,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function loadFilters(limit = null, page = null) {
-        Promise.all([loadJSON(productJson), loadJSON(generalJson)])
+        Promise.all([fetchData(productApi), loadJSON(generalJson)])
         .then(([productData, generalData]) => {
             const priceFilters = [
                 { text: generalData.filter.price.form.range_all.text, checked: true, min: 0, max: Number.MAX_SAFE_INTEGER},
@@ -764,11 +767,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const category = urlParams.get('category');
         const subcategory = urlParams.get('subcategory');
     
-        Promise.all([loadJSON(productJson), loadJSON(reviewJson)]).then(([productData, reviewData]) => {
+        Promise.all([fetchData(productApi), loadJSON(categoryJson), loadJSON(reviewJson)]).then(([productData, categoryData, reviewData]) => {
             let allProducts = products || Object.values(productData.products);
             const reviews = reviewData.reviews;
     
-            allProducts = filterProductsByCategory(allProducts, category, subcategory, productData);
+            allProducts = filterProductsByCategory(allProducts, category, subcategory, categoryData);
     
             let filteredProducts;
             if (selectedRanges.length === 0) {
@@ -857,19 +860,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return totalStars / productReviews.length;
     }
 
-    function filterProductsByCategory(products, categoryName, subcategoryName, dataProducts) {
+    function filterProductsByCategory(products, categoryName, subcategoryName, dataCategory) {
         let categoryId = null;
         let subcategoryId = null;
     
         if (categoryName) {
-            const category = dataProducts.category.find(cat => cat.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === categoryName);
+            const category = dataCategory.category.find(cat => cat.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === categoryName);
             if (category) {
                 categoryId = category.id;
             }
         }
     
         if (subcategoryName && categoryId) {
-            const category = dataProducts.category.find(cat => cat.title === categoryName);
+            const category = dataCategory.category.find(cat => cat.title === categoryName);
             if (category) {
                 const subcategory = category.subcategory.find(subcat => subcat.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') === subcategoryName);
                 if (subcategory) {
@@ -895,6 +898,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return array.filter(item => !elementsToRemove.includes(item));
     }
 
+    // Función para obtener los elementos de una API REST
+    function fetchData(url) {
+        return fetch(url).then(response => {
+            if (!response.ok) {
+                throw new Error(`Error al cargar los datos: ${response.statusText}`);
+            }
+            return response.json();
+        });
+    }
+
     // Función para cargar el archivo JSON
     function loadJSON(url) {
         return fetch(url)
@@ -913,7 +926,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: "viewport", content: generalData.head.viewport },
                 { name: "description", content: generalData.head.description },
                 { name: "keywords", content: generalData.head.keywords },
-                { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; img-src 'self' data:; connect-src 'self' https://formspree.io;" }
+                { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; img-src 'self' data: https://api-rest-volleyballart.onrender.com https://another-source.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; img-src 'self' data:; connect-src 'self' https://api-rest-volleyballart.onrender.com/api/products https://formspree.io;" }
             ];
 
             const linkTags = [
@@ -1092,18 +1105,16 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
     
-    function createNavSecondaryHTML(productData, generalData) {
-        const categories = productData.category;
+    function createNavSecondaryHTML(categoryData, generalData) {
+        const categories = categoryData.category;
         const navItems = categories.map(category => {
             const subItems = category.subcategory.map(subCategory => {
                 return {
-                    href: subCategory.href || null,
                     title: subCategory.title
                 };
             });
     
             return createNavItem({
-                href: category.href || null,
                 title: category.title,
                 subcategory: subItems
             });
@@ -1136,9 +1147,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function navbarSecondary() {
         const navSecondaryContainer = document.getElementById('nav-secondaryId');
-        Promise.all([loadJSON(productJson), loadJSON(generalJson)])
-        .then(([productData, generalData]) => {
-            const navSecondaryHTML = createNavSecondaryHTML(productData, generalData);
+        Promise.all([loadJSON(categoryJson), loadJSON(generalJson)])
+        .then(([categoryData, generalData]) => {
+            const navSecondaryHTML = createNavSecondaryHTML(categoryData, generalData);
             navSecondaryContainer.innerHTML = navSecondaryHTML;
         })
         .catch(error => {
@@ -1331,7 +1342,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadCarouselContent() {
-        Promise.all([loadJSON(productJson), loadJSON(generalJson)])
+        Promise.all([fetchData(productApi), loadJSON(generalJson)])
         .then(([productData, generalData]) => {
             const products = Object.values(productData.products);
             const onSaleProducts = products.filter(product => product.previous_price !== null);
