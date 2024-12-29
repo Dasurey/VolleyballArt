@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Redirigir a la URL raíz si la URL actual es /index.html o /index
     const pathname = window.location.pathname;
-    /* if (pathname.endsWith('/index.html') || pathname.endsWith('/index')) {
+    if (pathname.endsWith('/index.html') || pathname.endsWith('/index')) {
         window.location.replace('/VoleyballArt/');
     } 
     if (pathname.endsWith('.html')) {
         const newPathname = pathname.replace('.html', '');
         window.location.replace(newPathname);
-    }  */
+    }
     const generalJson = 'lenguage/general/es.json'; // Ruta del archivo JSON
     const productApi = 'https://api-rest-volleyballart.onrender.com/api/products'; // Reemplaza con la URL de tu API
     const categoryJson = 'lenguage/category/es.json'; // Ruta del archivo JSON
@@ -278,11 +278,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     // Actualizar el contenido de la página con la información adicional
+                    let conditional = true;
                     if (info) {
                         document.querySelector('[data-details="additional_info_title"]').textContent = generalData.tab_pane.information.subtitle;
                         const additionalInfoContainer = document.querySelector('[data-details="additional_info"]');
                         if (info.text) {
                             additionalInfoContainer.innerHTML = info.text;
+                        } else {
+                            const tabPane_2 = document.querySelector('[data-details="tab-pane-2"]');
+                            tabPane_2.style.display = 'none';
+                            conditional = false;
                         }
                         const additional_info_img = document.querySelector('[data-details="additional_info_img"]');
                         if (info.img && info.img.length > 0) {
@@ -338,7 +343,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const tabPaneContainer = document.querySelector('[data-details="tab_pane"]');
                     tabPaneContainer.innerHTML = `
                         <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">${generalData.tab_pane.description.title}</a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">${generalData.tab_pane.information.title}</a>
+                    `;
+
+                    if (conditional) {
+                        tabPaneContainer.innerHTML += `
+                            <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">${generalData.tab_pane.information.title}</a>
+                        `;
+                    }
+
+                    tabPaneContainer.innerHTML += `
                         <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">${generalData.tab_pane.review.title} (${reviews.length})</a>
                     `;
 
@@ -522,11 +535,13 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 products = sortedProducts;
             }
-            if (pathname.endsWith('/index.html')) {
+            if (pathname.endsWith('/VoleyballArt/')) {
                 products.sort((a, b) => a.price - b.price);
                 sortCriteria = 'featured';
                 products = sortProducts(products, sortCriteria, reviews);
             }
+
+            console.log(products);
     
             const productsListElement = document.getElementById('productsId');
             productsListElement.innerHTML = ''; // Limpiar contenido previo
@@ -569,7 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
     
             // Crear botones de paginación
-            if (pathname.endsWith('/shop.html')) {
+            if (pathname.endsWith('/shop')) {
                 const paginationElement = document.getElementById('paginationId');
                 paginationElement.innerHTML = ''; // Limpiar contenido previo
                             
@@ -926,7 +941,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: "viewport", content: generalData.head.viewport },
                 { name: "description", content: generalData.head.description },
                 { name: "keywords", content: generalData.head.keywords },
-                { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; img-src 'self' data: https://api-rest-volleyballart.onrender.com https://another-source.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; img-src 'self' data:; connect-src 'self' https://api-rest-volleyballart.onrender.com/api/products https://formspree.io;" }
+                { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; img-src 'self' data: https://dasurey.github.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; connect-src 'self' https://api-rest-volleyballart.onrender.com https://formspree.io;" }
             ];
 
             const linkTags = [
@@ -948,24 +963,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 return `<link ${attributes}>`;
             }).join('\n');
 
-            headContainer.innerHTML += headHTML;
+            headContainer.innerHTML = headHTML;
 
             // Establecer el título de la página
             let title = '';
-            if (pathname.endsWith('/index.html') || pathname.endsWith('/')) {
+            if (pathname.endsWith('/index') || pathname.endsWith('/VoleyballArt/')) {
                 title = `${generalData.store_info.title_brand} - ${generalData.head.title_data}`;
-            } else if (pathname.endsWith('/shop.html')) {
+            } else if (pathname.endsWith('/shop')) {
                 title = `${generalData.store_info.shop.text} - ${generalData.store_info.title_brand}`;
-            } else if (pathname.endsWith('/contact.html')) {
+            } else if (pathname.endsWith('/contact')) {
                 title = `${generalData.store_info.contact.text} - ${generalData.store_info.title_brand}`;
-            } else if (pathname.endsWith('/cart.html')) {
+            } else if (pathname.endsWith('/cart')) {
                 title = `${generalData.store_info.cart.text} - ${generalData.store_info.title_brand}`;
-            } else if (pathname.endsWith('/checkout.html')) {
+            } else if (pathname.endsWith('/checkout')) {
                 title = `${generalData.store_info.checkout.text} - ${generalData.store_info.title_brand}`;
             }
 
-            if (title)
+            if (title) {
                 document.title = title;
+            }
         }).catch(error => {
             console.error('Error al cargar el archivo JSON:', error);
         });
@@ -985,8 +1001,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 {
                     type: 'form',
                     content: `
-                        <div class="input-group">
-                            <input type="text" class="form-control search" placeholder="Buscar Productos">
+                        <div class="input-group" style="display:none;">
+                            <input type="text" class="form-control search" placeholder="${generalData.store_info.search.placeholder}">
                             <div class="input-group-append">
                                 <span class="input-group-text bg-transparent text-secondary">
                                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -1065,7 +1081,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
     
             const navPrimaryHTML = `
-                <!-- navbarPrimary-content.html -->
                 <a class="text-decoration-none d-block d-lg-none" href="${generalData.store_info.home.href}">
                     <img src="${generalData.store_info.logo.src}" alt="${generalData.store_info.logo.alt}" class="logo">
                 </a>
@@ -1122,7 +1137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         let className = null;
         let style = null;
-        if (pathname.endsWith('/index.html') || pathname.endsWith('/')) {
+        if (pathname.endsWith('/index') || pathname.endsWith('/VoleyballArt/')) {
             className = "show";
         } else {
             className = "position-absolute bg-light";
@@ -1522,6 +1537,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         icon: generalData.page_contact.form.icon,
                         confirmButtonText: generalData.page_contact.form.confirmButtonText,
                     }).then(() => {
+                        console.log('Formulario enviado');
                         this.reset();
                     });
                 }
@@ -2703,12 +2719,15 @@ document.addEventListener('DOMContentLoaded', () => {
             function handleSubmit(event) {
                 event.preventDefault();
                 Swal.fire({
-                    title: generalData.page_contact.form.title,
-                    text: generalData.page_contact.form.text,
-                    icon: generalData.page_contact.form.icon,
-                    confirmButtonText: generalData.page_contact.form.confirmButtonText,
+                    title: generalData.checkout.payment.msj.title,
+                    text: generalData.checkout.payment.msj.text,
+                    icon: generalData.checkout.payment.msj.icon,
+                    confirmButtonText: generalData.checkout.payment.msj.confirmButtonText,
                 }).then(() => {
-                    console.log('Formulario enviado'); // Mostrar mensaje de confirmación
+                    console.log('Pago Completado'); // Mostrar mensaje de confirmación
+                    localStorage.removeItem('selectedShippingMethod'); // Borrar el objeto de localStorage
+                    localStorage.removeItem('productsCart'); // Borrar el objeto de localStorage
+                    window.location.href = 'https://dasurey.github.io/VolleyballArt/'; // Redirigir a la página especificada
                 });
             }
 
@@ -2882,15 +2901,15 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Verificar si estamos en la página de inicio
-    if (pathname.endsWith('/index.html') || pathname.endsWith('/')) { //pathname === "/VolleyballArt/"
+    if (pathname.endsWith('/index') || pathname.endsWith('/VoleyballArt/')) { //pathname === "/VolleyballArt/"
         promises.push(index());
         promises.push(displayProducts(null, null, 8, null, 1)); // Limitar a 8 productos en index
-    } else if (pathname.endsWith("/shop.html")) {
+    } else if (pathname.endsWith("/shop")) {
         promises.push(pageHeader('shop', 'our_products', 'background-image-shop'));
         promises.push(loadFilters(12, 1)); // 12 elementos por página, página 1
-    } else if (pathname.endsWith("/contact.html")) {
+    } else if (pathname.endsWith("/contact")) {
         promises.push(contact());
-    } else if (pathname.endsWith("/product.html")) {
+    } else if (pathname.endsWith("/product")) {
         promises.push(loadProductDetails(4)); // Limitar a 4 productos relacionados
 
         const quantityInput = document.querySelector('.quantity-input');
@@ -2908,9 +2927,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentValue = parseInt(quantityInput.value);
             quantityInput.value = currentValue + 1;
         });
-    } else if (pathname.endsWith('/cart.html')) {
+    } else if (pathname.endsWith('/cart')) {
         promises.push(cart());
-    } else if (pathname.endsWith('/checkout.html')) {
+    } else if (pathname.endsWith('/checkout')) {
         promises.push(checkout());
     }
 

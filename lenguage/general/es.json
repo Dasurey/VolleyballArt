@@ -129,6 +129,9 @@
         "subtext_1": "Nuestro Centro de Atención al Cliente está a tu disposición para atender todas tus consultas. También podés contactarnos por nuestras redes sociales.",
         "subtitle_2": "Tienda VolleyballArt"
     },
+    "search": {
+        "placeholder": "Buscar Productos"
+    },
     "page_product": {
         "btn": {
             "text": " Añadir al Carrito"
@@ -307,7 +310,13 @@
                 "debitcard": "Tarjeta de débito",
                 "creditcard": "Tarjeta de crédito"
             },
-            "btn": "Realizar pedido"
+            "btn": "Realizar pedido",
+            "msj": {
+                "title": "Datos Completados",
+                "text": "Gracias por comprar con nosotros. Nos contactaremos con usted lo antes posible.",
+                "icon": "success",
+                "confirmButtonText": "Cerrar"
+            }
         }
     },
     "review_product": {
