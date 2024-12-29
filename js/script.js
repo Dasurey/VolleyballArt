@@ -2,11 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Redirigir a la URL raíz si la URL actual es /index.html o /index
     const pathname = window.location.pathname;
     if (pathname.endsWith('/index.html') || pathname.endsWith('/index')) {
-        window.location.replace('/VoleyballArt/');
-    } 
-    if (pathname.endsWith('.html')) {
-        const newPathname = pathname.replace('.html', '');
-        window.location.replace(newPathname);
+        window.location.replace('/VolleyballArt/');
     }
     const generalJson = 'lenguage/general/es.json'; // Ruta del archivo JSON
     const productApi = 'https://api-rest-volleyballart.onrender.com/api/products'; // Reemplaza con la URL de tu API
@@ -535,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 products = sortedProducts;
             }
-            if (pathname.endsWith('/VoleyballArt/')) {
+            if (pathname.endsWith('/VolleyballArt/')) {
                 products.sort((a, b) => a.price - b.price);
                 sortCriteria = 'featured';
                 products = sortProducts(products, sortCriteria, reviews);
@@ -967,7 +963,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Establecer el título de la página
             let title = '';
-            if (pathname.endsWith('/index') || pathname.endsWith('/VoleyballArt/')) {
+            if (pathname.endsWith('/index') || pathname.endsWith('/VolleyballArt/')) {
                 title = `${generalData.store_info.title_brand} - ${generalData.head.title_data}`;
             } else if (pathname.endsWith('/shop')) {
                 title = `${generalData.store_info.shop.text} - ${generalData.store_info.title_brand}`;
@@ -1137,7 +1133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         let className = null;
         let style = null;
-        if (pathname.endsWith('/index') || pathname.endsWith('/VoleyballArt/')) {
+        if (pathname.endsWith('/index') || pathname.endsWith('/VolleyballArt/')) {
             className = "show";
         } else {
             className = "position-absolute bg-light";
@@ -2901,7 +2897,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Verificar si estamos en la página de inicio
-    if (pathname.endsWith('/index') || pathname.endsWith('/VoleyballArt/')) { //pathname === "/VolleyballArt/"
+    if (pathname.endsWith('/index') || pathname.endsWith('/VolleyballArt/')) { //pathname === "/VolleyballArt/"
         promises.push(index());
         promises.push(displayProducts(null, null, 8, null, 1)); // Limitar a 8 productos en index
     } else if (pathname.endsWith("/shop")) {
