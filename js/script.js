@@ -937,7 +937,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: "viewport", content: generalData.head.viewport },
                 { name: "description", content: generalData.head.description },
                 { name: "keywords", content: generalData.head.keywords },
-                { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; img-src 'self' data: https://dasurey.github.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; connect-src 'self' https://api-rest-volleyballart.onrender.com https://formspree.io;" }
+                { "http-equiv": "Content-Security-Policy", content: "default-src 'self'; img-src 'self' data: https://dasurey.github.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://ka-f.fontawesome.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://kit.fontawesome.com; connect-src 'self' https://api-rest-volleyballart.onrender.com https://formspree.io;" }
             ];
 
             const linkTags = [
