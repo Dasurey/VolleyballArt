@@ -186,13 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let newNumber = productsCart.reduce((acc, product) => acc + product.amount, 0);
             const cartNumberElement = document.querySelector('.cart-number');
             if (cartNumberElement) {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `${generalData.page_cart.product_aggregate}`,
-                    showConfirmButton: false,
-                    timer: 900
-                });
                 cartNumberElement.textContent = newNumber;
             }
         });
