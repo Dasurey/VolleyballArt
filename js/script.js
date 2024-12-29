@@ -383,7 +383,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <input type="email" class="form-control" id="email">
                                     </div>
                                     <div class="form-group mb-0">
-                                        <input type="" value="${generalData.review_product.form.submit}" class="btn btn-primary px-3">
+                                        <div class="btn btn-primary px-3">${generalData.review_product.form.submit}</div>
+                                        <!-- <input type="submit" value="${generalData.review_product.form.submit}" class="btn btn-primary px-3"> -->
                                     </div>
                                 </form>
                             </div>
