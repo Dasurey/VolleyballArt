@@ -1,9 +1,34 @@
-##Prototipo de Trabajo Integrador
 
-##Alumno: Dario Alexandre Asurey
+# VolleyballArt
 
-##Talento Tech
+Este proyecto fue diseñado para el curso de Desarrollo Front End 2024 de Talento Tech. 
+Se trata de un sitio web ficticio de un negocio, que cuenta con una tienda virtual para realizar compras, un formulario de contacto, otros canales de comunicación y enlaces a redes sociales.
 
-##Este repositorio tiene como ojetivo implementar los conceptos vistos en clase. En el cual simula ser uan pagina web de un e-commerce vendiendo productos relacionados al Volleyball.
+Tuve que crear mi propia api de productos para que concuerde y poder mostrarlos en la tienda, pero en el futuro, se decidirá utilizar una API existente.
 
-##Las herramientos utilizadas son HTML5 - CSS - Conceptos de flex y Bootstrap - FontAwesome - Media Queries.
+
+## Author
+
+- [Romina Carranza](https://github.com/Dasurey)
+
+
+## Deployment
+
+[Ir al sitio web VolleyballArt](https://dasurey.github.io/VolleyballArt/)
+
+### Logo
+![Logo](img/brand/LogoConPelota.ico)
+
+
+
+### Tech Stack
+
+**Client:** HTML5, CSS
+
+
+
+### Used By
+
+This project is used by the following course:
+
+- Front End 2024 Talento Tech

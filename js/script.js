@@ -959,7 +959,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return `<link ${attributes}>`;
             }).join('\n');
 
-            headContainer.innerHTML = headHTML;
+            headContainer.innerHTML += headHTML;
 
             // Establecer el título de la página
             let title = '';
