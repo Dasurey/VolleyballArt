@@ -23,7 +23,7 @@ Tuve que crear mi propia api de productos para que concuerde y poder mostrarlos 
 
 ### Tech Stack
 
-**Client:** HTML5, CSS
+**Client:** HTML5, CSS, JavaScript
 
 
 
