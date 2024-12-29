@@ -853,8 +853,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return products.reverse();
             case 'best_rating':
                 return products.sort((a, b) => {
-                    const ratingA = getAverageRating(a, reviews);
-                    const ratingB = getAverageRating(b, reviews);
+                    const ratingA = getAverageRating(a.id, reviews);
+                    const ratingB = getAverageRating(b.id, reviews);
                     return isAscending ? ratingB - ratingA : ratingA - ratingB;
                 });
             case 'featured':
@@ -865,7 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function getAverageRating(product, reviews) {
-        const productReviews = reviews.filter(review => review.product === product.title);
+        const productReviews = reviews.filter(review => review.id_product === product.id);
         if (productReviews.length === 0) return 0;
         const totalStars = productReviews.reduce((sum, review) => sum + review.stars, 0);
         return totalStars / productReviews.length;
