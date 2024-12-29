@@ -998,7 +998,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     type: 'form',
                     content: `
                         <div class="input-group" style="display:none;">
-                            <input type="text" class="form-control search" placeholder="${generalData.store_info.search.placeholder}">
+                            <input type="text" class="form-control search" placeholder="${generalData.search.placeholder}">
                             <div class="input-group-append">
                                 <span class="input-group-text bg-transparent text-secondary">
                                     <i class="fa-solid fa-magnifying-glass"></i>
