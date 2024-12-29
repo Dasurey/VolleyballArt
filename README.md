@@ -6,7 +6,7 @@ Se trata de un sitio web ficticio de un negocio, que cuenta con una tienda virtu
 
 Tuve que crear mi propia api de productos para que concuerde y poder mostrarlos en la tienda, pero en el futuro, se decidirá utilizar una API existente. Ademas, se trata de un proyecto de desarrollo web, por lo que se utilizará HTML5, CSS y JavaScript.
 
-Aclaración: Las reviews estan en las paginas de los productos, algunos pueden tener como otros que no tienen.
+Aclaración: Las reviews estan en las paginas de los productos, algunos pueden tener como otros que no tienen ninguna y que son randomly generadas.
 
 
 ## Author
