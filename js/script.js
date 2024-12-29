@@ -583,7 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pathname.endsWith('/shop.html')) {
                 const paginationElement = document.getElementById('paginationId');
                 paginationElement.innerHTML = ''; // Limpiar contenido previo
-                            
+            
                 const totalPages = Math.ceil(products.length / itemsPerPage);
                 let paginationHTML = `
                     <nav aria-label="Page navigation">
@@ -595,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </button>
                             </li>
                 `;
-                            
+            
                 if (totalPages <= 4) {
                     // Mostrar todas las páginas si son 4 o menos
                     for (let i = 1; i <= totalPages; i++) {
@@ -612,26 +612,26 @@ document.addEventListener('DOMContentLoaded', () => {
                             <button class="page-link pagination">1</button>
                         </li>
                     `;
-                
+            
                     if (page > 4) {
-                        // Mostrar puntos suspensivos si la página actual es mayor que 3
+                        // Mostrar puntos suspensivos si la página actual es mayor que 4
                         paginationHTML += `
                             <li class="page-item disabled">
                                 <span class="page-link">...</span>
                             </li>
                         `;
                     }
-                
+            
                     // Mostrar las páginas alrededor de la página actual
                     let startPage = Math.max(2, page - 2);
-                    let endPage = Math.min(totalPages - 2, page + 2);
-                
+                    let endPage = Math.min(totalPages - 1, page + 2);
+            
                     if (page === 1) {
                         endPage = 3;
                     } else if (page === totalPages) {
                         startPage = totalPages - 2;
                     }
-                
+            
                     for (let i = startPage; i <= endPage; i++) {
                         paginationHTML += `
                             <li class="page-item ${page === i ? 'active' : ''}">
@@ -639,16 +639,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             </li>
                         `;
                     }
-                
-                    if (page < totalPages - 4) {
-                        // Mostrar puntos suspensivos si la página actual es menor que totalPages - 2
+            
+                    if (page < totalPages - 3) {
+                        // Mostrar puntos suspensivos si la página actual es menor que totalPages - 3
                         paginationHTML += `
                             <li class="page-item disabled">
                                 <span class="page-link">...</span>
                             </li>
                         `;
                     }
-                
+            
                     // Mostrar la última página
                     paginationHTML += `
                         <li class="page-item ${page === totalPages ? 'active' : ''}">
@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </li>
                     `;
                 }
-                
+            
                 paginationHTML += `
                             <li class="page-item ${page === totalPages ? 'disabled' : ''}">
                                 <button class="page-link pagination" aria-label="Next" ${page === totalPages ? 'disabled' : ''}>
@@ -667,9 +667,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         </ul>
                     </nav>
                 `;
-                
+            
                 paginationElement.innerHTML = paginationHTML;
-                
+            
                 // Agregar event listeners a los botones de paginación
                 const pageButtons = paginationElement.querySelectorAll('.page-link.pagination');
                 pageButtons.forEach((button, index) => {
