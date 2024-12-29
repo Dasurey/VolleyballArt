@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Redirigir a la URL raíz si la URL actual es /index.html o /index
     const pathname = window.location.pathname;
-    if (pathname.endsWith('/index.html') || pathname.endsWith('/index')) {
+    if (pathname.endsWith('/index.html') || pathname.endsWith('/index.html')) {
         window.location.replace('/VolleyballArt/');
     }
     const generalJson = 'lenguage/general/es.json'; // Ruta del archivo JSON
@@ -580,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
     
             // Crear botones de paginación
-            if (pathname.endsWith('/shop')) {
+            if (pathname.endsWith('/shop.html')) {
                 const paginationElement = document.getElementById('paginationId');
                 paginationElement.innerHTML = ''; // Limpiar contenido previo
                             
@@ -963,15 +963,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Establecer el título de la página
             let title = '';
-            if (pathname.endsWith('/index') || pathname.endsWith('/VolleyballArt/')) {
+            if (pathname.endsWith('/index.html') || pathname.endsWith('/VolleyballArt/')) {
                 title = `${generalData.store_info.title_brand} - ${generalData.head.title_data}`;
-            } else if (pathname.endsWith('/shop')) {
+            } else if (pathname.endsWith('/shop.html')) {
                 title = `${generalData.store_info.shop.text} - ${generalData.store_info.title_brand}`;
-            } else if (pathname.endsWith('/contact')) {
+            } else if (pathname.endsWith('/contact.html')) {
                 title = `${generalData.store_info.contact.text} - ${generalData.store_info.title_brand}`;
-            } else if (pathname.endsWith('/cart')) {
+            } else if (pathname.endsWith('/cart.html')) {
                 title = `${generalData.store_info.cart.text} - ${generalData.store_info.title_brand}`;
-            } else if (pathname.endsWith('/checkout')) {
+            } else if (pathname.endsWith('/checkout.html')) {
                 title = `${generalData.store_info.checkout.text} - ${generalData.store_info.title_brand}`;
             }
 
@@ -1133,7 +1133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         let className = null;
         let style = null;
-        if (pathname.endsWith('/index') || pathname.endsWith('/VolleyballArt/')) {
+        if (pathname.endsWith('/index.html') || pathname.endsWith('/VolleyballArt/')) {
             className = "show";
         } else {
             className = "position-absolute bg-light";
@@ -2897,15 +2897,15 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Verificar si estamos en la página de inicio
-    if (pathname.endsWith('/index') || pathname.endsWith('/VolleyballArt/')) { //pathname === "/VolleyballArt/"
+    if (pathname.endsWith('/index.html') || pathname.endsWith('/VolleyballArt/')) { //pathname === "/VolleyballArt/"
         promises.push(index());
         promises.push(displayProducts(null, null, 8, null, 1)); // Limitar a 8 productos en index
-    } else if (pathname.endsWith("/shop")) {
+    } else if (pathname.endsWith("/shop.html")) {
         promises.push(pageHeader('shop', 'our_products', 'background-image-shop'));
         promises.push(loadFilters(12, 1)); // 12 elementos por página, página 1
-    } else if (pathname.endsWith("/contact")) {
+    } else if (pathname.endsWith("/contact.html")) {
         promises.push(contact());
-    } else if (pathname.endsWith("/product")) {
+    } else if (pathname.endsWith("/product.html")) {
         promises.push(loadProductDetails(4)); // Limitar a 4 productos relacionados
 
         const quantityInput = document.querySelector('.quantity-input');
@@ -2923,9 +2923,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentValue = parseInt(quantityInput.value);
             quantityInput.value = currentValue + 1;
         });
-    } else if (pathname.endsWith('/cart')) {
+    } else if (pathname.endsWith('/cart.html')) {
         promises.push(cart());
-    } else if (pathname.endsWith('/checkout')) {
+    } else if (pathname.endsWith('/checkout.html')) {
         promises.push(checkout());
     }
 
