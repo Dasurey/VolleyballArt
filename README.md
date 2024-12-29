@@ -9,7 +9,7 @@ Tuve que crear mi propia api de productos para que concuerde y poder mostrarlos 
 
 ## Author
 
-- [Romina Carranza](https://github.com/Dasurey)
+- [Dario Asurey (Dasurey)](https://github.com/Dasurey)
 
 
 ## Deployment
