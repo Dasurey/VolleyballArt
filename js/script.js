@@ -180,12 +180,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateCart() {
-        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
-        let newNumber = productsCart.reduce((acc, product) => acc + product.amount, 0);
-        const cartNumberElement = document.querySelector('.cart-number');
-        if (cartNumberElement) {
-            cartNumberElement.textContent = newNumber;
-        }
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
+            const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
+            let newNumber = productsCart.reduce((acc, product) => acc + product.amount, 0);
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `${generalData.page_cart.product_aggregate}`,
+                showConfirmButton: false,
+                timer: 900
+              });
+            const cartNumberElement = document.querySelector('.cart-number');
+            if (cartNumberElement) {
+                cartNumberElement.textContent = newNumber;
+            }
+        });
     }
 
     // Cargar producto de la pagina
@@ -1532,10 +1542,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         text: generalData.page_contact.form.text,
                         icon: generalData.page_contact.form.icon,
                         confirmButtonText: generalData.page_contact.form.confirmButtonText,
-                    }).then(() => {
-                        console.log('Formulario enviado');
-                        this.reset();
                     });
+                    console.log('Formulario enviado');
+                    this.reset();
                 }
             }
         })
@@ -2719,12 +2728,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     text: generalData.checkout.payment.msj.text,
                     icon: generalData.checkout.payment.msj.icon,
                     confirmButtonText: generalData.checkout.payment.msj.confirmButtonText,
-                }).then(() => {
-                    console.log('Pago Completado'); // Mostrar mensaje de confirmación
-                    localStorage.removeItem('selectedShippingMethod'); // Borrar el objeto de localStorage
-                    localStorage.removeItem('productsCart'); // Borrar el objeto de localStorage
-                    window.location.href = 'https://dasurey.github.io/VolleyballArt/'; // Redirigir a la página especificada
                 });
+                console.log('Pago Completado'); // Mostrar mensaje de confirmación
+                localStorage.removeItem('selectedShippingMethod'); // Borrar el objeto de localStorage
+                localStorage.removeItem('productsCart'); // Borrar el objeto de localStorage
+                window.location.href = 'https://dasurey.github.io/VolleyballArt/'; // Redirigir a la página especificada
             }
 
             // Verificar las opciones de pago al cargar la página

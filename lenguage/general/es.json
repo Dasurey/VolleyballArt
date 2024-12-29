@@ -139,7 +139,8 @@
         "share": "Compartir en:",
         "related": "También te puede interesar",
         "review_product": " reseñas para ",
-        "null_reviews": "<p class=\"text-center\">No hay reseñas para este producto\n<br>\nSea el primero en dejar una.</p>\n"
+        "null_reviews": "<p class=\"text-center\">No hay reseñas para este producto\n<br>\nSea el primero en dejar una.</p>\n",
+        "product_aggregate": "Producto agregado al carrito"
     },
     "page_cart": {
         "table": {
