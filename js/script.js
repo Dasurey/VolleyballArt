@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const delay = 1100; // Retraso en milisegundos (1.1 segundos - excepto que tarde más, la página, en cargar)
     // Ya se esta mostrando el indicador de carga
 
-    const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
+    let productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
 
     // Inicializar el objeto selectedShippingMethod si no existe
     initializeSelectedShippingMethod();
@@ -441,7 +441,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Agregar el producto al carrito al hacer clic en el botón
                     btnCartFunction.addEventListener('click', () => {
-
                         addCart(product);
                         updateCart();
                     });
@@ -1579,11 +1578,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const cartTableContainer = document.getElementById('cart_tableId');
         const cartFormContainer = document.getElementById('cartFormId');
         const cart_empty = document.getElementById('cart_empty');
-        const cartItems = JSON.parse(localStorage.getItem('productsCart')) || []; // Obtener los datos del carrito del localStorage
     
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
-            if (cartItems.length > 0) {
+            if (productsCart.length > 0) {
                 cartContainer.style.justifyContent = '';
                 cart_empty.style.display = 'none';
                 cartTableContainer.style.display = 'block';
@@ -1605,7 +1603,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 let subtotal = 0;
                 
-                cartItems.forEach(item => {
+                productsCart.forEach(item => {
                     let sizeInfo = '';
                     if (item.size) {
                         if (!isNaN(item.size)) {
@@ -2427,7 +2425,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function updateCartInput() {
-        const cartItems = JSON.parse(localStorage.getItem('productsCart')) || [];
         const quantityInputs = document.querySelectorAll('.cart-quantity-input');
     
         quantityInputs.forEach(input => {
@@ -2435,13 +2432,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const size = input.dataset.size;
             const newAmount = parseInt(input.value, 10);
     
-            const item = cartItems.find(item => item.id == id && (!size || item.size == size));
+            const item = productsCart.find(item => item.id == id && (!size || item.size == size));
             if (item && newAmount > 0) {
                 item.amount = newAmount;
             }
         });
     
-        localStorage.setItem('productsCart', JSON.stringify(cartItems));
+        localStorage.setItem('productsCart', JSON.stringify(productsCart));
         cartTable(); // Actualizar la tabla del carrito
         updateCart(); // Actualizar el número del carrito
     }
@@ -2455,7 +2452,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateQuantity(id, size, change) {
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
-            const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
             const item = productsCart.find(item => item.id == id && (!size || item.size == size)); // Usar == para comparar id como string y número
             if (item) {
                 if (item.amount + change >= 1) {
@@ -2477,7 +2473,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function removeItem(id, size) {
-        let productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
         productsCart = productsCart.filter(item => !(item.id == id && (!size || item.size == size))); // Usar != para comparar id como string y número
         localStorage.setItem('productsCart', JSON.stringify(productsCart));
         cartTable(); // Actualizar la tabla del carrito
@@ -2485,7 +2480,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function removeItem(id, size) {
-        let productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
         productsCart = productsCart.filter(item => !(item.id == id && (!size || item.size == size))); // Usar != para comparar id como string y número
         localStorage.setItem('productsCart', JSON.stringify(productsCart));
         cartTable(); // Actualizar la tabla del carrito
