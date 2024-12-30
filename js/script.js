@@ -48,8 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const delay = 1100; // Retraso en milisegundos (1.1 segundos - excepto que tarde más, la página, en cargar)
     // Ya se esta mostrando el indicador de carga
 
-    const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
-
     // Inicializar el objeto selectedShippingMethod si no existe
     initializeSelectedShippingMethod();
 
@@ -158,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function addCart(e) {
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
+            const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
             const quantityInput = document.querySelector('.quantity-input');
             const amount = parseInt(quantityInput.value);
 
@@ -176,9 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 productsCart.push(productCopy);
             }
 
-            updateCart();
             console.log(productsCart);
             localStorage.setItem('productsCart', JSON.stringify(productsCart));
+            updateCart();
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -190,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateCart() {
+        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
         let newNumber = productsCart.reduce((acc, product) => acc + product.amount, 0);
         const cartNumberElement = document.querySelector('.cart-number');
         if (cartNumberElement) {
@@ -2032,7 +2032,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('selectedShippingMethod', JSON.stringify(defaultShippingMethod));
         }
     }
-
+    
     function rechargeShippingMethod(savedShippingMethod = null) {
         if (savedShippingMethod.shippingMethod) {
             const { shippingMethod, zipCode } = savedShippingMethod;
@@ -2425,6 +2425,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function updateCartInput() {
+        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
         const quantityInputs = document.querySelectorAll('.cart-quantity-input');
     
         quantityInputs.forEach(input => {
@@ -2452,6 +2453,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateQuantity(id, size, change) {
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
+            const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
             const item = productsCart.find(item => item.id == id && (!size || item.size == size)); // Usar == para comparar id como string y número
             if (item) {
                 if (item.amount + change >= 1) {
