@@ -156,39 +156,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addCart(e) {
-        const quantityInput = document.querySelector('.quantity-input');
-        const amount = parseInt(quantityInput.value);
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
+            const quantityInput = document.querySelector('.quantity-input');
+            const amount = parseInt(quantityInput.value);
 
-        // Obtener el tamaño seleccionado, si existe
-        const sizeInput = document.querySelector('input[name="size"]:checked');
-        const size = sizeInput ? sizeInput.value : null;
+            // Obtener el tamaño seleccionado, si existe
+            const sizeInput = document.querySelector('input[name="size"]:checked');
+            const size = sizeInput ? sizeInput.value : null;
 
-        // Crear una copia del objeto `e`
-        const productCopy = { ...e, amount, size };
+            // Crear una copia del objeto `e`
+            const productCopy = { ...e, amount, size };
 
-        // Verificar si el producto ya existe en el carrito
-        const existingProductIndex = productsCart.findIndex(product => product.title === e.title && product.size === size);
-        if (existingProductIndex !== -1) {
-            productsCart[existingProductIndex].amount += amount;
-        } else {
-            productsCart.push(productCopy);
-        }
+            // Verificar si el producto ya existe en el carrito
+            const existingProductIndex = productsCart.findIndex(product => product.title === e.title && product.size === size);
+            if (existingProductIndex !== -1) {
+                productsCart[existingProductIndex].amount += amount;
+            } else {
+                productsCart.push(productCopy);
+            }
 
-        updateCart();
-        console.log(productsCart);
-        localStorage.setItem('productsCart', JSON.stringify(productsCart));
+            updateCart();
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `${generalData.page_cart.product_aggregate}`,
+                showConfirmButton: false,
+                timer: 900
+            });
+            console.log(productsCart);
+            localStorage.setItem('productsCart', JSON.stringify(productsCart));
+        })
     }
 
     function updateCart() {
-        Promise.all([loadJSON(generalJson)])
-        .then(([generalData]) => {
-            const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
-            let newNumber = productsCart.reduce((acc, product) => acc + product.amount, 0);
-            const cartNumberElement = document.querySelector('.cart-number');
-            if (cartNumberElement) {
-                cartNumberElement.textContent = newNumber;
-            }
-        });
+        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
+        let newNumber = productsCart.reduce((acc, product) => acc + product.amount, 0);
+        const cartNumberElement = document.querySelector('.cart-number');
+        if (cartNumberElement) {
+            cartNumberElement.textContent = newNumber;
+        }
     }
 
     // Cargar producto de la pagina
@@ -2446,16 +2453,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function updateQuantity(id, size, change) {
-        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
-        const item = productsCart.find(item => item.id == id && (!size || item.size == size)); // Usar == para comparar id como string y número
-        if (item) {
-            if (item.amount + change >= 1) {
-                item.amount += change;
-                localStorage.setItem('productsCart', JSON.stringify(productsCart));
-                cartTable(); // Actualizar la tabla del carrito
-                updateCart(); // Actualizar el número del carrito
+        Promise.all([loadJSON(generalJson)])
+        .then(([generalData]) => {
+            const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
+            const item = productsCart.find(item => item.id == id && (!size || item.size == size)); // Usar == para comparar id como string y número
+            if (item) {
+                if (item.amount + change >= 1) {
+                    item.amount += change;
+                    localStorage.setItem('productsCart', JSON.stringify(productsCart));
+                    cartTable(); // Actualizar la tabla del carrito
+                    updateCart(); // Actualizar el número del carrito
+
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${generalData.page_cart.product_aggregate}`,
+                        showConfirmButton: false,
+                        timer: 900
+                    });
+                }
             }
-        }
+        });
     }
     
     function removeItem(id, size) {
