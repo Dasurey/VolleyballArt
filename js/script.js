@@ -1574,11 +1574,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function cartTable() {
+        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
         const cartContainer = document.getElementById('cart_container');
         const cartTableContainer = document.getElementById('cart_tableId');
         const cartFormContainer = document.getElementById('cartFormId');
         const cart_empty = document.getElementById('cart_empty');
-        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
     
         Promise.all([loadJSON(generalJson)])
         .then(([generalData]) => {
