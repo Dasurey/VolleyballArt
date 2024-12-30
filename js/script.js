@@ -2482,14 +2482,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cartTable(); // Actualizar la tabla del carrito
         updateCart(); // Actualizar el número del carrito
     }
-    
-    function removeItem(id, size) {
-        let productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
-        productsCart = productsCart.filter(item => !(item.id == id && (!size || item.size == size))); // Usar != para comparar id como string y número
-        localStorage.setItem('productsCart', JSON.stringify(productsCart));
-        cartTable(); // Actualizar la tabla del carrito
-        updateCart(); // Actualizar el número del carrito
-    }
 
     function checkoutForm() {
         const checkoutFormContainer = document.getElementById('checkoutFormId');
