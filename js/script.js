@@ -190,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateCart() {
-        const productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
         let newNumber = productsCart.reduce((acc, product) => acc + product.amount, 0);
         const cartNumberElement = document.querySelector('.cart-number');
         if (cartNumberElement) {
@@ -442,6 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Agregar el producto al carrito al hacer clic en el botón
                     btnCartFunction.addEventListener('click', () => {
+
                         addCart(product);
                         updateCart();
                     });
