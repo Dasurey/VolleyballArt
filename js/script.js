@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: `${generalData.page_cart.product_aggregate}`,
+                title: `${generalData.page_product.product_aggregate}`,
                 showConfirmButton: false,
                 timer: 900
             });
@@ -2467,7 +2467,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `${generalData.page_cart.product_aggregate}`,
+                        title: `${generalData.page_product.product_aggregate}`,
                         showConfirmButton: false,
                         timer: 900
                     });
