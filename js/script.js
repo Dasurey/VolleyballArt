@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const delay = 1100; // Retraso en milisegundos (1.1 segundos - excepto que tarde más, la página, en cargar)
     // Ya se esta mostrando el indicador de carga
 
-    let productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
+    const productsCart = JSON.parse(localStorage.getItem('productsCart')) || []; // Cargar datos desde localStorage o inicializar como array vacío
 
     // Inicializar el objeto selectedShippingMethod si no existe
     initializeSelectedShippingMethod();
@@ -2473,6 +2473,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function removeItem(id, size) {
+        let productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
         productsCart = productsCart.filter(item => !(item.id == id && (!size || item.size == size))); // Usar != para comparar id como string y número
         localStorage.setItem('productsCart', JSON.stringify(productsCart));
         cartTable(); // Actualizar la tabla del carrito
@@ -2480,6 +2481,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function removeItem(id, size) {
+        let productsCart = JSON.parse(localStorage.getItem('productsCart')) || [];
         productsCart = productsCart.filter(item => !(item.id == id && (!size || item.size == size))); // Usar != para comparar id como string y número
         localStorage.setItem('productsCart', JSON.stringify(productsCart));
         cartTable(); // Actualizar la tabla del carrito
