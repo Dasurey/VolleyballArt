@@ -177,6 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             updateCart();
+            console.log(productsCart);
+            localStorage.setItem('productsCart', JSON.stringify(productsCart));
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -184,8 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showConfirmButton: false,
                 timer: 900
             });
-            console.log(productsCart);
-            localStorage.setItem('productsCart', JSON.stringify(productsCart));
         })
     }
 
