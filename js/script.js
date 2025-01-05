@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pathname.endsWith('/index.html') || pathname.endsWith('/index.html')) {
         window.location.replace('/VolleyballArt/');
     }
-    const generalJson = 'lenguage/general/es.json'; // Ruta del archivo JSON
+    const generalJson = 'json/es/general.json'; // Ruta del archivo JSON
     const productApi = 'https://api-rest-volleyballart.onrender.com/api/products'; // Reemplaza con la URL de tu API
-    const categoryJson = 'lenguage/category/es.json'; // Ruta del archivo JSON
-    const reviewJson = 'lenguage/reviews/es.json'; // Ruta del archivo JSON
+    const categoryJson = 'json/es/category.json'; // Ruta del archivo JSON
+    const reviewJson = 'json/es/reviews.json'; // Ruta del archivo JSON
 
     let isAscending = true;
     
