@@ -1224,4 +1224,9 @@ h5.text-primary.mb-0.d-inline-block {
     .navbar-primary .navbar-nav .nav-link {
         padding-left: 5px;
     }
+
+    .row.px-xl-3 {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
 }
