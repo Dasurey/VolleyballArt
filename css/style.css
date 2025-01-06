@@ -1221,13 +1221,8 @@ h5.text-primary.mb-0.d-inline-block {
         padding-left: 0px;
     }
 
-    .carousel.slide {
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
     .navbar-primary .navbar-nav .nav-link {
-        padding-left: 5px;
+        padding-left: 10px;
     }
 
     .row.px-xl-3 {
