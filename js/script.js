@@ -261,6 +261,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelector('[data-details="share_twitter"]').href = "https://twitter.com/intent/tweet?text=" + product.title.replace(/ /g, '%20') + "&url=" + window.location.href;
                     document.querySelector('[data-details="share_pinterest"]').href = "https://pinterest.com/pin/create/button/?url=" + window.location.href + "&media=" + window.location.origin + "/" + product.img[0].src + "&description=" + product.title.replace(/ /g, '%20');
                     document.querySelector('[data-details="share_whatsapp"]').href = "https://api.whatsapp.com/send?text=" + product.title.replace(/ /g, '%20') + "%20" + window.location.href;
+                    
+                    document.querySelector('[data-details="share_facebook"]').target = "_blank";
+                    document.querySelector('[data-details="share_twitter"]').target = "_blank";
+                    document.querySelector('[data-details="share_pinterest"]').target = "_blank";
+                    document.querySelector('[data-details="share_whatsapp"]').target = "_blank";
 
                     // Agregar descripciones
                     const descriptionContainer = document.querySelector('[data-details="description"]');
@@ -1206,8 +1211,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     links: [
                         { href: generalData.resources.privacy_policy.href, text: generalData.resources.privacy_policy.text },
                         { href: generalData.resources.terms_conditions.href, text: generalData.resources.terms_conditions.text },
-                        { href: generalData.resources.tracking.href, text: generalData.resources.tracking.text },
-                        { href: generalData.resources.consumer_defense.href, text: generalData.resources.consumer_defense.text },
+                        { href: generalData.resources.tracking.href, target: '_blank', text: generalData.resources.tracking.text },
+                        { href: generalData.resources.consumer_defense.href, target: '_blank', text: generalData.resources.consumer_defense.text },
                         { href: generalData.resources.faq.href, text: generalData.resources.faq.text }
                     ]
                 },
@@ -1252,17 +1257,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function generateContactInfo(generalData, text) {
         return `
-            <a class="${text}" ${generalData.address.href ? `href="${generalData.address.href}"` : ''}>
+            <a class="${text}" ${generalData.address.href ? `href="${generalData.address.href}" target="_blank"` : ''}>
                 <p class="mb-2">
                     <i class="fa-solid fa-map text-secondary mr-3"></i>${generalData.address.text}
                 </p>
             </a>
-            <a class="${text}" ${generalData.email.href ? `href="${generalData.email.href}"` : ''}>
+            <a class="${text}" ${generalData.email.href ? `href="${generalData.email.href}" target="_blank"` : ''}>
                 <p class="mb-2">
                     <i class="fa-solid fa-envelope text-secondary mr-3"></i> ${generalData.email.text}
                 </p>
             </a>
-            <a class="${text}" ${generalData.phone.href ? `href="${generalData.phone.href}"` : ''}>
+            <a class="${text}" ${generalData.phone.href ? `href="${generalData.phone.href}" target="_blank"` : ''}>
                 <p class="mb-0">
                     <i class="fa-solid fa-phone text-secondary mr-3"></i>${generalData.phone.text}
                 </p>
@@ -1273,7 +1278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateFooterSection(section) {
         if (section.links) {
             const linksHTML = section.links.map(link => `
-                <a class="text-dark mb-2" ${link.href ? `href="${link.href}"` : ''}>
+                <a class="text-dark mb-2"${link.href ? ` href="${link.href}"${link.target ? ` target="${link.target}"` : ''}` : ''}>
                     <i class="fa-solid fa-angle-right mr-2"></i>${link.text}
                 </a>
             `).join('');
@@ -1287,7 +1292,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         } else if (section.socialLinks) {
             const socialLinksHTML = section.socialLinks.map(link => `
-                <a class="mb-2" ${link.href ? `href="${link.href}"` : ''}>
+                <a class="mb-2" ${link.href ? `href="${link.href}" target="_blank"` : ''}>
                     <i class="${link.icon} mr-2"></i>
                 </a>
             `).join('');
@@ -1319,31 +1324,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     href: generalData.featured.quality_product.href,
                     icon: 'fa-solid fa-check',
                     class: null,
+                    target: null,
                     title: generalData.featured.quality_product.title
                 },
                 {
                     href: generalData.resources.tracking.href,
                     icon: 'fa-solid fa-truck-fast',
                     class: ' icon-after',
+                    target: '_blank',
                     title: generalData.resources.tracking.text_offer
                 },
                 {
                     href: generalData.featured.days_return.href,
                     icon: 'fa-solid fa-right-left',
                     class: null,
+                    target: null,
                     title: generalData.featured.days_return.title
                 },
                 {
                     href: generalData.data.phone.href,
                     icon: 'fa-solid fa-phone-volume',
                     class: ' icon-after',
+                    target: '_blank',
                     title: generalData.data.phone.medium
                 }
             ];
     
             const featuredHTML = featuredItems.map(item => `
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <a${item.href ? ` href="${item.href}"` : ''} class="d-flex align-items-center border mb-4" style="padding: 30px">
+                    <a${item.href ? ` href="${item.href}"${item.target ? ` target="${item.target}"` : ''}` : ''} class="d-flex align-items-center border mb-4" style="padding: 30px">
                         <h1 class="${item.icon} text-secondary m-0 mr-3${item.class ? item.class : ''}"></h1>
                         <h5 class="font-weight-semi-bold m-0">${item.title}</h5>
                     </a>
@@ -2413,7 +2422,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </button>
                     </div>
                     <div class="col-12">
-                        <a class="font-small text-primary mt-2 mb-2 d-block" href="https://www.correoargentino.com.ar/formularios/cpa">${generalData.page_cart.shipping.js_shipping_calculator_form.dontKnowZipCode}</a>
+                        <a class="font-small text-primary mt-2 mb-2 d-block"${generalData.page_cart.shipping.js_shipping_calculator_form.cpa ? ` href="${generalData.page_cart.shipping.js_shipping_calculator_form.cpa}" target="_blank"` : ''}>${generalData.page_cart.shipping.js_shipping_calculator_form.dontKnowZipCode}</a>
                     </div>
                     <div class="col-12">
                         <small id="js_danger_postal" class="help-block text-danger" style="display: none;">${generalData.page_cart.shipping.js_shipping_calculator_form.misspelled}</small>	

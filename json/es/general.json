@@ -168,6 +168,7 @@
                 "change_zip": "Cambiar CP"
             },
             "js_shipping_calculator_form": {
+                "cpa": "https://www.correoargentino.com.ar/formularios/cpa",
                 "zipCode": "Tu Código postal",
                 "calculate": "Calcular",
                 "calculating": "Calculando",
