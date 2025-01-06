@@ -1214,3 +1214,14 @@ h5.text-primary.mb-0.d-inline-block {
 .no-scroll {
     overflow: hidden;
 }
+
+@media (min-width: 991.98px) {
+    .col-lg-9 .navbar.navbar-expand-lg.bg-secondary.navbar-primary.py-3.py-lg-0.px-0 {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .navbar-primary .navbar-nav .nav-link {
+        padding-left: 5px;
+    }
+}
