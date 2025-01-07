@@ -354,8 +354,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const productSubcategory = productCategory ? categoryData.category.find(cat => cat.id === product.category).subcategory.find(sub => sub.id === product.subcategory) : null;
 
                     const tagsHTML = `
-                            <a href="${'shop.html?category=' + productCategory.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}" class="">${productCategory.title}</a>, 
-                            <a href="${'shop.html?category=' + productCategory.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') + '&subcategory=' + productSubcategory.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}" class="">${productSubcategory.title}</a>
+                        <a href="${'shop.html?category=' + productCategory.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}">${productCategory.title}</a>, 
+                        <a href="${'shop.html?category=' + productCategory.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') + '&subcategory=' + productSubcategory.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}">${productCategory.id == (1 || 2) ? `${productCategory.title} ${generalData.articles.of} ${productSubcategory.title}` : productSubcategory.title}</a>
 
                     `;
                     tagsContainer.innerHTML = tagsHTML;

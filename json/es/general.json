@@ -46,6 +46,9 @@
         "title": "10% de Descuento Por Inauguración de Tienda",
         "btn": "Ver Producto"
     },
+    "articles": {
+        "of": "de"
+    },
     "filter": {
         "price": {
             "title": "Filtrar Por Precio",
