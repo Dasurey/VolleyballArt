@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Redirigir a la URL raíz si la URL actual es /index.html o /index
     const pathname = window.location.pathname;
-    if (pathname.endsWith('/index.html') || pathname.endsWith('/index.html')) {
-        window.location.replace('/VolleyballArt/');
+    if (pathname.endsWith('/index.html') || pathname.endsWith('/index.html') || pathname.endsWith('/')) {
+        window.location.href = 'https://dasurey.github.io/VolleyballArt/'; // Redirigir a la página especificada
     }
-
+    
     const generalJson = 'json/es/general.json'; // Ruta del archivo JSON
     const categoryJson = 'json/es/category.json'; // Ruta del archivo JSON
     const reviewJson = 'json/es/reviews.json'; // Ruta del archivo JSON
