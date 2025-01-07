@@ -1059,7 +1059,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                     `,
-                    class: 'col-lg-3 col-6 text-right elementor-element elementor-element-2 raven-shopping-cart-skin-dark elementor-widget__width-auto raven-shopping-cart-remove-thumbnail-yes raven-shopping-cart-remove-view-cart-yes raven-shopping-quick-view-align-right elementor-widget elementor-widget-raven-shopping-cart'
+                    class: 'col-lg-3 col-6 text-right elementor-element elementor-element-2 raven-shopping-cart-skin-dark elementor-widget__width-auto raven-shopping-cart-remove-thumbnail-yes raven-shopping-cart-remove-view-cart-yes raven-shopping-quick-view-align-right elementor-widget elementor-widget-raven-shopping-cart remove-class'
                 }
             ];
     

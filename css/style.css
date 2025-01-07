@@ -1229,6 +1229,11 @@ h5.text-primary.mb-0.d-inline-block {
         padding-right: 15px;
         padding-left: 15px;
     }
+
+    .col-lg-3.col-6.text-right.elementor-element.elementor-element-2.raven-shopping-cart-skin-dark.elementor-widget__width-auto.raven-shopping-cart-remove-thumbnail-yes.raven-shopping-cart-remove-view-cart-yes.raven-shopping-quick-view-align-right.elementor-widget.elementor-widget-raven-shopping-cart.remove-class {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
 }
 
 .tags-container a:hover {
