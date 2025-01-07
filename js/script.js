@@ -5,9 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.replace('/VolleyballArt/');
     }
     const generalJson = 'json/es/general.json'; // Ruta del archivo JSON
-    const productApi = 'https://api-rest-volleyballart.onrender.com/api/products'; // Reemplaza con la URL de tu API
     const categoryJson = 'json/es/category.json'; // Ruta del archivo JSON
     const reviewJson = 'json/es/reviews.json'; // Ruta del archivo JSON
+    const productApi = 'https://api-rest-volleyballart.onrender.com/api/products'; // Reemplaza con la URL de tu API
+
+    const arrayJSON = [generalJson, categoryJson, reviewJson];
+    const arrayFETCH = [productApi];
 
     let isAscending = true;
     
@@ -941,19 +944,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para obtener los elementos de una API REST
     function fetchData(url) {
-        return fetch(url).then(response => {
-            if (!response.ok) {
-                throw new Error(`Error al cargar los datos: ${response.statusText}`);
-            }
-            return response.json();
-        });
+        return fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error al cargar los datos: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error(`Error al cargar los datos de la API: ${url}`, error);
+                throw error; // Re-lanzar el error para que Promise.all lo capture
+            });
     }
 
     // Función para cargar el archivo JSON
     function loadJSON(url) {
         return fetch(url)
-            .then(response => response.json())
-            .catch(error => console.error(`Error al cargar el archivo JSON: ${url}`, error));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error al cargar el archivo JSON: ${url}`);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error(`Error al cargar el archivo JSON: ${url}`, error);
+            throw error; // Re-lanzar el error para que Promise.all lo capture
+        });
     }
 
     //Generar el contenido de la página
@@ -2968,10 +2984,17 @@ document.addEventListener('DOMContentLoaded', () => {
     Promise.all(promises).then(() => {
         console.log('Contenido HTML y JSON cargado completamente');
 
-        setTimeout(() => {
-            preloaderElement.classList.add('loaded');
-        }, delay); // Ocultar el indicador de carga
-        pageElement.classList.add('animated'); // Mostrar el contenido de la página
+        Promise.all([...arrayJSON.map(url => loadJSON(url)), ...arrayFETCH.map(url => fetchData(url))])
+        .then(() => {
+            // Ocultar el preloader y mostrar el contenido de la página
+            setTimeout(() => {
+                preloaderElement.classList.add('loaded');
+            }, delay); // Puedes ajustar el delay según sea necesario
+            pageElement.classList.add('animated'); // Mostrar el contenido de la página
+        })
+        .catch(error => {
+            console.error('Error al cargar los datos:', error);
+        });
 
         // Seleccionar elementos por clase
         const navLinks = document.querySelectorAll('.nav-link');
