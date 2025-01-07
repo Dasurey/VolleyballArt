@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Redirigir a la URL raíz si la URL actual es /index.html o /index
     const pathname = window.location.pathname;
-    if (pathname.endsWith('/index.html') || pathname.endsWith('/index.html') || pathname.endsWith('/')) {
+    if (pathname.endsWith('/index.html') || pathname.endsWith('/index.html')) {
         window.location.href = 'https://dasurey.github.io/VolleyballArt/'; // Redirigir a la página especificada
     }
     
