@@ -329,9 +329,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Actualizar el texto de size-name según la categoría
                     const sizeNameElement = document.querySelector('[data-details="size-name"]');
                     if (category === 1) {
-                        sizeNameElement.textContent = 'Numero de calzado:';
+                        sizeNameElement.textContent = `${generalData.page_product.waist}:`;
                     } else {
-                        sizeNameElement.textContent = 'Talle:';
+                        sizeNameElement.textContent = `${generalData.page_product.footwear_number}:`;
                     }
 
                     availableSizes.forEach((size, index) => {
@@ -343,6 +343,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         `;
                         sizeContainer.innerHTML += sizeHTML;
                     });
+
+                    const tagsContainer = document.querySelector('.tags-container');
+                    tagsContainer.innerHTML = ''; // Limpiar contenido previo
+
+                    const tagNameElement = document.querySelector('[data-details="tag-title"]');
+                    tagNameElement.textContent = `${generalData.page_product.tag}:`;
+
+                    const productCategory = categoryData.category.find(cat => cat.id === product.category);
+                    const productSubcategory = productCategory ? categoryData.category.find(cat => cat.id === product.category).subcategory.find(sub => sub.id === product.subcategory) : null;
+
+                    const tagsHTML = `
+                            <a href="${'shop.html?category=' + productCategory.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}" class="">${productCategory.title}</a>, 
+                            <a href="${'shop.html?category=' + productCategory.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '') + '&subcategory=' + productSubcategory.title.replace(/[ ()]/g, '-').replace(/-+/g, '-').replace(/-$/, '')}" class="">${productSubcategory.title}</a>
+
+                    `;
+                    tagsContainer.innerHTML = tagsHTML;
 
                     document.querySelector('[data-details="btn_cart_product"]').textContent = generalData.page_product.btn.text;
                     document.querySelector('[data-details="share"]').textContent = generalData.page_product.share;

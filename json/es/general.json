@@ -136,6 +136,9 @@
         "btn": {
             "text": " Añadir al Carrito"
         },
+        "waist": "Talles",
+        "footwear_number": "Numeros de Calzados",
+        "tag": "Etiquetas",
         "share": "Compartir en:",
         "related": "También te puede interesar",
         "review_product": " reseñas para ",
