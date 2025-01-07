@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Redirigir a la URL raíz si la URL actual es /index.html o /index
     const pathname = window.location.pathname;
+    if (pathname.endsWith('/index.html') || pathname.endsWith('/index.html') || pathname.endsWith('/')) {
+        window.location.replace('/VolleyballArt/');
+    }
     
-
     const generalJson = 'json/es/general.json'; // Ruta del archivo JSON
     const categoryJson = 'json/es/category.json'; // Ruta del archivo JSON
     const reviewJson = 'json/es/reviews.json'; // Ruta del archivo JSON
@@ -959,16 +961,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para cargar el archivo JSON
     function loadJSON(url) {
         return fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error al cargar el archivo JSON: ${url}`);
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.error(`Error al cargar el archivo JSON: ${url}`, error);
-            throw error; // Re-lanzar el error para que Promise.all lo capture
-        });
+            .then(response => response.json())
+            .catch(error => console.error(`Error al cargar el archivo JSON: ${url}`, error));
     }
 
     //Generar el contenido de la página
