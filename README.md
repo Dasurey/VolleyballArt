@@ -1,10 +1,7 @@
 
 # VolleyballArt
 
-Este proyecto fue diseñado para el curso de Desarrollo Front End 2024 de Talento Tech. 
-Se trata de un sitio web ficticio de un negocio, que cuenta con una tienda virtual para realizar compras, un formulario de contacto, otros canales de comunicación y enlaces a redes sociales.
-
-Tuve que crear mi propia api de productos para que concuerde y poder mostrarlos en la tienda, pero en el futuro, se decidirá utilizar una API existente. Ademas, se trata de un proyecto de desarrollo web, por lo que se utilizará HTML5, CSS y JavaScript.
+Desarrollé VolleyballArt, un e-commerce dedicado al voleibol como proyecto final del curso "Front-End JS". Combina HTML, CSS y JavaScript para ofrecer un diseño moderno, responsivo y accesible. Creé una API REST personalizada que permite el consumo dinámico de datos; aunque la carga inicial es lenta, garantiza una experiencia temática coherente. Usé Git, Bootstrap, Flexbox, Grid y técnicas de SEO, logrando una página alineada con los estándares actuales y enfocada en la experiencia del usuario.
 
 Aclaración: Las reviews estan en las paginas de los productos, algunos pueden tener como otros que no tienen ninguna y que son randomly generadas.
 
