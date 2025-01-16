@@ -333,9 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Actualizar el texto de size-name según la categoría
                     const sizeNameElement = document.querySelector('[data-details="size-name"]');
                     if (category === 1) {
-                        sizeNameElement.textContent = `${generalData.page_product.waist}:`;
-                    } else {
                         sizeNameElement.textContent = `${generalData.page_product.footwear_number}:`;
+                    } else {
+                        sizeNameElement.textContent = `${generalData.page_product.waist}:`;
                     }
 
                     availableSizes.forEach((size, index) => {
