@@ -1,7 +1,7 @@
 
 # VolleyballArt
 
-VolleyballArt es un sitio web de comercio electrónico diseñado para ofrecer una experiencia de compra atractiva y funcional, centrada en productos relacionados con el volleyball. Este proyecto utiliza tecnologías modernas para crear un entorno accesible, responsivo y visualmente atractivo, garantizando una experiencia de usuario fluida y eficiente, integrando datos dinámicos mediante una API REST que gestiona los productos y sus detalles de manera dinámica, aunque puede ser algo lenta al cargar inicialmente.
+VolleyballArt es un sitio web de comercio electrónico diseñado para ofrecer una experiencia de compra atractiva y funcional, centrada en productos relacionados con el volleyball. Este proyecto utiliza tecnologías modernas para crear un entorno accesible, responsivo y visualmente atractivo, garantizando una experiencia de usuario fluida y eficiente, integrando datos dinámicos mediante una API REST creada por mi (https://github.com/Dasurey/cdn-api-rest-volleyballArt) que gestiona los productos y sus detalles de manera dinámica, aunque puede ser algo lenta al cargar inicialmente.
 
 ## Autor
 
